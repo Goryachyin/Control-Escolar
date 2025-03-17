@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 30%;
+    background-color: #2C3E50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.sidebar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: white;
+    margin-bottom: 15px;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.sidebar p {
+    font-size: 14px;
+}
+
+.sidebar a {
+    color: #3498DB;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.main-content {
+    width: 70%;
+    background-color: #2980B9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.main-content h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 300px;
+}
+
+.form-group input {
+    border: none;
+    padding: 10px;
+    flex: 1;
+    outline: none;
+    font-size: 16px;
+}
+
+.form-group i {
+    padding: 10px;
+    color: gray;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.remember input {
+    margin-right: 5px;
+}
+
+.login-btn {
+    background-color: #E74C3C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.login-btn i {
+    margin-right: 5px;
+}
+
+

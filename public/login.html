@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Control escolar</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+
+    <div class="sidebar">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Icon">
+        <h2>Iniciar sesión</h2>
+    </div>
+
+    <div class="main-content">
+        <h1>NYAPT EDUCATION EDITION</h1>
+        <h2>Bienvenido, ingresa tus credenciales para acceder a la plataforma</h2>
+        <h1></h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="numeroControl" placeholder="Número de Control" required>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="contrasena" placeholder="Contraseña" required>
+                <i class="fas fa-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+            </div>
+            <div class="remember">
+                <input type="checkbox"> Recordarme
+            </div>
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+            </button>
+        </form>
+    </div>
+    <script src = "login.js"></script>
+</body>
+</html>
