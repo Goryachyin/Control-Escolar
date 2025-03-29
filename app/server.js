@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'pages')))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/main', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'main.html')) })
+app.get('/dashboardAdmins', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'dashboardAdmins.html')) })
 app.get('/login', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'login.html')) })
 app.get('/inicio', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'inicio.html')) })
 app.get('/api/verificar-token', verifToken, (req, res) => {
