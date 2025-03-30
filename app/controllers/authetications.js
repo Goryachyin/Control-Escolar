@@ -26,7 +26,7 @@ async function login (req, res) {
       const token = jwt.sign(
         { id: usuario.id, numeroControl: usuario.numero_control },
         process.env.JWT_SECRET,
-        { expiresIn: '15m' }
+        { expiresIn: '1m' }
       )
 
       console.log('✅ Login exitoso, enviando token...')
