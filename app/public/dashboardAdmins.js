@@ -46,14 +46,45 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(popup);
 
     // Handle button click
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
         const password = input.value;
-        if (validPasswords.includes(password)) {
-            document.body.removeChild(popup); // Remove the popup
-        } else {
-            errorMessage.textContent = "Invalid password. Please try again.";
-        }
+
+        try {
+            const response = await fetch('/api/adminlogin', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                password
+              })
+            })
+      
+            console.log('🔹 Respuesta recibida:', response)
+      
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`)
+            }
+      
+            const result = await response.json()
+            console.log('📩 Resultado de login:', result)
+      
+            if (result.success) {
+              console.log('✅ Token guardado:', result.token)
+              // eslint-disable-next-line no-undef
+              localStorage.setItem('token', result.token)
+              document.body.removeChild(popup) // Redirigir si todo está bien
+            } else {
+              console.error('❌ Error de login:', result.error)
+            }
+          } catch (error) {
+            console.error('🔥 Error en la solicitud de login:', error)
+          }
+
+        
     });
+
+    
 
     // Prevent closing the popup
     window.addEventListener("keydown", (e) => {

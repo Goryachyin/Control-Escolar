@@ -43,6 +43,7 @@ app.get('/api/datos-usuario', verifToken, async (req, res) => {
 })
 
 app.post('/api/login', authetications.methods.login)
+app.post('/api/adminlogin', authetications.methods.adminlogin)
 
 const port = process.env.port || 5500
 app.listen(port, () => {
