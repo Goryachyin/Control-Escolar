@@ -2,19 +2,19 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
 const path = require('path')
-const authetications = require('./controllers/authetications.js')
-const verifToken = require('./controllers/autorization.js')
-const pool = require('./conexion.js').pool
+const authetications = require('./app/controllers/authetications.js')
+const verifToken = require('./app/controllers/autorization.js')
+const pool = require('./app/conexion.js').pool
 
 dotenv.config()
 const app = express()
 app.use(bodyParser.json())
-app.use(express.static(path.join(__dirname, 'pages')))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'app', 'pages')))
+app.use(express.static(path.join(__dirname, 'app', 'public')))
 
-app.get('/main', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'main.html')) })
-app.get('/login', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'login.html')) })
-app.get('/inicio', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'inicio.html')) })
+app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'app', 'pages', 'index.html')) })
+app.get('/login', (req, res) => { res.sendFile(path.join(__dirname, 'app', 'pages', 'login.html')) })
+app.get('/inicio', (req, res) => { res.sendFile(path.join(__dirname, 'app', 'pages', 'inicio.html')) })
 app.get('/api/verificar-token', verifToken, (req, res) => {
   res.json({ valid: true, usuario: req.usuario })
 })
@@ -45,5 +45,5 @@ app.post('/api/login', authetications.methods.login)
 
 const port = process.env.port || 5500
 app.listen(port, () => {
-  console.log(`Servidor escuchando en http://${process.env.DB_HOST}:${port}/main`)
+  console.log(`Servidor escuchando en http://${process.env.DB_HOST}:${port}/index`)
 })
