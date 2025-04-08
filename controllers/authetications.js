@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
 
-async function login (req, res) {
+async function estudianteLogin (req, res) {
   console.log('🔹 Recibiendo solicitud de login... (Authetications, linea 7)')
   console.log('📩 Datos recibidos (Authetications, linea 8):', req.body) // Para ver qué se está enviando
 
@@ -42,5 +42,5 @@ async function login (req, res) {
 }
 
 export const methods = {
-  login
+  estudianteLogin
 }

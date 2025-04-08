@@ -41,7 +41,7 @@ app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
   }
 })
 
-app.post('/api/estudiante/login', authetications.methods.login)
+app.post('/api/estudiante/login', authetications.methods.estudianteLogin)
 module.exports = app
 
 // Inicia el servidor solo en desarrollo local

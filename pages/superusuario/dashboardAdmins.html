@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PANEL ADMINISTRADOR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            padding: 20px;
+            height: 100vh;
+        }
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            padding: 10px 0;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        .header {
+            background: #1d3557;
+            color: white;
+            padding: 15px;
+            text-align: right;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .user-icon {
+            font-size: 50px;
+            margin-right: 20px;
+        }
+    </style>
+    <script src = "dashboardAdmins.js"></script>      
+</head>
+<body>
+    <div class="sidebar">
+        <h2>TEC NM</h2>
+        <a href="#"><i class="fas fa-home"></i> Inicio</a>
+        <a href="#"><i class="fas fa-user-edit"></i> Editar Datos</a>
+        <a href="#"><i class="fas fa-calendar"></i> Horario</a>
+        <a href="#"><i class="fas fa-graduation-cap"></i> Calificaciones</a>
+        <a href="#"><i class="fas fa-book"></i> Kárdex</a>
+        <a href="#"><i class="fas fa-file-invoice"></i> Recibos</a>
+        <a href="#"><i class="fas fa-book-open"></i> Carga de Materias</a>
+        <a href="#"><i class="fas fa-ticket-alt"></i> Tickets</a>
+        <a href="#"><i class="fas fa-question-circle"></i> Soporte</a>
+    </div>
+    <div class="content">
+        <div class="header">INGENIERÍA EN SISTEMAS COMPUTACIONALES</div>
+        <div class="card">
+            <h3>Identificación</h3>
+            <div class="user-info">
+                <i class="fas fa-user-circle user-icon"></i>
+                <div>
+                    <p><strong>Nombre:</strong> <span id="nombre">Cargando...</span></p>
+                    <p><strong>Matrícula:</strong> <span id="matricula">Cargando...</span></p>
+                    <p><strong>Email:</strong> <span id="email">Cargando...</span></p>
+                    <p><strong>Carrera:</strong> <span id="carrera">Cargando...</span></p>
+                    <p><strong>Semestre:</strong> <span id="semestre">Cargando...</span></p>
+                    <p><strong>Promedio sin reprobadas:</strong> <span id="promedioSR">Cargando...</span></p>
+                    <p><strong>Promedio con reprobadas:</strong> <span id="promedioCR">Cargando...</span></p>
+                    <p><strong>Estatus:</strong> <span id="estatus">Cargando...</span></p>
+                </div>
+            </div>
+        </div>        
+    </div>
+</body>
+</html>
