@@ -84,8 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
     });
 
-    
-
     // Prevent closing the popup
     window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
