@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -5,6 +6,7 @@ const dotenv = require('dotenv')
 const path = require('path')
 const authetications = require('./controllers/authetications.js')
 const verifToken = require('./controllers/autorization.js')
+const superuser = require('./controllers/superuser.js')
 const pool = require('./conexion.js').pool
 const port = process.env.PORT || 5500
 
@@ -16,7 +18,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
 app.get('/estudiante/login', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'login.html')) })
 app.get('/estudiante/inicio', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'inicio.html')) })
+app.get('/estudiante/horario', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'horario.html')) })
+app.get('/estudiante/calificaciones', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'calificaciones.html')) })
+app.get('/estudiante/kardex', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'kardex.html')) })
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
+app.get('/superusuario/registrar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-estudiante.html')) })
+// API's
 app.get('/api/verificar-token', verifToken, (req, res) => { res.json({ valid: true, usuario: req.usuario }) })
 app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
   try {
@@ -40,8 +47,64 @@ app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' }) // Retorna JSON si ocurre un error
   }
 })
-
 app.post('/api/estudiante/login', authetications.methods.estudianteLogin)
+app.post('/api/superuser/registrar-persona', async (req, res) => {
+  console.log('🔹 Recibiendo solicitud para registrar persona... (index, linea 35)')
+  const persona = req.body
+  console.log('📩 Datos recibidos:', persona) // Para ver qué se está enviando
+  const result = await superuser.methods.registrarPersona(req, res, persona)
+  if (result.success) {
+    res.status(200).json({ message: 'Persona registrada exitosamente', idPersona: result.idPersona })
+  } else {
+    res.status(500).json({ error: 'Error al registrar la persona' })
+  }
+})
+app.post('/api/superuser/registrar-estudiante', async (req, res) => {
+  console.log('🔹 Recibiendo solicitud para registrar estudiante... (index, linea 35)')
+  const estudiante = req.body
+  console.log('📩 Datos recibidos:', estudiante) // Para ver qué se está enviando
+  try {
+    await superuser.methods.registrarEstudiante(req, res, estudiante)
+    res.status(200).json({ message: 'Estudiante registrado exitosamente.' })
+  } catch (error) {
+    res.status(500).json({ error: 'Error al registrar el estudiante.' })
+  }
+})
+
+app.post('/api/superuser/rollback-persona', async (req, res) => {
+  const { idPersona } = req.body
+  console.log('🔹 Intentando hacer rollback de la persona registrada con ID:', idPersona)
+
+  const client = await pool.connect()
+  try {
+    await client.query('BEGIN')
+
+    // Eliminar la persona registrada si existe (rollback)
+    await client.query('DELETE FROM public.datos_personales WHERE id_persona = $1', [idPersona])
+
+    await client.query('COMMIT')
+    res.status(200).json({ message: 'Rollback realizado correctamente.' })
+  } catch (error) {
+    await client.query('ROLLBACK')
+    console.error('Error al hacer rollback:', error)
+    res.status(500).json({ error: 'Error al realizar el rollback.' })
+  } finally {
+    client.release()
+  }
+})
+app.get('/api/superuser/ultimo-numero-control', async (req, res) => {
+  try {
+    const client = await pool.connect()
+    const response = await client.query('SELECT MAX(numero_control) AS ultimoNumeroControl FROM estudiante')
+    const ultimoNumeroControl = response.rows[0].ultimonumerocontrol
+    const nuevoNumeroControl = parseInt(ultimoNumeroControl) + 1 // Incrementar el último número de control
+    console.log('🔍 Último número de control:', nuevoNumeroControl)
+    res.json({ nuevoNumeroControl })
+  } catch (error) {
+    console.error('Error al obtener el último número de control:', error)
+    res.status(500).json({ error: 'Error al obtener el último número de control' })
+  }
+})
 module.exports = app
 
 // Inicia el servidor solo en desarrollo local
