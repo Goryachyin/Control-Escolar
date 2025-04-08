@@ -81,8 +81,64 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('🔥 Error en la solicitud de login:', error)
           }
 
-        
     });
+
+    document.getElementById("btnBuscar").addEventListener("click", async () => {
+      const numero_control = document.getElementById("busqueda").value.trim();
+  
+      try {
+          const token = localStorage.getItem("token");
+          const response = await fetch("/api/buscarAlumnos", {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${token}`
+              },
+              body: JSON.stringify({ numero_control })
+          });
+  
+          if (!response.ok) {
+              throw new Error(`Error al buscar estudiantes: ${response.status}`);
+          }
+  
+          const estudiante = await response.json();
+          mostrarEstudiantes(estudiante);
+      } catch (error) {
+          console.error("Error al buscar estudiantes:", error);
+      }
+  });
+  
+  function mostrarEstudiantes(estudiante) {
+      const tablaEstudiantes = document.getElementById("tabla-estudiantes");
+  
+      // Create a new row
+      const row = document.createElement("tr");
+  
+      // Insert columns with student data
+      const cell1 = document.createElement("td");
+      cell1.textContent = estudiante.numero_control;
+      row.appendChild(cell1);
+  
+      const cell2 = document.createElement("td");
+      cell2.textContent = estudiante.nombre;
+      row.appendChild(cell2);
+  
+      const cell3 = document.createElement("td");
+      cell3.textContent = estudiante.semestre;
+      row.appendChild(cell3);
+  
+      // Create a cell for actions (e.g., buttons)
+      const cell4 = document.createElement("td");
+      // You can add any actions (e.g., delete or edit buttons) here
+      const editButton = document.createElement("button");
+      editButton.textContent = "Editar";
+      //editButton.addEventListener("click", () => eliminarEstudiante(estudiante.numero_control));
+      cell4.appendChild(editButton);
+      row.appendChild(cell4);
+  
+      // Append the row to the table
+      tablaEstudiantes.appendChild(row);
+  }
 
     // Prevent closing the popup
     window.addEventListener("keydown", (e) => {

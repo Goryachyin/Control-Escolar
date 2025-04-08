@@ -65,6 +65,29 @@ app.get('/api/datos-admin', verifToken, async (req, res) => {
   }
 })
 
+app.get('/api/buscarAlumnos', verifToken, async (req, res) => {
+  const query = req.body
+  console.log('Consulta recibida:', query)
+
+  try {
+    const consulta = await pool.query(
+      'SELECT * FROM estudiante WHERE numero_control = $1',
+      [query.numero_control]
+    )
+
+    if (consulta.rows.length > 0) {
+      console.log('Consulta exitosa:', consulta.rows)
+      res.json(consulta.rows) // returns just one row
+    } else {
+      console.log('No se encontraron resultados')
+      res.status(404).json({ error: 'No se encontraron resultados' })
+    }
+  } catch (error) {
+    console.error('Error en la consulta:', error)
+    res.status(500).json({ error: 'Error en el servidor' })
+  }
+})
+
 app.post('/api/login', authetications.methods.login)
 app.post('/api/adminlogin', authetications.methods.adminlogin)
 

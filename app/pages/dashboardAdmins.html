@@ -1,87 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Estudiante</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background: #f8f9fa;
-            padding: 20px;
-            height: 100vh;
-        }
-        .sidebar a {
-            display: block;
-            text-decoration: none;
-            color: #333;
-            padding: 10px 0;
-        }
-        .content {
-            flex: 1;
-            padding: 20px;
-        }
-        .header {
-            background: #1d3557;
-            color: white;
-            padding: 15px;
-            text-align: right;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-        }
-        .user-icon {
-            font-size: 50px;
-            margin-right: 20px;
-        }
-    </style>
-    <script src = "dashboardAdmins.js"></script>      
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel de Estudiantes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #f8f9fa;
+      padding: 20px;
+      border-right: 1px solid #ddd;
+    }
+
+    .profile-icon {
+      font-size: 80px;
+      text-align: center;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .profile-info p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: #1d3557;
+      color: white;
+      padding: 15px;
+      font-size: 20px;
+    }
+
+    .career-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 15px;
+      background: #f1f1f1;
+      align-items: center;
+    }
+
+    .career-buttons button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #457b9d;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .career-buttons button:hover {
+      background-color: #1d3557;
+    }
+
+    .content-area {
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .add-button {
+      margin-left: auto;
+      background-color: #2a9d8f;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #e9ecef;
+    }
+
+    .edit-btn {
+      background-color: #f4a261;
+      border: none;
+      padding: 5px 10px;
+      color: white;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .edit-btn:hover {
+      background-color: #e76f51;
+    }
+  </style>
+  <script src = "dashboardAdmins.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>TEC NM</h2>
-        <a href="#"><i class="fas fa-home"></i> Inicio</a>
-        <a href="#"><i class="fas fa-user-edit"></i> Editar Datos</a>
-        <a href="#"><i class="fas fa-calendar"></i> Horario</a>
-        <a href="#"><i class="fas fa-graduation-cap"></i> Calificaciones</a>
-        <a href="#"><i class="fas fa-book"></i> Kárdex</a>
-        <a href="#"><i class="fas fa-file-invoice"></i> Recibos</a>
-        <a href="#"><i class="fas fa-book-open"></i> Carga de Materias</a>
-        <a href="#"><i class="fas fa-ticket-alt"></i> Tickets</a>
-        <a href="#"><i class="fas fa-question-circle"></i> Soporte</a>
+  <div class="sidebar">
+    <div class="profile-icon">
+      <i class="fas fa-user-circle"></i>
     </div>
-    <div class="content">
-        <div class="header">INGENIERÍA EN SISTEMAS COMPUTACIONALES</div>
-        <div class="card">
-            <h3>Identificación</h3>
-            <div class="user-info">
-                <i class="fas fa-user-circle user-icon"></i>
-                <div>
-                    <p><strong>Nombre:</strong> <span id="nombre">Cargando...</span></p>
-                    <p><strong>Matrícula:</strong> <span id="matricula">Cargando...</span></p>
-                    <p><strong>Email:</strong> <span id="email">Cargando...</span></p>
-                    <p><strong>Carrera:</strong> <span id="carrera">Cargando...</span></p>
-                    <p><strong>Semestre:</strong> <span id="semestre">Cargando...</span></p>
-                    <p><strong>Promedio sin reprobadas:</strong> <span id="promedioSR">Cargando...</span></p>
-                    <p><strong>Promedio con reprobadas:</strong> <span id="promedioCR">Cargando...</span></p>
-                    <p><strong>Estatus:</strong> <span id="estatus">Cargando...</span></p>
-                </div>
-            </div>
-        </div>        
+    <div class="profile-info">
+      <p><strong>Nombre:</strong> Juan Pérez</p>
+      <p><strong>Cargo:</strong> Coordinador</p>
+      <p><strong>Departamento:</strong> Sistemas</p>
+      <p><strong>Último inicio de sesión:</strong> 07/04/2025</p>
     </div>
+  </div>
+
+  <div class="main">
+    <div class="header">Estudiantes</div>
+    
+    <div class="career-buttons">
+      <button onclick="filtrarCarrera('ISC')">ISC</button>
+      <button onclick="filtrarCarrera('IBQ')">IBQ</button>
+      <button onclick="filtrarCarrera('LA')">LA</button>
+      <button onclick="filtrarCarrera('CP')">CP</button>
+      <button onclick="filtrarCarrera('IEM')">IEM</button>
+      <button onclick="filtrarCarrera('IGE')">IGE</button>
+      <button class="add-button">Añadir</button>
+    </div>
+
+    <div class="content-area">
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <input type="text" id="busqueda" placeholder="Buscar estudiante..." style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+            <button id="btnBuscar" style="padding: 10px 20px;">Buscar</button>
+        </div>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>No. Control</th>
+                    <th>Nombre</th>
+                    <th>Semestre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-estudiantes">
+                <!-- Se llenará dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+  </div>
+
+  <script>
+    function filtrarCarrera(carrera) {
+      // Aquí deberías hacer una llamada a la base de datos (puede ser por fetch/ajax)
+      // para obtener la lista de estudiantes filtrados por carrera
+      console.log("Filtrar por carrera:", carrera);
+    }
+  </script>
 </body>
 </html>
