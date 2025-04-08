@@ -17,11 +17,11 @@ function verificarToken (req, res, next) {
 
   try {
     const decoded = jwt.verify(tokenLimpio, secretKey)
-    console.log('Token decodificado:', decoded)
+    console.log('Token decodificado (Autorization, linea 20):', decoded)
     req.usuario = decoded // Guardar los datos del usuario en la request
     next()
   } catch (err) {
-    console.error('Error al verificar token:', err.message)
+    console.error('Error al verificar token (Autorization, linea 24):', err.message)
     return res.status(401).json({ error: 'Token inválido o expirado' })
   }
 }

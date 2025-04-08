@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contrasena = document.getElementById('contrasena').value
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('/api/estudiante/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (result.success) {
         // eslint-disable-next-line no-undef
         localStorage.setItem('token', result.token)
-        window.location.href = '/inicio'
+        window.location.href = '/estudiante/inicio.html'
       } else {
         modal.innerHTML = '<h3>Error</h3><p>' + result.error + '</p><button id="closeModal">Cerrar</button>'
         modal.style.display = 'block'

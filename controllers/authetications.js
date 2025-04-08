@@ -4,8 +4,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 async function login (req, res) {
-  console.log('🔹 Recibiendo solicitud de login...')
-  console.log('📩 Datos recibidos:', req.body) // Para ver qué se está enviando
+  console.log('🔹 Recibiendo solicitud de login... (Authetications, linea 7)')
+  console.log('📩 Datos recibidos (Authetications, linea 8):', req.body) // Para ver qué se está enviando
 
   const { numeroControl, contrasena } = req.body
   try {
@@ -19,7 +19,7 @@ async function login (req, res) {
 
       // Verificar la contraseña (si está cifrada, usa bcrypt)
       if (usuario.contrasena_estudiante !== contrasena) {
-        console.log('❌ Contraseña incorrecta')
+        console.log('❌ Contraseña incorrecta (Authetications, linea 22)')
         return res.status(401).json({ error: 'Usuario o contraseña incorrectos.' })
       }
 
@@ -29,14 +29,14 @@ async function login (req, res) {
         { expiresIn: '1m' }
       )
 
-      console.log('✅ Login exitoso, enviando token...')
+      console.log('✅ Login exitoso, enviando token...(Authetications, linea 32)')
       res.json({ success: true, token, usuario })
     } else {
-      console.log('❌ Usuario no encontrado')
+      console.log('❌ Usuario no encontrado (Authetications, linea 35)')
       res.status(401).json({ error: 'Usuario o contraseña incorrectos.' })
     }
   } catch (e) {
-    console.error('🔥 Error en login:', e)
+    console.error('🔥 Error en login (Authetications, linea 39):', e)
     res.status(500).json({ error: 'Error interno del servidor' })
   }
 }

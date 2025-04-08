@@ -13,16 +13,12 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'pages')))
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pages', 'index.html'))
-})
+app.get('/', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
+app.get('/estudiante/login', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'login.html')) })
+app.get('/estudiante/inicio', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'inicio.html')) })
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
-app.get('/login', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'login.html')) })
-app.get('/inicio', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'inicio.html')) })
-app.get('/api/verificar-token', verifToken, (req, res) => {
-  res.json({ valid: true, usuario: req.usuario })
-})
-app.get('/api/datos-usuario', verifToken, async (req, res) => {
+app.get('/api/verificar-token', verifToken, (req, res) => { res.json({ valid: true, usuario: req.usuario }) })
+app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
   try {
     const usuarioId = req.usuario.numeroControl
     console.log('🔍 Consultando datos del usuario:', usuarioId)
@@ -45,7 +41,7 @@ app.get('/api/datos-usuario', verifToken, async (req, res) => {
   }
 })
 
-app.post('/api/login', authetications.methods.login)
+app.post('/api/estudiante/login', authetications.methods.login)
 module.exports = app
 
 // Inicia el servidor solo en desarrollo local

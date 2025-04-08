@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // eslint-disable-next-line no-undef
   const token = localStorage.getItem('token')
   if (!token) {
-    window.location.href = '/login'// Redirigir al login si no hay token
-    console.log('No hay token, linea 5')
+    window.location.href = '/estudiante/login'// Redirigir al login si no hay token
+    console.log('No hay token (inicio, linea 6)')
     return
   }
 
@@ -19,16 +19,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (!data.valid) {
         // eslint-disable-next-line no-undef
         localStorage.removeItem('token') // Eliminar token inválido
-        window.location.href = '/login'
+        window.location.href = '/estudiante/login'
       }
     })
     .catch(error => {
-      console.error('Error al verificar token:', error)
-      window.location.href = '/login'
+      console.error('Error al verificar token (inicio, linea 26):', error)
+      window.location.href = '/estudiante/login'
     })
 
   // Obtener datos del usuario
-  fetch('/api/datos-usuario', {
+  fetch('/api/estudiante/datos-usuario', {
     method: 'GET',
     headers: {
       // eslint-disable-next-line quote-props
@@ -48,6 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('estatus').textContent = data.estatus_estudiante
     })
     .catch(error => {
-      console.error('Error al obtener datos del usuario:', error)
+      console.error('Error al obtener datos del usuario (inicio, linea 51):', error)
     })
 })
