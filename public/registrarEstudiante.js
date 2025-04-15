@@ -34,11 +34,12 @@ document.getElementById('continuarBtn').addEventListener('click', async function
     const result = await response.json()
 
     if (response.ok) {
-      alert('Los datos fueron registrados correctamente. Si abandonas la página, los cambios se perderán.' + result.idPersona)
+      alert('Los datos fueron registrados correctamente. Si abandonas la página, los cambios se perderán. ' + result.idPersona)
       personaRegistrada = result.idPersona // Almacenar el ID de la persona registrada
       document.getElementById('datosPersonales').disabled = true // Deshabilitar la sección de datos personales
       document.getElementById('datosEstudiante').disabled = false // Habilitar la sección de datos del estudiante
-
+      document.getElementById('numero_control').disabled = true // Deshabilitar el campo de número de control
+      document.getElementById('correo').disabled = true // Deshabilitar el campo de correo institucional
       // Solicitar el último número de control y habilitar la siguiente sección
       const numeroControlResponse = await fetch('/api/superuser/ultimo-numero-control')
       const numeroControlResult = await numeroControlResponse.json()
@@ -47,6 +48,7 @@ document.getElementById('continuarBtn').addEventListener('click', async function
         const nuevoNumeroControl = numeroControlResult.nuevoNumeroControl // Obtener el nuevo número de control
         console.log('Nuevo número de control:', nuevoNumeroControl) // Verifica el nuevo número de control en la consola
         document.getElementById('numero_control').value = nuevoNumeroControl // Asigna el número de control al campo
+        document.getElementById('correo').value = 'L' + nuevoNumeroControl + '@acapulco.tecnm.mx'// Limpiar el campo de correo institucional
       } else {
         alert('Error al obtener el último número de control')
       }

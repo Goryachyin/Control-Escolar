@@ -1,87 +1,446 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Estudiante</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background: #f8f9fa;
-            padding: 20px;
-            height: 100vh;
-        }
-        .sidebar a {
-            display: block;
-            text-decoration: none;
-            color: #333;
-            padding: 10px 0;
-        }
-        .content {
-            flex: 1;
-            padding: 20px;
-        }
-        .header {
-            background: #1d3557;
-            color: white;
-            padding: 15px;
-            text-align: right;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-        }
-        .user-icon {
-            font-size: 50px;
-            margin-right: 20px;
-        }
-    </style>
-    <script src = "/inicio_estudiante.js"></script>      
+  <meta charset="UTF-8">
+  <title>NYAPT EDUCATION EDITION</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #4a6b8a;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .school-info img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .toggle-btn {
+      background-color: #37474f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .top-buttons button {
+      margin-left: 10px;
+      background-color: #37474f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+      position: relative;
+      margin-top: 60px; /* Para compensar el header fijo */
+      height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 60px;
+      bottom: 0;
+      width: 220px;
+      background-color: #1b2631;
+      color: white;
+      overflow-y: auto;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 10;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      background: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid #444;
+    }
+
+    .content {
+      flex: 1;
+      margin-left: 220px;
+      padding: 20px;
+      background-color: #f8f5f4;
+      overflow-y: auto;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar.hidden + .content {
+      margin-left: 0;
+    }
+
+    .noticias {
+      width: 250px;
+      background-color: #eeeeff;
+      padding: 15px;
+      border-left: 1px solid #ccc;
+    }
+
+    .noticias h2 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .noticia {
+      background-color: white;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+    
+    .profile-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+    }
+    
+    .top-buttons {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* inicio*/
+    body {
+      background-color: #f4f4f8;
+      padding: 20px;
+    }
+
+    .panel {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 25px;
+      max-width: 800px;
+      margin: 0 auto;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      color: #1e1e3c;
+      font-size: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .career-select {
+      margin-bottom: 25px;
+    }
+
+    .career-select select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      margin-top: 5px;
+    }
+
+    .user-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .user-checkbox {
+      margin-right: 15px;
+    }
+
+    .user-main-info {
+      flex: 1;
+    }
+
+    .user-name {
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+
+    .user-email {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ddd;
+      margin-right: 15px;
+      display: inline-block;
+    }
+
+    .upload-btn {
+      padding: 8px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .upload-btn:hover {
+      background-color: #45a049;
+    }
+
+    .user-stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .user-stats-table th, .user-stats-table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .user-stats-table th {
+      color: #666;
+      font-weight: normal;
+    }
+
+    .promedios-section {
+      margin-bottom: 25px;
+    }
+
+    .promedio-item {
+      margin-bottom: 5px;
+    }
+
+    .divider {
+      border-top: 1px solid #eee;
+      margin: 20px 0;
+    }
+
+    .personal-data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .personal-data-table td {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    .personal-data-table td:first-child {
+      width: 40%;
+      color: #666;
+    }
+
+    .section-title {
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    @media (max-width: 768px) {
+      .noticias {
+        display: none;
+      }
+      .content {
+        margin-left: 0 !important;
+      }
+      
+    }
+  </style>
+  <script src="/inicio_estudiante.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>TEC NM</h2>
-        <a href="#"><i class="fas fa-home"></i> Inicio</a>
-        <a href="#"><i class="fas fa-user-edit"></i> Editar Datos</a>
-        <a href="#"><i class="fas fa-calendar"></i> Horario</a>
-        <a href="#"><i class="fas fa-graduation-cap"></i> Calificaciones</a>
-        <a href="#"><i class="fas fa-book"></i> Kárdex</a>
-        <a href="#"><i class="fas fa-file-invoice"></i> Recibos</a>
-        <a href="#"><i class="fas fa-book-open"></i> Carga de Materias</a>
-        <a href="#"><i class="fas fa-ticket-alt"></i> Tickets</a>
-        <a href="#"><i class="fas fa-question-circle"></i> Soporte</a>
+
+  <header>
+    <div class="school-info">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela">
+        <h1>NYAPT EDUCATION EDITION</h1>
     </div>
-    <div class="content">
-        <div class="header">INGENIERÍA EN SISTEMAS COMPUTACIONALES</div>
-        <div class="card">
-            <h3>Identificación</h3>
-            <div class="user-info">
-                <i class="fas fa-user-circle user-icon"></i>
-                <div>
-                    <p><strong>Nombre:</strong> <span id="nombre">Cargando...</span></p>
-                    <p><strong>Matrícula:</strong> <span id="matricula">Cargando...</span></p>
-                    <p><strong>Email:</strong> <span id="email">Cargando...</span></p>
-                    <p><strong>Carrera:</strong> <span id="carrera">Cargando...</span></p>
-                    <p><strong>Semestre:</strong> <span id="semestre">Cargando...</span></p>
-                    <p><strong>Promedio sin reprobadas:</strong> <span id="promedioSR">Cargando...</span></p>
-                    <p><strong>Promedio con reprobadas:</strong> <span id="promedioCR">Cargando...</span></p>
-                    <p><strong>Estatus:</strong> <span id="estatus">Cargando...</span></p>
-                </div>
+    <div class="top-buttons">
+        <button>¿Necesita ayuda?</button>
+        <button>🔔 Notificaciones</button>
+        <div class="user-profile">
+            <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+            <span id="username">Cargando ...</span>
+        </div>
+    </div>
+</header>
+
+  <div class="main">
+    <div class="sidebar" id="sidebar">
+        <button onclick="loadContent('inicio.html')">🏠 Inicio</button>
+        <button onclick="loadContent('datos.html')">📘 Editar datos</button>
+        <button onclick="loadContent('horario.html')">📅 Horario</button>
+        <button onclick="loadContent('calificaciones.html')">📚 Calificaciones</button>
+        <button onclick="loadContent('perfil.html')">👤 Mi Perfil</button>
+        <button onclick="loadContent('ajustes.html')">⚙ Ajustes</button>
+        <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+    </div>
+
+    <div class="content" id="mainContent">
+        <!-- Contenido dinámico se cargará aquí -->
+        <body>
+          <div class="panel">
+            <h1>Inicio</h1>
+            <h2>IDENTIFICACIÓN</h2>
+            
+            <div class="career-select">
+              <label>Selecciona una carrera</label>
+              <select>
+                <option id="carrera">INGENIERÍA EN SISTEMAS COMPUTACIONALES</option>
+              </select>
             </div>
-        </div>        
+            
+            <div class="user-header">
+              <div class="user-avatar"></div> <!-- Avatar de usuario -->
+              <div class="user-main-info">
+                <div class="user-name" id="nombre">Cargando ...</div>
+                <div class="user-email" id="email">Cargando ...</div>
+              </div>
+              <input type="file" id="file-upload" style="display:none;">
+              <label for="file-upload" class="upload-btn">Subir Foto</label>
+            </div>
+            
+            <table class="user-stats-table">
+              <tr>
+                <th>No. Control</th>
+                <th>Semestre</th>
+              </tr>
+              <tr>
+                <td id="matricula">Cargando ...</td>
+                <td id="semestre">Cargando ...</td>
+              </tr>
+            </table>
+            
+            <div class="promedios-section">
+              <div class="promedio-item"><strong>Prom. sin reprobadas:</strong> <p id="promedioSR">Cargando ...</p></div>
+              <div class="promedio-item"><strong>Prom. con reprobadas:</strong> <p id="promedioCR">Cargando ...</p></div>
+              <div class="promedio-item"><strong>Estatus:</strong> <p id="estatus">Cargando ...</p></div>
+            </div>
+          </div>
+        
+          <div class="panel">
+            <h3 class="section-title">Datos personales</h3>
+            <table class="personal-data-table">
+              <tr>
+                <td>CURP</td>
+                <td>Cargando ...</td>
+              </tr>
+              <tr>
+                <td>Teléfono</td>
+                <td>Cargando ...</td>
+              </tr>
+              <tr>
+                <td>Correo personal</td>
+                <td>Cargando ...</td>
+              </tr>
+              <tr>
+                <td>Fecha de nacimiento</td>
+                <td>Cargando ...</td>
+              </tr>
+              <tr>
+                <td>Ciudad</td>
+                <td>Cargando ...</td>
+              </tr>
+              <tr>
+                <td>Colonia</td>
+                <td>Cargando ...</td>
+              </tr>
+              <tr>
+                <td>Calle</td>
+                <td>Cargando ...</td>
+              </tr>
+              <tr>
+                <td>Código Postal</td>
+                <td>Cargando ...</td>
+              </tr>
+            </table>
+          </div>
+        </body>
     </div>
+
+    <div class="noticias">
+        <h2>Centro de Noticias</h2>
+        <div class="noticia">📢 Nuevo aviso académico</div>
+        <div class="noticia">🗓 Cambios en el calendario escolar</div>
+        <div class="noticia">💼 Feria de empleo próximamente</div>
+    </div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("hidden");
+    }
+
+    function cerrarSesion() {
+        // Lógica para cerrar sesión
+        alert('Sesión cerrada');
+        localStorage.removeItem('token') // Elimina el token JWT
+        window.location.href = 'login.html';
+    }
+</script>
+
 </body>
 </html>

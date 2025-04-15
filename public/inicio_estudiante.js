@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('promedioSR').textContent = 'En proceso'
       document.getElementById('promedioCR').textContent = 'En proceso'
       document.getElementById('estatus').textContent = data.estatus_estudiante
+      document.getElementById('username').textContent = data.nombre_persona
     })
     .catch(error => {
       console.error('Error al obtener datos del usuario (inicio, linea 51):', error)

@@ -60,14 +60,28 @@ app.post('/api/superuser/registrar-persona', async (req, res) => {
   }
 })
 app.post('/api/superuser/registrar-estudiante', async (req, res) => {
-  console.log('🔹 Recibiendo solicitud para registrar estudiante... (index, linea 35)')
-  const estudiante = req.body
-  console.log('📩 Datos recibidos:', estudiante) // Para ver qué se está enviando
   try {
-    await superuser.methods.registrarEstudiante(req, res, estudiante)
-    res.status(200).json({ message: 'Estudiante registrado exitosamente.' })
+    // 1. Registrar estudiante en la base de datos
+    const estudiante = await superuser.registrarEstudiante(req.body)
+
+    // 2. Enviar UNA sola respuesta
+    res.json({
+      success: true,
+      id: estudiante.id
+    })
+
+    // NO hacer nada después de res.json()
   } catch (error) {
-    res.status(500).json({ error: 'Error al registrar el estudiante.' })
+    console.error('Error al registrar estudiante:', error)
+
+    // Manejo específico de errores de clave foránea
+    if (error.code === '23503') {
+      return res.status(400).json({
+        error: 'Error de integridad referencial. La persona no existe.'
+      })
+    }
+
+    res.status(500).json({ error: 'Error interno del servidor' })
   }
 })
 

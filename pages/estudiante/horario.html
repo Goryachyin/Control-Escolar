@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horario Semestral</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-icon {
+            font-size: 20px;
+            margin-right: 10px;
+            color: #555;
+        }
+        
+        .header-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .header-title:before {
+            content: "→";
+            margin: 0 8px;
+        }
+        
+        .main-title {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #4a6b8a;
+            color: white;
+        }
+        
+        .calendar-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .schedule-container {
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #37474f;
+            color: white;
+        }
+
+        td {
+            background-color: #e0e1e1;
+            vertical-align: middle;
+        }
+
+        .class-block {
+            display: block;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 5px;
+        }
+
+        .class-time {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .class-name {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .class-room {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .blue { background-color: #4285f4; }
+        .green { background-color: #34a853; }
+        .purple { background-color: #9c27b0; }
+        .yellow { background-color: #fbbc05; }
+        .red { background-color: #ea4335; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-icon">🏠</div>
+        <div class="header-title">Horario</div>
+    </div>
+    
+    <div class="main-title">
+        <div class="calendar-icon">📅</div>
+        <h1>HORARIO SEMESTRAL</h1>
+    </div>
+    
+    <div class="schedule-container">
+        <!-- Tabla de horario -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Fila de horarios -->
+                <tr>
+                    <td class="hora">08:00 - 10:00</td>
+                    <td><div class="class-block blue">
+                        <div class="class-time">08:00 - 10:00</div>
+                        <div class="class-name">Matemáticas III</div>
+                        <div class="class-room">Salón 302</div>
+                    </div></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="hora">10:30 - 12:30</td>
+                    <td></td>
+                    <td><div class="class-block green">
+                        <div class="class-time">10:30 - 12:30</div>
+                        <div class="class-name">Laboratorio de Química</div>
+                        <div class="class-room">Edificio C - Lab 4</div>
+                    </div></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="hora">14:00 - 16:00</td>
+                    <td></td>
+                    <td><div class="class-block purple">
+                        <div class="class-time">14:00 - 16:00</div>
+                        <div class="class-name">Historia del Arte</div>
+                        <div class="class-room">Salón 101</div>
+                    </div></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="hora">16:00 - 18:00</td>
+                    <td></td>
+                    <td></td>
+                    <td><div class="class-block red">
+                        <div class="class-time">16:00 - 18:00</div>
+                        <div class="class-name">Taller de Investigación</div>
+                        <div class="class-room">Edificio D - Sala 3</div>
+                    </div></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
