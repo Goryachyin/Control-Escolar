@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Estudiante</title>
+    <style>
+        /* Estilo para el overlay */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            /* Gris semitransparente */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            /* Asegúrate de que esté encima de otros elementos */
+        }
+
+        /* Estilo para el spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Estilo para el encabezado */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        legend {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #4a6b8a;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="/superusuario/consultarEstudiante.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <span class="header-icon">👤</span>
+        <span class="header-title">Consulta de Estudiante</span>
+    </div>
+    <div class="main-title">
+        <span class="book-icon">📚</span>
+        <span class="section-title">Consulta de Estudiante</span>
+    </div>
+    <!-- Contenedor del overlay y el círculo de carga -->
+    <div id="loadingOverlay" style="display: none;">
+        <div id="loadingSpinner" class="spinner"></div>
+    </div>
+
+    <form id="consultaForm">
+        <!-- Sección de Datos Personales -->
+        <fieldset id="datosPersonales">
+            <legend>Datos Personales</legend>
+            <label for="numero_control">Número Control:</label>
+            <input type="text" id="numero_control" name="numero_control" required>
+
+            <button type="submit" id="consultarBtn">Consultar</button>
+        </fieldset>
+    </form>
+
+
+    <form id="resultadosForm">
+        <div id="mensajeError" style="color: red; font-weight: bold;"></div>
+        <!-- Sección de Resultados -->
+        <fieldset id="resultados">
+            <legend>Resultados</legend>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" readonly>
+
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" id="apellidos" name="apellidos" readonly>
+
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" readonly>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono" readonly>
+        </fieldset>
+    </form>
+</body>
+
+</html>

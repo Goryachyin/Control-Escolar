@@ -23,6 +23,7 @@ app.get('/estudiante/calificaciones', (req, res) => { res.sendFile(path.join(__d
 app.get('/estudiante/kardex', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'kardex.html')) })
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
 app.get('/superusuario/registrar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-estudiante.html')) })
+app.get('/superusuario/consultar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'consultar-estudiante.html')) })
 // API's
 app.get('/api/verificar-token', verifToken, (req, res) => { res.json({ valid: true, usuario: req.usuario }) })
 app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
@@ -119,6 +120,31 @@ app.get('/api/superuser/ultimo-numero-control', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener el último número de control' })
   }
 })
+app.get('/api/superuser/consultar-estudiante/:matricula', async (req, res) => {
+  const numeroControl = req.params.matricula
+
+  try {
+    const query = `
+    SELECT dp.nombre_persona, dp.apellido_p_persona, dp.apellido_m_persona, e.numero_control, e.correo_institucional, 
+    (SELECT carrera.nombre_carrera FROM public.carreras_impartidas as carrera WHERE carrera.id_carrera = e.id_carrera), 
+    e.semestre_estudiante, 10, 10, e.estatus_estudiante, dp.curp_persona, dp.telefono_persona 
+    FROM public.estudiante as e 
+    INNER JOIN public.datos_personales as dp ON dp.id_persona = e.id_persona 
+    WHERE e.numero_control = $1`
+
+    const result = await pool.query(query, [numeroControl])
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Estudiante no encontrado' })
+    }
+
+    res.json(result.rows[0]) // Devuelve los datos del estudiante
+  } catch (error) {
+    console.error('❌ Error al consultar estudiante:', error)
+    res.status(500).json({ error: 'Error interno del servidor' })
+  }
+})
+
 module.exports = app
 
 // Inicia el servidor solo en desarrollo local
