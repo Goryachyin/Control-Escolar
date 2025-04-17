@@ -21,6 +21,7 @@ app.get('/estudiante/inicio', (req, res) => { res.sendFile(path.join(__dirname, 
 app.get('/estudiante/horario', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'horario.html')) })
 app.get('/estudiante/calificaciones', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'calificaciones.html')) })
 app.get('/estudiante/kardex', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'kardex.html')) })
+app.get('/estudiante/editar_datos', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'editar_datos.html')) })
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
 app.get('/superusuario/registrar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-estudiante.html')) })
 // API's
