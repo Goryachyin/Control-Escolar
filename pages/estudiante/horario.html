@@ -16,6 +16,7 @@
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
+      background-color: #f5f7fa;
     }
 
     header {
@@ -69,7 +70,7 @@
       display: flex;
       flex: 1;
       position: relative;
-      margin-top: 60px; /* Para compensar el header fijo */
+      margin-top: 60px;
       height: calc(100vh - 60px);
     }
 
@@ -116,26 +117,6 @@
       margin-left: 0;
     }
 
-    .noticias {
-      width: 250px;
-      background-color: #eeeeff;
-      padding: 15px;
-      border-left: 1px solid #ccc;
-    }
-
-    .noticias h2 {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .noticia {
-      background-color: white;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
     .user-profile {
         display: flex;
         align-items: center;
@@ -157,34 +138,26 @@
         gap: 15px;
     }
 
-    /* inicio*/
-    body {
-      background-color: #f4f4f8;
-      padding: 20px;
-    }
-
+    /* Contenido principal */
     .panel {
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       padding: 25px;
-      max-width: 800px;
-      margin: 0 auto;
       margin-bottom: 20px;
     }
 
-    h1 {
-      color: #ffffff;
+    .panel-header {
+      color: #4a6b8a;
       font-size: 24px;
-      margin-bottom: 5px;
+      margin-bottom: 20px;
+      text-align: center;
     }
 
-    h2 {
-      color: #1e1e3c;
-      font-size: 20px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
+    .panel-subheader {
+      color: #4a6b8a;
+      font-size: 18px;
+      margin-bottom: 15px;
     }
 
     .career-select {
@@ -193,121 +166,87 @@
 
     .career-select select {
       width: 100%;
-      padding: 10px;
+      padding: 10px 15px;
       border: 1px solid #ddd;
       border-radius: 4px;
       background-color: #f9f9f9;
-      margin-top: 5px;
+      font-size: 16px;
+      color: #333;
     }
 
-    .user-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
+    /* Tabla de horario */
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
     }
 
-    .user-checkbox {
-      margin-right: 15px;
-    }
-
-    .user-main-info {
-      flex: 1;
-    }
-
-    .user-name {
-      font-weight: bold;
-      margin-bottom: 3px;
-    }
-
-    .user-email {
-      color: #666;
-      font-size: 14px;
-    }
-
-    .user-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #ddd;
-      margin-right: 15px;
-      display: inline-block;
-    }
-
-    .upload-btn {
-      padding: 8px 15px;
-      background-color: #4CAF50;
+    .schedule-table th {
+      background-color: #4a6b8a;
       color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      padding: 12px;
+      text-align: center;
+      font-weight: 500;
+      width: 12.5%; /* Para 8 columnas (100/8) */
     }
 
-    .upload-btn:hover {
-      background-color: #45a049;
-    }
-
-    .user-stats-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    .user-stats-table th, .user-stats-table td {
+    .schedule-table td {
       padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
-    }
-
-    .user-stats-table th {
-      color: #666;
-      font-weight: normal;
-    }
-
-    .promedios-section {
-      margin-bottom: 25px;
-    }
-
-    .promedio-item {
-      margin-bottom: 5px;
-    }
-
-    .divider {
-      border-top: 1px solid #eee;
-      margin: 20px 0;
-    }
-
-    .personal-data-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .personal-data-table td {
-      padding: 8px;
-      border-bottom: 1px solid #eee;
+      border: 1px solid #e2e8f0;
+      height: 80px;
       vertical-align: top;
+      background-color: white;
     }
 
-    .personal-data-table td:first-child {
-      width: 40%;
-      color: #666;
+    .time-cell {
+      background-color: #f0f4f8;
+      font-weight: 500;
+      color: #333;
     }
 
-    .section-title {
-      margin-bottom: 15px;
-      font-size: 18px;
+    .class-block {
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      height: 100%;
     }
+
+    .class-name {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .class-details {
+      font-size: 12px;
+      color: #555;
+    }
+
+    /* Colores de materias */
+    .subject-1 { background-color: #e3f2fd; border-left: 3px solid #1565c0; }
+    .subject-2 { background-color: #e8f5e9; border-left: 3px solid #2e7d32; }
+    .subject-3 { background-color: #f3e5f5; border-left: 3px solid #6a1b9a; }
+    .subject-4 { background-color: #fff3e0; border-left: 3px solid #e65100; }
+    .subject-5 { background-color: #e0f7fa; border-left: 3px solid #00838f; }
+    .subject-6 { background-color: #f1f8e9; border-left: 3px solid #558b2f; }
 
     @media (max-width: 768px) {
-      .noticias {
-        display: none;
-      }
       .content {
         margin-left: 0 !important;
+        padding: 15px;
       }
       
+      .schedule-table th, 
+      .schedule-table td {
+        padding: 6px 3px;
+        font-size: 12px;
+      }
+      
+      .class-block {
+        font-size: 11px;
+        padding: 4px;
+      }
     }
   </style>
-  <script src="/inicio_estudiante.js"></script>
 </head>
 <body>
 
@@ -325,11 +264,10 @@
             <span id="username">Cargando ...</span>
         </div>
     </div>
-</header>
+  </header>
 
   <div class="main">
     <div class="sidebar" id="sidebar">
-
       <button onclick="window.location.href='inicio.html'">🏠 Inicio</button>
       <button onclick="window.location.href='kardex.html'">📋 Kardex</button>
       <button onclick="window.location.href='editar_datos.html'">📘 Editar datos</button>
@@ -343,226 +281,151 @@
       <button onclick="window.location.href='contador.html'">🏖️ Contador de vacaciones</button>
       <button onclick="window.location.href='ajustes.html'">⚙️ Ajustes</button>
       <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
-        
     </div>
 
     <div class="content" id="mainContent">
-        <!-- Contenido dinámico se cargará aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii -->
+      <!-- Panel de identificación -->
+      <div class="panel">
+        <div class="panel-header">HORARIO SEMESTRAL</div>
         
-	<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horario Semestral</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
+        <div class="career-select">
+          <div class="panel-subheader">Selecciona una carrera</div>
+          <select>
+            <option selected>Arquitectura</option>
+            <option>Ingeniería en Sistemas</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Panel de horario -->
+      <div class="panel">
+        <div class="panel-header"></div>
         
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .header-icon {
-            font-size: 20px;
-            margin-right: 10px;
-            color: #555;
-        }
-        
-        .header-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .header-title:before {
-            content: "→";
-            margin: 0 8px;
-        }
-        
-        .main-title {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            background-color: #4a6b8a;
-            color: white;
-        }
-        
-        .calendar-icon {
-            font-size: 24px;
-            margin-right: 15px;
-        }
-        
-        .schedule-container {
-            padding: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 15px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        th {
-            background-color: #37474f;
-            color: white;
-        }
-
-        td {
-            background-color: #e0e1e1;
-            vertical-align: middle;
-        }
-
-        .class-block {
-            display: block;
-            padding: 12px 15px;
-            border-radius: 8px;
-            color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 5px;
-        }
-
-        .class-time {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-
-        .class-name {
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-
-        .class-room {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-
-        .blue { background-color: #4285f4; }
-        .green { background-color: #34a853; }
-        .purple { background-color: #9c27b0; }
-        .yellow { background-color: #fbbc05; }
-        .red { background-color: #ea4335; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="header-icon">🏠</div>
-        <div class="header-title">Horario</div>
-    </div>
-    
-    <div class="main-title">
-        <div class="calendar-icon">📅</div>
-        <h1>HORARIO SEMESTRAL</h1>
-    </div>
-    
-    <div class="schedule-container">
-        <!-- Tabla de horario -->
-        <table>
+        <div style="overflow-x: auto;">
+          <table class="schedule-table">
             <thead>
-                <tr>
-                    <th>Hora</th>
-                    <th>Lunes</th>
-                    <th>Martes</th>
-                    <th>Miércoles</th>
-                    <th>Jueves</th>
-                    <th>Viernes</th>
-                </tr>
+              <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+              </tr>
             </thead>
             <tbody>
-                <!-- Fila de horarios -->
-                <tr>
-                    <td class="hora">08:00 - 10:00</td>
-                    <td><div class="class-block blue">
-                        <div class="class-time">08:00 - 10:00</div>
-                        <div class="class-name">Matemáticas III</div>
-                        <div class="class-room">Salón 302</div>
-                    </div></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="hora">10:30 - 12:30</td>
-                    <td></td>
-                    <td><div class="class-block green">
-                        <div class="class-time">10:30 - 12:30</div>
-                        <div class="class-name">Laboratorio de Química</div>
-                        <div class="class-room">Edificio C - Lab 4</div>
-                    </div></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="hora">14:00 - 16:00</td>
-                    <td></td>
-                    <td><div class="class-block purple">
-                        <div class="class-time">14:00 - 16:00</div>
-                        <div class="class-name">Historia del Arte</div>
-                        <div class="class-room">Salón 101</div>
-                    </div></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="hora">16:00 - 18:00</td>
-                    <td></td>
-                    <td></td>
-                    <td><div class="class-block red">
-                        <div class="class-time">16:00 - 18:00</div>
-                        <div class="class-name">Taller de Investigación</div>
-                        <div class="class-room">Edificio D - Sala 3</div>
-                    </div></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+              <tr>
+                <td class="time-cell">07:00 - 08:00</td>
+                <td>
+                  <div class="class-block subject-1">
+                    <div class="class-name">ECUACIONES DIFERENCIALES</div>
+                    <div class="class-details">Aula 703 - P155</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">09:00 - 10:00</td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-2">
+                    <div class="class-name">REDES COMPUTADORAS</div>
+                    <div class="class-details">Aula 706 - P151</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">12:00 - 13:00</td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-3">
+                    <div class="class-name">ADMON BASESDATOS</div>
+                    <div class="class-details">Aula 710 - P152</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:00 - 14:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-4">
+                    <div class="class-name">ARQ. COMPUTADORAS</div>
+                    <div class="class-details">Aula 705 - P152</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:00 - 15:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-5">
+                    <div class="class-name">LENG DE INTERFAZ</div>
+                    <div class="class-details">Aula 308 - P153</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:00 - 16:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-6">
+                    <div class="class-name">ING. SOFTWARE</div>
+                    <div class="class-details">Aula 706 - P153</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
             </tbody>
-        </table>
+          </table>
+        </div>
+      </div>
     </div>
-</body>
-</html>
+  </div>
 
-
-    </div>
-
-    <div class="noticias">
-        <h2>Centro de Noticias</h2>
-        <div class="noticia">📢 Nuevo aviso académico</div>
-        <div class="noticia">🗓 Cambios en el calendario escolar</div>
-        <div class="noticia">💼 Feria de empleo próximamente</div>
-    </div>
-</div>
-
-<script>
+  <script>
     function toggleSidebar() {
-        const sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("hidden");
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
     }
 
     function cerrarSesion() {
-        // Lógica para cerrar sesión
-        alert('Sesión cerrada');
-        localStorage.removeItem('token') // Elimina el token JWT
-        window.location.href = 'login.html';
+      // Lógica para cerrar sesión
+      alert('Sesión cerrada');
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
     }
-</script>
+  </script>
 
 </body>
 </html>
