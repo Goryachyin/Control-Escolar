@@ -63,7 +63,7 @@ app.post('/api/superuser/registrar-persona', async (req, res) => {
 app.post('/api/superuser/registrar-estudiante', async (req, res) => {
   try {
     // 1. Registrar estudiante en la base de datos
-    const estudiante = await superuser.registrarEstudiante(req.body)
+    const estudiante = await superuser.methods.registrarEstudiante(req, res, req.body)
 
     // 2. Enviar UNA sola respuesta
     res.json({
