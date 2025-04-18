@@ -24,6 +24,7 @@ app.get('/estudiante/kardex', (req, res) => { res.sendFile(path.join(__dirname, 
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
 app.get('/superusuario/registrar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-estudiante.html')) })
 app.get('/superusuario/consultar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'consultar-estudiante.html')) })
+app.get('/superusuario/registrar-docente', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-docente.html')) })
 // API's
 app.get('/api/verificar-token', verifToken, (req, res) => { res.json({ valid: true, usuario: req.usuario }) })
 app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
@@ -52,14 +53,17 @@ app.post('/api/estudiante/login', authetications.methods.estudianteLogin)
 app.post('/api/superuser/registrar-persona', async (req, res) => {
   console.log('🔹 Recibiendo solicitud para registrar persona... (index, linea 35)')
   const persona = req.body
-  console.log('📩 Datos recibidos:', persona) // Para ver qué se está enviando
+  console.log('📩 Datos recibidos:', persona)
   const result = await superuser.methods.registrarPersona(req, res, persona)
+
   if (result.success) {
     res.status(200).json({ message: 'Persona registrada exitosamente', idPersona: result.idPersona })
   } else {
-    res.status(500).json({ error: 'Error al registrar la persona' })
+    // Muestra el error recibido desde el método registrarPersona
+    res.status(400).json({ error: result.error || 'Error al registrar la persona' })
   }
 })
+
 app.post('/api/superuser/registrar-estudiante', async (req, res) => {
   try {
     // 1. Registrar estudiante en la base de datos
@@ -83,6 +87,35 @@ app.post('/api/superuser/registrar-estudiante', async (req, res) => {
     }
 
     res.status(500).json({ error: 'Error interno del servidor' })
+  }
+})
+app.post('/api/superuser/registrar-docente', async (req, res) => {
+  try {
+    const docente = await superuser.methods.registrarDocente(req, res, req.body)
+
+    return res.status(201).json({
+      success: true,
+      id: docente.id // Si tienes un ID a devolver
+    })
+  } catch (error) {
+    console.error('❌ Error en endpoint registrar-docente:', error)
+
+    // Errores comunes de PostgreSQL
+    if (error.code === '23505') {
+      return res.status(409).json({
+        error: 'El docente ya está registrado.'
+      })
+    }
+
+    if (error.code === '23503') {
+      return res.status(400).json({
+        error: 'La persona asociada no existe en la base de datos.'
+      })
+    }
+
+    return res.status(500).json({
+      error: 'Error interno del servidor.'
+    })
   }
 })
 

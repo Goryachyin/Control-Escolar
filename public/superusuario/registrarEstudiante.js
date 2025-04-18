@@ -64,6 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
   validarFormulario() // Llama a la función al cargar la página para verificar el estado inicial del formulario
 
   document.getElementById('continuarBtn').addEventListener('click', async function () {
+    const overlay = document.getElementById('loadingOverlay')
+    overlay.style.display = 'flex' // Mostrar spinner de carga
+
     const datosPersonales = {
       nombre: document.getElementById('nombre').value,
       apellido_p: document.getElementById('apellido_p').value,
@@ -109,6 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       console.error('Error al enviar los datos:', error)
       alert('Error al registrar los datos. Intenta nuevamente.')
+    } finally {
+      overlay.style.display = 'none' // Ocultar spinner de carga
     }
   })
 

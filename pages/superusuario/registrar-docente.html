@@ -4,56 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Registro de Docente</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-    }
-
-    form {
-      max-width: 600px;
-      margin: auto;
-    }
-
-    fieldset {
-      margin-bottom: 20px;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-
-    legend {
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-
-    input,
-    select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      border: none;
-      background-color: #4a6b8a;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="/superusuario/styles.css">
   <script src="/superusuario/registrarDocente.js"></script>
 </head>
 
 <body>
+  <!-- Contenedor del overlay y el círculo de carga -->
+  <div id="loadingOverlay" style="display: none;">
+    <div id="loadingSpinner" class="spinner"></div>
+  </div>
+
+  <!-- Modal de error -->
+  <div id="modalError" class="modal">
+    <div class="modal-contenido">
+      <span class="cerrar" onclick="cerrarModal()">&times;</span>
+      <p id="mensajeError"></p>
+    </div>
+  </div>
+
   <form id="registroForm">
     <!-- Sección de Datos Personales -->
     <fieldset id="datosPersonales">
@@ -74,7 +42,7 @@
       <input type="text" id="curp" name="curp" maxlength="18" required>
 
       <label for="nss">NSS:</label>
-      <input type="text" id="nss" name="nss" required>
+      <input type="text" id="nss" name="nss"  maxlength="11" required>
 
       <label for="sexo">Sexo:</label>
       <select id="sexo" name="sexo" required>
@@ -97,10 +65,10 @@
       <input type="email" id="correo" name="correo" required>
 
       <label for="horario_entrada">Horario de entrada:</label>
-      <input type="time" id="horario_entrada" name="horario_entrada"  required>
+      <input type="time" id="horario_entrada" name="horario_entrada" required>
 
       <label for="horario_salida">Horario de salida:</label>
-      <input type="time" id="horario_salida" name="horario_salida"  required>
+      <input type="time" id="horario_salida" name="horario_salida" required>
 
       <button type="submit" id="finalizarBtn">Finalizar</button>
     </fieldset>

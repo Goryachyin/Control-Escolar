@@ -17,20 +17,44 @@ async function consultarEstudiante (matricula) {
 }
 // Función para mostrar los datos del estudiante
 function mostrarEstudiante (estudiante) {
-  document.getElementById('nombre').value = estudiante.nombre_persona
-  document.getElementById('apellidos').value = estudiante.apellido_p_persona + ' ' + estudiante.apellido_m_persona
-  document.getElementById('correo').value = estudiante.correo_institucional
-  document.getElementById('telefono').value = estudiante.telefono_persona
+  document.getElementById('nombre').value = estudiante.nombre_persona.trim()
+  document.getElementById('apellido_p').value = estudiante.apellido_p_persona.trim()
+  document.getElementById('apellido_m').value = estudiante.apellido_m_persona.trim()
+  document.getElementById('correo').value = estudiante.correo_institucional.trim()
+  document.getElementById('telefono').value = estudiante.telefono_persona.trim()
+  document.getElementById('CURP').value = estudiante.curp_persona.trim()
+  document.getElementById('carrera').value = estudiante.nombre_carrera.trim()
+  document.getElementById('semestre').value = estudiante.semestre_estudiante
+  document.getElementById('estado').value = estudiante.estatus_estudiante
 }
 // Función para mostrar un mensaje de error
 function mostrarError (mensaje) {
   document.getElementById('mensajeError').textContent = mensaje
+  document.getElementById('modalError').style.display = 'block'
 
   // Limpia los campos si hubo un error
   document.getElementById('nombre').value = ''
-  document.getElementById('apellidos').value = ''
+  document.getElementById('apellido_p').value = ''
+  document.getElementById('apellido_m').value = ''
   document.getElementById('correo').value = ''
   document.getElementById('telefono').value = ''
+  document.getElementById('CURP').value = ''
+  document.getElementById('carrera').value = ''
+  document.getElementById('semestre').value = ''
+  document.getElementById('estado').value = ''
+}
+
+// eslint-disable-next-line no-unused-vars
+function cerrarModal () {
+  document.getElementById('modalError').style.display = 'none'
+}
+
+// También permite cerrar al hacer clic fuera del contenido del modal
+window.onclick = function (event) {
+  const modal = document.getElementById('modalError')
+  if (event.target === modal) {
+    modal.style.display = 'none'
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
