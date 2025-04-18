@@ -19,6 +19,7 @@ app.get('/', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.h
 app.get('/estudiante/login', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'login.html')) })
 app.get('/estudiante/inicio', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'inicio.html')) })
 app.get('/estudiante/horario', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'horario.html')) })
+app.get('/estudiante/calendarioescolar',(req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'calendarioescolar.html')) })
 app.get('/estudiante/calificaciones', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'calificaciones.html')) })
 app.get('/estudiante/kardex', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'kardex.html')) })
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
