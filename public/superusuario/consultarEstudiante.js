@@ -31,6 +31,15 @@ function mostrarEstudiante (estudiante) {
   document.getElementById('carrera').value = estudiante.nombre_carrera.trim()
   document.getElementById('semestre').value = estudiante.semestre_estudiante
   document.getElementById('estado').value = estudiante.estatus_estudiante
+  document.getElementById('nombre').value = estudiante.nombre_persona.trim()
+  document.getElementById('apellido_p').value = estudiante.apellido_p_persona.trim()
+  document.getElementById('apellido_m').value = estudiante.apellido_m_persona.trim()
+  document.getElementById('correo').value = estudiante.correo_institucional.trim()
+  document.getElementById('telefono').value = estudiante.telefono_persona.trim()
+  document.getElementById('CURP').value = estudiante.curp_persona.trim()
+  document.getElementById('carrera').value = estudiante.nombre_carrera.trim()
+  document.getElementById('semestre').value = estudiante.semestre_estudiante
+  document.getElementById('estado').value = estudiante.estatus_estudiante
 }
 
 // Función para mostrar un mensaje de error
@@ -40,6 +49,8 @@ function mostrarError (mensaje) {
 
   // Limpia los campos si hubo un error
   document.getElementById('nombre').value = ''
+  document.getElementById('apellido_p').value = ''
+  document.getElementById('apellido_m').value = ''
   document.getElementById('apellido_p').value = ''
   document.getElementById('apellido_m').value = ''
   document.getElementById('correo').value = ''
