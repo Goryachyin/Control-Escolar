@@ -2,736 +2,879 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>NYAPT EDUCATION EDITION</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYAPT EDUCATION - Panel Estudiantil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    :root {
+      --primary: #4a6b8a;
+      --primary-dark: #3a576f;
+      --primary-light: #e1e7ed;
+      --accent: #ffab40;
+      --text-primary: #212121;
+      --text-secondary: #757575;
+      --divider: #e0e0e0;
+      --background: #f5f7fa;
+      --card-bg: #ffffff;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
+      --info: #2196f3;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
+      background-color: var(--background);
+      color: var(--text-primary);
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* Header */
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background-color: #4a6b8a;
+      background-color: var(--primary);
       color: white;
-      padding: 10px 20px;
+      padding: 0.75rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 64px;
     }
 
     .school-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 1rem;
     }
 
-    .school-info img {
-      height: 40px;
-      width: 40px;
+    .school-logo {
+      height: 36px;
+      width: 36px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      font-weight: 400;
+      margin-left: 0.5rem;
     }
 
     .toggle-btn {
-      background-color: #37474f;
-      color: white;
+      background: none;
       border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
+      color: white;
+      font-size: 1.25rem;
       cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+      margin-right: 0.5rem;
     }
 
-    .top-buttons button {
-      margin-left: 10px;
-      background-color: #37474f;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
+    .toggle-btn:hover {
+      background-color: rgba(255,255,255,0.1);
     }
 
+    .top-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-btn {
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .header-btn:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 50px;
+      transition: background-color 0.2s;
+    }
+
+    .user-profile:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .profile-image {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .username {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Main Layout */
     .main {
       display: flex;
       flex: 1;
-      position: relative;
-      margin-top: 60px; /* Para compensar el header fijo */
-      height: calc(100vh - 60px);
+      margin-top: 64px;
+      height: calc(100vh - 64px);
     }
 
+    /* Sidebar */
     .sidebar {
       position: fixed;
       left: 0;
-      top: 60px;
+      top: 64px;
       bottom: 0;
-      width: 220px;
+      width: 240px;
       background-color: #1b2631;
-      color: white;
       overflow-y: auto;
       transform: translateX(0);
       transition: transform 0.3s ease;
-      z-index: 10;
+      z-index: 999;
+      padding: 1rem 0;
     }
 
     .sidebar.hidden {
       transform: translateX(-100%);
     }
 
-    .sidebar button {
-      display: block;
+    .sidebar-section {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.6);
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
       width: 100%;
-      padding: 15px;
+      padding: 0.75rem 1.5rem;
       border: none;
       background: none;
       color: white;
       text-align: left;
       cursor: pointer;
-      border-bottom: 1px solid #444;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      gap: 0.75rem;
     }
 
+    .sidebar-btn:hover, .sidebar-btn.active {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-btn.active {
+      border-left: 3px solid var(--accent);
+      padding-left: calc(1.5rem - 3px);
+    }
+
+    .sidebar-btn i {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .sidebar-divider {
+      border: none;
+      height: 1px;
+      background-color: rgba(255,255,255,0.1);
+      margin: 1rem 1.5rem;
+    }
+
+    /* Content Area */
     .content {
       flex: 1;
-      margin-left: 220px;
-      padding: 20px;
-      background-color: #f8f5f4;
+      margin-left: 240px;
+      padding: 2rem;
       overflow-y: auto;
       transition: margin-left 0.3s ease;
+      background-color: var(--background);
     }
 
     .sidebar.hidden + .content {
       margin-left: 0;
     }
 
-    .noticias {
-      width: 250px;
-      background-color: #eeeeff;
-      padding: 15px;
-      border-left: 1px solid #ccc;
+    /* Estilos para el Kardex - Diseño contrastante */
+    .kardex-container {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(0,0,0,0.08);
     }
 
-    .noticias h2 {
-      font-size: 16px;
-      margin-bottom: 10px;
+    .kardex-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(0,0,0,0.1);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .noticia {
-      background-color: white;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    .kardex-title {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2c3e50;
     }
 
-    .user-profile {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-    }
-    
-    .profile-image {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #fff;
-    }
-    
-    .top-buttons {
-        display: flex;
-        align-items: center;
-        gap: 15px;
+    .kardex-title i {
+      margin-right: 0.75rem;
+      color: var(--primary);
     }
 
-    /* inicio*/
-    body {
-      background-color: #f4f4f8;
-      padding: 20px;
+    .student-info {
+      text-align: right;
     }
 
-    .panel {
-      background-color: white;
+    .student-name {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #2c3e50;
+    }
+
+    .student-id {
+      font-size: 0.875rem;
+      color: #7f8c8d;
+    }
+
+    .career-info {
+      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.7);
+      padding: 1rem;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 25px;
-      max-width: 800px;
-      margin: 0 auto;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      color: #ffffff;
-      font-size: 24px;
-      margin-bottom: 5px;
-    }
-
-    h2 {
-      color: #1e1e3c;
-      font-size: 20px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     .career-select {
-      margin-bottom: 25px;
-    }
-
-    .career-select select {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: #f9f9f9;
-      margin-top: 5px;
+      padding: 0.75rem;
+      border: 1px solid var(--divider);
+      border-radius: 6px;
+      background-color: white;
+      font-size: 0.9375rem;
+      margin-top: 0.5rem;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
     }
 
-    .user-header {
+    .semester-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      background: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .semester-title {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .semester-detail {
+      font-size: 0.875rem;
+      color: #7f8c8d;
+      margin-top: 0.25rem;
+    }
+
+    .progress-container {
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
+      gap: 1rem;
     }
 
-    .user-checkbox {
-      margin-right: 15px;
+    .progress-text {
+      font-weight: 500;
+      color: #2c3e50;
     }
 
-    .user-main-info {
-      flex: 1;
+    .progress-bar {
+      width: 200px;
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
     }
 
-    .user-name {
-      font-weight: bold;
-      margin-bottom: 3px;
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3498db, #2ecc71);
+      width: 47%;
+      border-radius: 5px;
+      transition: width 0.5s ease;
     }
 
-    .user-email {
-      color: #666;
-      font-size: 14px;
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
 
-    .user-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #ddd;
-      margin-right: 15px;
-      display: inline-block;
+    .stats-box {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
     }
 
-    .upload-btn {
-      padding: 8px 15px;
-      background-color: #4CAF50;
+    .stats-box:hover {
+      transform: translateY(-3px);
+    }
+
+    .stats-label {
+      font-size: 0.8125rem;
+      color: #7f8c8d;
+      margin-bottom: 0.5rem;
+    }
+
+    .stats-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      font-size: 0.8125rem;
+      padding: 0.25rem 0.5rem;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      margin-right: 0.5rem;
+    }
+
+    .approved-color {
+      background-color: var(--success);
+    }
+
+    .reprobated-color {
+      background-color: var(--warning);
+    }
+
+    .current-color {
+      background-color: var(--info);
+    }
+
+    .pending-color {
+      background-color: #95a5a6;
+    }
+
+    .invalidated-color {
+      background-color: var(--error);
+    }
+
+    .subjects-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .subjects-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .subject-card {
+      border-radius: 8px;
+      padding: 1rem;
       color: white;
-      border: none;
-      border-radius: 4px;
+      font-size: 0.875rem;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
     }
 
-    .upload-btn:hover {
-      background-color: #45a049;
+    .subject-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
     }
 
-    .user-stats-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
+    .subject-code {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 0.9375rem;
     }
 
-    .user-stats-table th, .user-stats-table td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
+    .subject-name {
+      font-size: 0.8125rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
     }
 
-    .user-stats-table th {
-      color: #666;
-      font-weight: normal;
+    .subject-grade {
+      font-size: 0.75rem;
+      font-style: italic;
     }
 
-    .promedios-section {
-      margin-bottom: 25px;
+    .subject-credits {
+      font-size: 0.75rem;
+      text-align: right;
+      opacity: 0.8;
     }
 
-    .promedio-item {
-      margin-bottom: 5px;
+    .approved {
+      background: linear-gradient(135deg, #4CAF50, #2E7D32);
     }
 
-    .divider {
-      border-top: 1px solid #eee;
-      margin: 20px 0;
+    .reprobated {
+      background: linear-gradient(135deg, #FFC107, #FF8F00);
     }
 
-    .personal-data-table {
-      width: 100%;
-      border-collapse: collapse;
+    .current {
+      background: linear-gradient(135deg, #2196F3, #1565C0);
     }
 
-    .personal-data-table td {
-      padding: 8px;
-      border-bottom: 1px solid #eee;
-      vertical-align: top;
+    .pending {
+      background: linear-gradient(135deg, #9E9E9E, #616161);
     }
 
-    .personal-data-table td:first-child {
-      width: 40%;
-      color: #666;
+    .invalidated {
+      background: linear-gradient(135deg, #F44336, #C62828);
     }
 
-    .section-title {
-      margin-bottom: 15px;
-      font-size: 18px;
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.visible {
+        transform: translateX(0);
+      }
+      
+      .content {
+        margin-left: 0;
+      }
     }
 
     @media (max-width: 768px) {
-      .noticias {
+      .header-title {
         display: none;
       }
-      .content {
-        margin-left: 0 !important;
+      
+      .stats-container {
+        grid-template-columns: 1fr 1fr;
       }
       
+      .progress-bar {
+        width: 150px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header {
+        padding: 0.75rem 1rem;
+      }
+      
+      .header-btn span {
+        display: none;
+      }
+      
+      .username {
+        display: none;
+      }
+      
+      .semester-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .progress-container {
+        width: 100%;
+      }
+      
+      .progress-bar {
+        flex-grow: 1;
+      }
+      
+      .subjects-container {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
-  <script src="/inicio_estudiante.js"></script>
 </head>
 <body>
 
   <header>
     <div class="school-info">
-        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
-        <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela">
-        <h1>NYAPT EDUCATION EDITION</h1>
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
+      <div>
+        <span class="header-title">NYAPT EDUCATION</span>
+        <span class="header-subtitle">Edición Estudiantil</span>
+      </div>
     </div>
     <div class="top-buttons">
-        <button>¿Necesita ayuda?</button>
-        <button>🔔 Notificaciones</button>
-        <div class="user-profile">
-            <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
-            <span id="username">Nombre persona</span>
-        </div>
+      <button class="header-btn">
+        <i class="fas fa-question-circle"></i>
+        <span>Ayuda</span>
+      </button>
+      <button class="header-btn">
+        <i class="fas fa-bell"></i>
+        <span>Notificaciones</span>
+      </button>
+      <div class="user-profile" onclick="toggleUserMenu()">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <span class="username" id="username">Eduardo</span>
+      </div>
     </div>
-</header>
+  </header>
 
   <div class="main">
     <div class="sidebar" id="sidebar">
-        
-      <button onclick="window.location.href='inicio.html'">🏠 Inicio</button>
-      <button onclick="window.location.href='kardex.html'">📋 Kardex</button>
-      <button onclick="window.location.href='editar_datos.html'">📘 Editar datos</button>
-      <button onclick="window.location.href='horario.html'">📅 Horario</button>
-      <button onclick="window.location.href='calificaciones.html'">📚 Calificaciones</button>
-      <button onclick="window.location.href='perfil.html'">👤 Mi Perfil</button>
-      <button onclick="window.location.href='actividadescomplementarias.html'">📝 Histórico de actividades</button>
-      <button onclick="window.location.href='recibos.html'">💳 Recibos</button>
-      <button onclick="window.location.href='cargamaterrias.html'">📦 Carga de materias</button>
-      <button onclick="window.location.href='calendario.html'">🗓️ Calendario escolar</button>
-      <button onclick="window.location.href='contador.html'">🏖️ Contador de vacaciones</button>
-      <button onclick="window.location.href='ajustes.html'">⚙️ Ajustes</button>
-      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
-        
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='inicio.html'">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Académico</div>
+        <button class="sidebar-btn active" onclick="window.location.href='kardex.html'">
+          <i class="fas fa-file-alt"></i>
+          <span>Kardex</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='horario.html'">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Horario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calificaciones.html'">
+          <i class="fas fa-clipboard-check"></i>
+          <span>Calificaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
+          <i class="fas fa-book"></i>
+          <span>Carga de Materias</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Personal</div>
+        <button class="sidebar-btn" onclick="window.location.href='perfil.html'">
+          <i class="fas fa-user"></i>
+          <span>Mi Perfil</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='editar_datos.html'">
+          <i class="fas fa-edit"></i>
+          <span>Editar Datos</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Servicios</div>
+        <button class="sidebar-btn" onclick="window.location.href='recibos.html'">
+          <i class="fas fa-receipt"></i>
+          <span>Recibos</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
+          <i class="fas fa-certificate"></i>
+          <span>Actividades</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
+          <i class="fas fa-calendar-day"></i>
+          <span>Calendario</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='contador.html'">
+          <i class="fas fa-umbrella-beach"></i>
+          <span>Vacaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='ajustes.html'">
+          <i class="fas fa-cog"></i>
+          <span>Ajustes</span>
+        </button>
+        <button class="sidebar-btn" onclick="cerrarSesion()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
     </div>
 
     <div class="content" id="mainContent">
-        <!-- Contenido dinámico se cargará aquí -->
-        
-
-
-
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kárdex Académico</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        .kardex-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-        
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .title {
-            display: flex;
-            align-items: center;
-        }
-        
-        .title-icon {
-            font-size: 24px;
-            margin-right: 10px;
-            color: #2c3e50;
-        }
-        
-        .student-info {
-            text-align: right;
-        }
-        
-        .student-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .student-id {
-            font-size: 14px;
-            color: #555;
-        }
-        
-        .career-info {
-            margin-bottom: 20px;
-        }
-        
-        .career-select {
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        
-        .semester-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        
-        .progress-container {
-            display: flex;
-            align-items: center;
-        }
-        
-        .progress-bar {
-            width: 200px;
-            height: 20px;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            margin-left: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background-color: #4CAF50;
-            width: 47%; /* Esto vendrá de la base de datos */
-        }
-        
-        .subjects-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .subject-card {
-            border-radius: 5px;
-            padding: 10px;
-            color: white;
-            font-size: 14px;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .subject-code {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .subject-name {
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
-        
-        .subject-grade {
-            font-size: 11px;
-        }
-        
-        .subject-credits {
-            font-size: 11px;
-            text-align: right;
-        }
-        
-        .approved {
-            background-color: #4CAF50; /* Verde */
-        }
-        
-        .reprobated {
-            background-color: #FFC107; /* Amarillo */
-        }
-        
-        .current {
-            background-color: #2196F3; /* Azul */
-        }
-        
-        .pending {
-            background-color: #9E9E9E; /* Gris */
-        }
-        
-        .invalidated {
-            background-color: #F44336; /* Rojo */
-        }
-        
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            font-size: 12px;
-        }
-        
-        .legend-color {
-            width: 15px;
-            height: 15px;
-            border-radius: 3px;
-            margin-right: 5px;
-        }
-        
-        .stats-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
-        .stats-box {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            flex: 1;
-            margin: 0 5px;
-        }
-        
-        .stats-value {
-            font-weight: bold;
-            font-size: 16px;
-        }
-    </style>
-</head>
-<body>
-    <div class="kardex-container">
-        <div class="header">
-            <div class="title">
-                <span class="title-icon">📋</span>
-                <h1>Kárdex</h1>
-            </div>
-            <div class="student-info">
-                <div class="student-name" id="studentName">EDUARDO RIVERA AVILA</div>
-                <div class="student-id" id="studentId">22220865</div>
-            </div>
+      <!-- Contenido del Kardex -->
+      <div class="kardex-container">
+        <div class="kardex-header">
+          <div class="kardex-title">
+            <i class="fas fa-file-alt"></i>
+            <span>Kárdex Académico</span>
+          </div>
+          <div class="student-info">
+            <div class="student-name" id="studentName">EDUARDO RIVERA AVILA</div>
+            <div class="student-id" id="studentId">22220865</div>
+          </div>
         </div>
         
         <div class="career-info">
-            <select class="career-select" id="careerSelect">
-                <option>INGENIERÍA EN SISTEMAS COMPUTACIONALES</option>
-                <!-- Otras carreras vendrían de la base de datos -->
-            </select>
-            <div style="font-size: 12px; margin-top: 5px; color: #555;">Estatus: Vigente</div>
+          <select class="career-select" id="careerSelect">
+            <option>INGENIERÍA EN SISTEMAS COMPUTACIONALES</option>
+            <!-- Otras carreras vendrían de la base de datos -->
+          </select>
+          <div style="font-size: 0.875rem; margin-top: 0.5rem; color: #7f8c8d;">Estatus: Vigente</div>
         </div>
         
         <div class="semester-info">
-            <div>
-                <strong>Semestre 6</strong>
-                <div style="font-size: 12px;">Créditos totales: 260</div>
+          <div>
+            <div class="semester-title">Semestre 6</div>
+            <div class="semester-detail">Créditos totales: 260</div>
+          </div>
+          <div class="progress-container">
+            <span class="progress-text">Avance: 47%</span>
+            <div class="progress-bar">
+              <div class="progress-fill"></div>
             </div>
-            <div class="progress-container">
-                <span>Avance: 47%</span>
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                </div>
-            </div>
+          </div>
         </div>
         
         <div class="stats-container">
-            <div class="stats-box">
-                <div>Créditos acumulados</div>
-                <div class="stats-value">122</div>
-            </div>
-            <div class="stats-box">
-                <div>Materias aprobadas</div>
-                <div class="stats-value">15</div>
-            </div>
-            <div class="stats-box">
-                <div>Materias reprobadas</div>
-                <div class="stats-value">3</div>
-            </div>
-            <div class="stats-box">
-                <div>Materias por cursar</div>
-                <div class="stats-value">12</div>
-            </div>
+          <div class="stats-box">
+            <div class="stats-label">Créditos acumulados</div>
+            <div class="stats-value">122</div>
+          </div>
+          <div class="stats-box">
+            <div class="stats-label">Materias aprobadas</div>
+            <div class="stats-value">15</div>
+          </div>
+          <div class="stats-box">
+            <div class="stats-label">Materias reprobadas</div>
+            <div class="stats-value">3</div>
+          </div>
+          <div class="stats-box">
+            <div class="stats-label">Materias por cursar</div>
+            <div class="stats-value">12</div>
+          </div>
         </div>
         
         <div class="legend">
-            <div class="legend-item">
-                <div class="legend-color approved"></div>
-                <span>Aprobada</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color reprobated"></div>
-                <span>Reprobada</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color current"></div>
-                <span>En curso</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color pending"></div>
-                <span>Por cursar</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color invalidated"></div>
-                <span>Invalidada</span>
-            </div>
+          <div class="legend-item">
+            <div class="legend-color approved-color"></div>
+            <span>Aprobada</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color reprobated-color"></div>
+            <span>Reprobada</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color current-color"></div>
+            <span>En curso</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color pending-color"></div>
+            <span>Por cursar</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color invalidated-color"></div>
+            <span>Invalidada</span>
+          </div>
         </div>
         
-        <h3>Materias</h3>
+        <h3 class="subjects-title">Materias</h3>
         <div class="subjects-container" id="subjectsContainer">
-            <!-- Las materias se generarán dinámicamente desde JavaScript -->
+          <!-- Las materias se generarán dinámicamente desde JavaScript -->
         </div>
+      </div>
     </div>
+  </div>
 
-    <script>
-        // Datos del estudiante (esto vendría de una base de datos)
-        const studentData = {
-            name: "EDUARDO RIVERA AVILA",
-            id: "22220865",
-            career: "INGENIERÍA EN SISTEMAS COMPUTACIONALES",
-            semester: 6,
-            totalCredits: 260,
-            accumulatedCredits: 122,
-            progress: 47,
-            status: "Vigente",
-            subjects: [
-                { code: "SCF0900", name: "CALCULO DIFERENCIAL", grade: 7, credits: 3, status: "reprobated" },
-                { code: "SCF0902", name: "CALCULO INTEGRAL", grade: 7, credits: 3, status: "reprobated" },
-                { code: "SCF0904", name: "CALCULO VECTORIAL", grade: 90, credits: 3, status: "approved" },
-                { code: "SCF0905", name: "ECUACIONES DIFERENCIALES", grade: 0, credits: 3, status: "current" },
-                { code: "SCF0703", name: "GRAFICACIÓN", grade: 95, credits: 4, status: "approved" },
-                { code: "SCF0708", name: "LENGUAJES Y AUTOMATAS", grade: null, credits: 5, status: "pending" },
-                { code: "SCF0709", name: "LENGUAJES Y AUTOMATAS II", grade: null, credits: 5, status: "pending" },
-                { code: "IBR2020", name: "INVESTIGACIÓN", grade: null, credits: 10, status: "pending" },
-                { code: "SSE0303", name: "FUNDAMENTOS DE PROGRAMACIÓN", grade: 85, credits: 3, status: "approved" },
-                { code: "SSE0304", name: "PROGRAMACIÓN ORIENTADA A OBJETOS", grade: 70, credits: 5, status: "approved" },
-                { code: "SE0305", name: "ESTRUCTURAS DE DATOS", grade: 80, credits: 5, status: "approved" },
-                { code: "SSE0301", name: "MÉTODOS NUMÉRICOS", grade: 60, credits: 4, status: "approved" },
-                { code: "SSE0305", name: "FUNDAMENTOS DE TELECOMUNICACIONES", grade: 70, credits: 5, status: "approved" },
-                { code: "SCAG007", name: "TALLER DE ÉTICA", grade: 96, credits: 4, status: "approved" },
-                { code: "SLC1000", name: "CONTABILIDAD FINANCIERA", grade: 96, credits: 4, status: "approved" },
-                { code: "SLC1010", name: "INVESTIGACIÓN OPERATIVA", grade: 84, credits: 4, status: "approved" },
-                { code: "SLC1030", name: "TÓPICOS AVANZADOS DE PROGRAMACIÓN", grade: 90, credits: 5, status: "approved" },
-                { code: "SCAG003", name: "TALLER DE BASES DE DATOS", grade: 100, credits: 5, status: "approved" },
-                { code: "SCE1000", name: "ADMINISTRACIÓN DE BASES DE DATOS", grade: null, credits: 5, status: "pending" },
-                { code: "SCE1050", name: "INGENIERÍA DE SOFTWARE", grade: null, credits: 4, status: "pending" }
-            ]
-        };
+  <script>
+    // Datos del estudiante (esto vendría de una base de datos)
+    const studentData = {
+      name: "EDUARDO RIVERA AVILA",
+      id: "22220865",
+      career: "INGENIERÍA EN SISTEMAS COMPUTACIONALES",
+      semester: 6,
+      totalCredits: 260,
+      accumulatedCredits: 122,
+      progress: 47,
+      status: "Vigente",
+      subjects: [
+        { code: "SCF0900", name: "CALCULO DIFERENCIAL", grade: 7, credits: 3, status: "reprobated" },
+        { code: "SCF0902", name: "CALCULO INTEGRAL", grade: 7, credits: 3, status: "reprobated" },
+        { code: "SCF0904", name: "CALCULO VECTORIAL", grade: 90, credits: 3, status: "approved" },
+        { code: "SCF0905", name: "ECUACIONES DIFERENCIALES", grade: 0, credits: 3, status: "current" },
+        { code: "SCF0703", name: "GRAFICACIÓN", grade: 95, credits: 4, status: "approved" },
+        { code: "SCF0708", name: "LENGUAJES Y AUTOMATAS", grade: null, credits: 5, status: "pending" },
+        { code: "SCF0709", name: "LENGUAJES Y AUTOMATAS II", grade: null, credits: 5, status: "pending" },
+        { code: "IBR2020", name: "INVESTIGACIÓN", grade: null, credits: 10, status: "pending" },
+        { code: "SSE0303", name: "FUNDAMENTOS DE PROGRAMACIÓN", grade: 85, credits: 3, status: "approved" },
+        { code: "SSE0304", name: "PROGRAMACIÓN ORIENTADA A OBJETOS", grade: 70, credits: 5, status: "approved" },
+        { code: "SE0305", name: "ESTRUCTURAS DE DATOS", grade: 80, credits: 5, status: "approved" },
+        { code: "SSE0301", name: "MÉTODOS NUMÉRICOS", grade: 60, credits: 4, status: "approved" },
+        { code: "SSE0305", name: "FUNDAMENTOS DE TELECOMUNICACIONES", grade: 70, credits: 5, status: "approved" },
+        { code: "SCAG007", name: "TALLER DE ÉTICA", grade: 96, credits: 4, status: "approved" },
+        { code: "SLC1000", name: "CONTABILIDAD FINANCIERA", grade: 96, credits: 4, status: "approved" },
+        { code: "SLC1010", name: "INVESTIGACIÓN OPERATIVA", grade: 84, credits: 4, status: "approved" },
+        { code: "SLC1030", name: "TÓPICOS AVANZADOS DE PROGRAMACIÓN", grade: 90, credits: 5, status: "approved" },
+        { code: "SCAG003", name: "TALLER DE BASES DE DATOS", grade: 100, credits: 5, status: "approved" },
+        { code: "SCE1000", name: "ADMINISTRACIÓN DE BASES DE DATOS", grade: null, credits: 5, status: "pending" },
+        { code: "SCE1050", name: "INGENIERÍA DE SOFTWARE", grade: null, credits: 4, status: "pending" }
+      ]
+    };
 
-        // Función para renderizar las materias
-        function renderSubjects() {
-            const container = document.getElementById('subjectsContainer');
-            container.innerHTML = '';
-            
-            studentData.subjects.forEach(subject => {
-                const card = document.createElement('div');
-                card.className = `subject-card ${subject.status}`;
-                
-                let gradeText = '';
-                if (subject.grade !== null) {
-                    gradeText = subject.status === 'approved' || subject.status === 'reprobated' 
-                        ? `Calificación: ${subject.grade}` 
-                        : `Cursando`;
-                }
-                
-                card.innerHTML = `
-                    <div class="subject-code">${subject.code}</div>
-                    <div class="subject-name">${subject.name}</div>
-                    <div class="subject-grade">${gradeText}</div>
-                    <div class="subject-credits">Créditos: ${subject.credits}</div>
-                `;
-                
-                container.appendChild(card);
-            });
+    // Función para renderizar las materias
+    function renderSubjects() {
+      const container = document.getElementById('subjectsContainer');
+      container.innerHTML = '';
+      
+      studentData.subjects.forEach(subject => {
+        const card = document.createElement('div');
+        card.className = `subject-card ${subject.status}`;
+        
+        let gradeText = '';
+        if (subject.grade !== null) {
+          gradeText = subject.status === 'approved' || subject.status === 'reprobated' 
+            ? `Calificación: ${subject.grade}` 
+            : `Cursando`;
         }
-
-        // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('studentName').textContent = studentData.name;
-            document.getElementById('studentId').textContent = studentData.id;
-            document.querySelector('.progress-fill').style.width = `${studentData.progress}%`;
-            
-            renderSubjects();
-        });
-    </script>
-</body>
-</html>
-
-	
-	
-
-    </div>
-
-    <div class="noticias">
-        <h2>Centro de Noticias</h2>
-        <div class="noticia">📢 Nuevo aviso académico</div>
-        <div class="noticia">🗓️ Cambios en el calendario escolar</div>
-        <div class="noticia">💼 Feria de empleo próximamente</div>
-    </div>
-</div>
-
-<script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("hidden");
+        
+        card.innerHTML = `
+          <div class="subject-code">${subject.code}</div>
+          <div class="subject-name">${subject.name}</div>
+          <div class="subject-grade">${gradeText}</div>
+          <div class="subject-credits">Créditos: ${subject.credits}</div>
+        `;
+        
+        container.appendChild(card);
+      });
     }
 
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('studentName').textContent = studentData.name;
+      document.getElementById('studentId').textContent = studentData.id;
+      document.querySelector('.progress-fill').style.width = `${studentData.progress}%`;
+      
+      renderSubjects();
+    });
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+      
+      // En móviles, queremos que el sidebar se superponga
+      if (window.innerWidth <= 992) {
+        sidebar.classList.toggle("visible");
+      }
+    }
 
     function cerrarSesion() {
-        // Lógica para cerrar sesión
-        alert('Sesión cerrada');
+      // Lógica para cerrar sesión
+      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        localStorage.removeItem('token');
         window.location.href = 'login.html';
+      }
     }
-</script>
-
+    
+    function toggleUserMenu() {
+      // Aquí podrías implementar un menú desplegable del perfil
+      console.log("Mostrar menú de usuario");
+    }
+    
+    // Cerrar sidebar al hacer clic fuera en móviles
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      
+      if (window.innerWidth <= 992 && 
+          !sidebar.contains(event.target) && 
+          !toggleBtn.contains(event.target) &&
+          sidebar.classList.contains('visible')) {
+        sidebar.classList.remove('visible');
+      }
+    });
+  </script>
 </body>
 </html>

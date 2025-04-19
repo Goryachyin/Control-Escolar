@@ -80,7 +80,40 @@ async function registrarEstudiante (req, res, estudiante) {
   }
 }
 
+async function registrarDocente (req, res, docente) {
+  console.log('🔹 Recibiendo solicitud para registrar docente... (Superuser, línea 85)')
+  const client = await pool.connect()
+
+  try {
+    await client.query('BEGIN')
+
+    await client.query(
+      'INSERT INTO public.docente(id_persona, id_docente, correo_institucional, horario_entrada_docente, horario_salida_docente) ' +
+      'VALUES ($1, $2, $3, $4, $5)',
+      [
+        docente.id_persona,
+        docente.id_docente,
+        docente.correo,
+        docente.horarioEntrada,
+        docente.horarioSalida
+      ]
+    )
+
+    await client.query('COMMIT')
+    return { success: true }
+  } catch (error) {
+    await client.query('ROLLBACK')
+    console.error('❌ Error al registrar docente:', error)
+
+    // Lanzamos el error para que lo maneje el endpoint
+    throw error
+  } finally {
+    client.release()
+  }
+}
+
 export const methods = {
   registrarPersona,
-  registrarEstudiante
+  registrarEstudiante,
+  registrarDocente
 }

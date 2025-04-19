@@ -4,137 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Estudiante</title>
-    <style>
-        /* Estilo para el overlay */
-        #loadingOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            /* Gris semitransparente */
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            /* Asegúrate de que esté encima de otros elementos */
-        }
-
-        /* Estilo para el spinner */
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        
-        /* Estilo para el encabezado */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-
-        form {
-            max-width: 600px;
-            margin: auto;
-        }
-
-        fieldset {
-            margin-bottom: 20px;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-        }
-
-        legend {
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        label {
-            display: block;
-            margin-top: 10px;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            box-sizing: border-box;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            border: none;
-            background-color: #4a6b8a;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
-    <script src="/superusuario/consultarEstudiante.js"></script>
+    <title>Consulta de Estudiante | Sistema Académico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/superusuario/styles-consulta.css">
 </head>
 
 <body>
-    <div class="header">
-        <span class="header-icon">👤</span>
-        <span class="header-title">Consulta de Estudiante</span>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon">👨‍🎓</div>
+            <h1 class="header-title">Consulta de Estudiante</h1>
+        </div>
+        
+        <!-- Contenedor del overlay y el círculo de carga -->
+        <div id="loadingOverlay">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Modal de error -->
+        <div id="modalError" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarModal()">&times;</span>
+                <h3>Error en la consulta</h3>
+                <p id="mensajeError" class="error-message"></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title"><span>🔍</span> Buscar Estudiante</h2>
+            <form id="consultaForm">
+                <div class="form-group">
+                    <label for="numero_control">Número de Control</label>
+                    <input type="text" id="numero_control" name="numero_control" placeholder="Ingresa el número de control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Consultar</button>
+            </form>
+        </div>
+
+        <div class="card" id="resultadosCard" style="display: none;">
+            <h2 class="card-title"><span>📋</span> Información del Estudiante</h2>
+            <form id="resultadosForm">
+                <div class="grid-container">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="apellido_p">Apellido Paterno</label>
+                        <input type="text" id="apellido_p" name="apellido_p" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="apellido_m">Apellido Materno</label>
+                        <input type="text" id="apellido_m" name="apellido_m" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="CURP">CURP</label>
+                        <input type="text" id="CURP" name="CURP" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" id="telefono" name="telefono" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico</label>
+                        <input type="email" id="correo" name="correo" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="carrera">Carrera</label>
+                        <input type="text" id="carrera" name="carrera" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="semestre">Semestre</label>
+                        <input type="text" id="semestre" name="semestre" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="estado">Estado del estudiante</label>
+                        <input type="text" id="estado" name="estado" readonly>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="main-title">
-        <span class="book-icon">📚</span>
-        <span class="section-title">Consulta de Estudiante</span>
-    </div>
-    <!-- Contenedor del overlay y el círculo de carga -->
-    <div id="loadingOverlay" style="display: none;">
-        <div id="loadingSpinner" class="spinner"></div>
-    </div>
 
-    <form id="consultaForm">
-        <!-- Sección de Datos Personales -->
-        <fieldset id="datosPersonales">
-            <legend>Datos Personales</legend>
-            <label for="numero_control">Número Control:</label>
-            <input type="text" id="numero_control" name="numero_control" required>
-
-            <button type="submit" id="consultarBtn">Consultar</button>
-        </fieldset>
-    </form>
-
-
-    <form id="resultadosForm">
-        <div id="mensajeError" style="color: red; font-weight: bold;"></div>
-        <!-- Sección de Resultados -->
-        <fieldset id="resultados">
-            <legend>Resultados</legend>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" readonly>
-
-            <label for="apellidos">Apellidos:</label>
-            <input type="text" id="apellidos" name="apellidos" readonly>
-
-            <label for="correo">Correo Electrónico:</label>
-            <input type="email" id="correo" name="correo" readonly>
-
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" readonly>
-        </fieldset>
-    </form>
+    <script src="consultarEstudiante.js"></script>
 </body>
 
 </html>

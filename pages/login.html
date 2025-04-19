@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYAPT EDUCATION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6b8a;
+            --primary-light: #60a5fa;
+            --primary-dark: #2563eb;
+            --text: #e5e7eb;
+            --text-light: #9ca3af;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --card-bg-light: #374151;
+            --border: #374151;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--bg);
+        }
+
+        .image-container {
+            height: 55vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(3px);
+            z-index: 2;
+        }
+
+        .bottom-panel {
+            height: 45vh;
+            background-color: var(--bg);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Floating Login Container - Modificado para superponerse correctamente */
+        .floating-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -45%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        /* Welcome Panel */
+        .welcome-panel {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            text-align: center;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .welcome-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: url('https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc') no-repeat center center/cover;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+        }
+
+        .welcome-panel h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .welcome-panel p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+        }
+
+        .user-type-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .user-type-btn {
+            flex: 1;
+            max-width: 200px;
+            padding: 1.5rem 1rem;
+            background-color: var(--card-bg-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-type-btn:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .user-type-btn i {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+        }
+
+        .user-type-btn span {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Login Panel (hidden by default) */
+        .login-panel {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: absolute;
+            width: 100%;
+            top: 0;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .login-panel.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+        }
+
+        .login-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: url('https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc') no-repeat center center/cover;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .login-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .login-content {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        /* Icono izquierdo (usuario o candado) */
+        .input-container i:not(.password-toggle) {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        /* Icono derecho (ojo) */
+        .input-container .password-toggle {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.1rem;
+            z-index: 2;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem 3rem 1rem 3rem;
+            background-color: var(--card-bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            color: var(--text);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9375rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .remember-me input {
+            width: 1.1rem;
+            height: 1.1rem;
+            accent-color: var(--primary);
+        }
+
+        .forgot-password {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .back-btn:hover {
+            color: var(--text);
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 1rem;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8125rem;
+            color: var(--text-light);
+            padding: 0 1rem;
+            z-index: 3;
+        }
+        
+        .footer a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .floating-container {
+                width: 95%;
+                max-width: 500px;
+            }
+            
+            .user-type-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .user-type-btn {
+                max-width: 100%;
+                width: 100%;
+            }
+            
+            .welcome-panel {
+                padding: 1.5rem;
+            }
+            
+            .login-content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-container {
+                height: 50vh;
+            }
+            
+            .bottom-panel {
+                height: 50vh;
+            }
+            
+            .welcome-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .welcome-panel h1 {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-panel p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .user-type-btn {
+                padding: 1rem;
+            }
+        }
+    </style>
+    <script src="/login.js"></script>
+</head>
+<body>
+    <div class="image-container">
+        <img src="https://s3.amazonaws.com/ultimas.elsur/impreso/wp-content/uploads/2020/01/24010111/pic-2401202007003.jpg" alt="Background" class="background-image">
+        <div class="image-overlay"></div>
+    </div>
+
+    <div class="bottom-panel"></div>
+
+    <!-- Floating Container - Ahora se superpone correctamente a ambos paneles -->
+    <div class="floating-container">
+        <!-- Welcome Panel (Visible by default) -->
+        <div class="welcome-panel" id="welcomePanel">
+            <div class="welcome-logo"></div>
+            <h1>Bienvenido a NYAPT EDUCATION</h1>
+            <p>Selecciona tu tipo de usuario para continuar</p>
+            
+            <div class="user-type-buttons">
+                <div class="user-type-btn" onclick="showLogin('estudiante')">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Estudiante</span>
+                </div>
+                <div class="user-type-btn" onclick="showLogin('docente')">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Docente</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Panel (Hidden by default) -->
+        <div class="login-panel" id="loginPanel">
+            <button class="back-btn" onclick="hideLogin()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            
+            <div class="login-header">
+                <div class="login-logo"></div>
+                <h1 id="loginTitle">NYAPT EDUCATION</h1>
+                <p id="loginSubtitle">Ingresa tus credenciales para acceder</p>
+            </div>
+
+            <div class="login-content">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="numeroControl">Número de Control</label>
+                        <div class="input-container">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="numeroControl" name="numeroControl" class="form-control" placeholder="Ingresa tu número de control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contrasena">Contraseña</label>
+                        <div class="input-container">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Ingresa tu contraseña" required>
+                            <i class="fas fa-eye-slash password-toggle" id="togglePassword"></i>
+                        </div>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Recordarme</label>
+                        </div>
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i> Ingresar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 NYAPT Education Edition |  TacticalCheese</p>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('contrasena');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+            this.classList.toggle('fa-eye');
+        });
+
+        // Show login panel for specific user type
+        function showLogin(userType) {
+            const welcomePanel = document.getElementById('welcomePanel');
+            const loginPanel = document.getElementById('loginPanel');
+            
+            welcomePanel.style.opacity = '0';
+            welcomePanel.style.pointerEvents = 'none';
+            
+            // Update login panel based on user type
+            const loginTitle = document.getElementById('loginTitle');
+            const loginSubtitle = document.getElementById('loginSubtitle');
+            
+            if (userType === 'estudiante') {
+                loginTitle.textContent = 'Acceso Estudiantes';
+                loginSubtitle.textContent = 'Ingresa tu número de control y contraseña';
+            } else {
+                loginTitle.textContent = 'Acceso Docentes';
+                loginSubtitle.textContent = 'Ingresa tus credenciales institucionales';
+            }
+            
+            // Show login panel
+            loginPanel.classList.add('active');
+        }
+
+        // Hide login panel and return to welcome
+        function hideLogin() {
+            const welcomePanel = document.getElementById('welcomePanel');
+            const loginPanel = document.getElementById('loginPanel');
+            
+            welcomePanel.style.opacity = '1';
+            welcomePanel.style.pointerEvents = 'all';
+            loginPanel.classList.remove('active');
+        }
+
+        // Click outside to return to welcome (only when login panel is active)
+        document.addEventListener('click', function(e) {
+            const loginPanel = document.getElementById('loginPanel');
+            const welcomePanel = document.getElementById('welcomePanel');
+            const floatingContainer = document.querySelector('.floating-container');
+            
+            if (loginPanel.classList.contains('active') && 
+                !floatingContainer.contains(e.target)) {
+                hideLogin();
+            }
+        });
+    </script>
+</body>
+</html>

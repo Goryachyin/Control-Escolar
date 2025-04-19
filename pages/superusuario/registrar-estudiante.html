@@ -3,129 +3,150 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Registro de Estudiante</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-    }
-
-    form {
-      max-width: 600px;
-      margin: auto;
-    }
-
-    fieldset {
-      margin-bottom: 20px;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-    }
-
-    legend {
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-
-    input,
-    select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      border: none;
-      background-color: #4a6b8a;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
-  <script src="/registrarEstudiante-init.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Estudiante | Sistema Académico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/superusuario/styles-consulta.css">
+  <script src="/superusuario/registrarEstudiante.js"></script>
 </head>
 
 <body>
-  <form id="registroForm">
-    <!-- Sección de Datos Personales -->
-    <fieldset id="datosPersonales">
-      <legend>Datos Personales</legend>
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" required>
+  <div class="container">
+    <div class="header">
+      <div class="header-icon">👨‍🎓</div>
+      <h1 class="header-title">Registro de Estudiante</h1>
+    </div>
 
-      <label for="apellido_p">Apellido Paterno:</label>
-      <input type="text" id="apellido_p" name="apellido_p" required>
+    <!-- Contenedor del overlay y el círculo de carga -->
+    <div id="loadingOverlay">
+      <div class="spinner"></div>
+    </div>
 
-      <label for="apellido_m">Apellido Materno:</label>
-      <input type="text" id="apellido_m" name="apellido_m" required>
+    <!-- Modal de error -->
+    <div id="modalError" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h3>Error en el registro</h3>
+        <p id="mensajeError" class="error-message"></p>
+      </div>
+    </div>
 
-      <label for="telefono">Teléfono:</label>
-      <input type="text" id="telefono" name="telefono" pattern="/\D{10}/g" required>
+    <!-- Modal de confirmación -->
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarConfirmModal()">&times;</span>
+        <h3>Confirmar Registro</h3>
+        <div id="confirmData" class="confirm-data"></div>
+        <div class="modal-actions">
+          <button onclick="confirmarRegistro()" class="btn btn-primary">Confirmar</button>
+          <button onclick="cerrarConfirmModal()" class="btn btn-secondary">Cancelar</button>
+        </div>
+      </div>
+    </div>
 
-      <label for="curp">CURP:</label>
-      <input type="text" id="curp" name="curp" maxlength="18" required>
+    <form id="registroForm">
+      <!-- Sección de Datos Personales -->
+      <div class="card" id="datosPersonalesCard">
+        <h2 class="card-title"><span>👤</span> Datos Personales</h2>
+        <div class="grid-container">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="apellido_p">Apellido Paterno</label>
+            <input type="text" id="apellido_p" name="apellido_p" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="apellido_m">Apellido Materno</label>
+            <input type="text" id="apellido_m" name="apellido_m" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="text" id="telefono" name="telefono" pattern="\d{10}" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="curp">CURP</label>
+            <input type="text" id="curp" name="curp" maxlength="18" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="nss">NSS</label>
+            <input type="text" id="nss" name="nss" maxlength="11" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="sexo">Sexo</label>
+            <select id="sexo" name="sexo" required>
+              <option value="">Selecciona una opción</option>
+              <option value="Hombre">Masculino</option>
+              <option value="Mujer">Femenino</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" id="continuarBtn" class="btn btn-primary" disabled>Continuar</button>
+      </div>
 
-      <label for="nss">NSS:</label>
-      <input type="text" id="nss" name="nss" required>
-
-      <label for="sexo">Sexo:</label>
-      <select id="sexo" name="sexo" required>
-        <option value="">Selecciona una opción</option>
-        <option value="Hombre">Masculino</option>
-        <option value="Mujer">Femenino</option>
-        <option value="Otro">Otro</option>
-      </select>
-
-      <button type="button" id="continuarBtn" disabled>Continuar</button>
-    </fieldset>
-
-    <!-- Sección de Datos Estudiante (Inicialmente inhabilitada) -->
-    <fieldset id="datosEstudiante" disabled>
-      <legend>Datos del Estudiante</legend>
-      <label for="numero_control">Número de Control:</label>
-      <input type="text" id="numero_control" name="numero_control" readonly required>
-
-      <label for="correo">Correo Institucional:</label>
-      <input type="email" id="correo" name="correo" required>
-
-      <label for="semestre">Semestre:</label>
-      <input type="number" id="semestre" name="semestre" min="1" max="12" required>
-
-      <label for="estatus">Estatus:</label>
-      <select id="estatus" name="estatus" required>
-        <option value="Vigente">Vigente</option>
-        <option value="No Vigente">No Vigente</option>
-      </select>
-
-      <label for="contrasena">Contraseña:</label>
-      <input type="password" id="contrasena" name="contrasena" required>
-
-      <label for="id_carrera">Carrera:</label>
-      <select name="id_carrera" id="id_carrera" required>
-        <option value="ARQ18">ARQUITECTURA</option>
-        <option value="IBQ18">INGENIERIA BIOQUIMICA</option>
-        <option value="ISC25">INGENIERIA EN SISTEMAS COMPUTACIONALES</option>
-      </select>
-
-      <label for="id_documento">ID Documento:</label>
-      <input type="number" id="id_documento" name="id_documento" required>
-
-      <label for="id_pago">ID Pago:</label>
-      <input type="number" id="id_pago" name="id_pago" required>
-
-      <button type="submit" id="finalizarBtn">Finalizar</button>
-    </fieldset>
-  </form>
-
-  <script src="/registrarEstudiante.js"></script>
+      <!-- Sección de Datos Estudiante (Inicialmente oculta) -->
+      <div class="card" id="datosEstudianteCard" style="display: none;">
+        <h2 class="card-title"><span>📚</span> Datos del Estudiante</h2>
+        <div class="grid-container">
+          <div class="form-group">
+            <label for="numero_control">Número de Control</label>
+            <input type="text" id="numero_control" name="numero_control" readonly required>
+          </div>
+          
+          <div class="form-group">
+            <label for="correo">Correo Institucional</label>
+            <input type="email" id="correo" name="correo" readonly required>
+          </div>
+          
+          <div class="form-group">
+            <label for="semestre">Semestre</label>
+            <input type="number" id="semestre" name="semestre" min="1" max="12" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="estatus">Estatus</label>
+            <select id="estatus" name="estatus" required>
+              <option value="Vigente">Vigente</option>
+              <option value="No Vigente">No Vigente</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="contrasena">Contraseña</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="id_carrera">Carrera</label>
+            <select name="id_carrera" id="id_carrera" required>
+              <option value="ARQ18">ARQUITECTURA</option>
+              <option value="IBQ18">INGENIERIA BIOQUIMICA</option>
+              <option value="ISC25">INGENIERIA EN SISTEMAS COMPUTACIONALES</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="id_documento">ID Documento</label>
+            <input type="number" id="id_documento" name="id_documento" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="id_pago">ID Pago</label>
+            <input type="number" id="id_pago" name="id_pago" required>
+          </div>
+        </div>
+        <button type="button" id="finalizarBtn" class="btn btn-primary">Finalizar</button>
+      </div>
+    </form>
+  </div>
 </body>
 
 </html>

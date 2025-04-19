@@ -2,143 +2,249 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>NYAPT EDUCATION EDITION</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYAPT EDUCATION - Panel Estudiantil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    :root {
+      --primary: #4a6b8a;
+      --primary-dark: #3a576f;
+      --primary-light: #e1e7ed;
+      --accent: #ffab40;
+      --text-primary: #212121;
+      --text-secondary: #757575;
+      --divider: #e0e0e0;
+      --background: #f5f7fa;
+      --card-bg: #ffffff;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
+      --info: #2196f3;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
+      background-color: var(--background);
+      color: var(--text-primary);
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      background-color: #f5f7fa;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* Header */
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background-color: #4a6b8a;
+      background-color: var(--primary);
       color: white;
-      padding: 10px 20px;
+      padding: 0.75rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 64px;
     }
 
     .school-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 1rem;
     }
 
-    .school-info img {
-      height: 40px;
-      width: 40px;
+    .school-logo {
+      height: 36px;
+      width: 36px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      font-weight: 400;
+      margin-left: 0.5rem;
     }
 
     .toggle-btn {
-      background-color: #37474f;
-      color: white;
+      background: none;
       border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
+      color: white;
+      font-size: 1.25rem;
       cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+      margin-right: 0.5rem;
     }
 
-    .top-buttons button {
-      margin-left: 10px;
-      background-color: #37474f;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
+    .toggle-btn:hover {
+      background-color: rgba(255,255,255,0.1);
     }
 
+    .top-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-btn {
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .header-btn:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 50px;
+      transition: background-color 0.2s;
+    }
+
+    .user-profile:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .profile-image {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .username {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Main Layout */
     .main {
       display: flex;
       flex: 1;
-      position: relative;
-      margin-top: 60px;
-      height: calc(100vh - 60px);
+      margin-top: 64px;
+      height: calc(100vh - 64px);
     }
 
+    /* Sidebar */
     .sidebar {
       position: fixed;
       left: 0;
-      top: 60px;
+      top: 64px;
       bottom: 0;
-      width: 220px;
+      width: 240px;
       background-color: #1b2631;
-      color: white;
       overflow-y: auto;
       transform: translateX(0);
       transition: transform 0.3s ease;
-      z-index: 10;
+      z-index: 999;
+      padding: 1rem 0;
     }
 
     .sidebar.hidden {
       transform: translateX(-100%);
     }
 
-    .sidebar button {
-      display: block;
+    .sidebar-section {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.6);
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
       width: 100%;
-      padding: 15px;
+      padding: 0.75rem 1.5rem;
       border: none;
       background: none;
       color: white;
       text-align: left;
       cursor: pointer;
-      border-bottom: 1px solid #444;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      gap: 0.75rem;
     }
 
+    .sidebar-btn:hover, .sidebar-btn.active {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-btn.active {
+      border-left: 3px solid var(--accent);
+      padding-left: calc(1.5rem - 3px);
+    }
+
+    .sidebar-btn i {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .sidebar-divider {
+      border: none;
+      height: 1px;
+      background-color: rgba(255,255,255,0.1);
+      margin: 1rem 1.5rem;
+    }
+
+    /* Content Area */
     .content {
       flex: 1;
-      margin-left: 220px;
-      padding: 20px;
-      background-color: #f8f5f4;
+      margin-left: 240px;
+      padding: 2rem;
       overflow-y: auto;
       transition: margin-left 0.3s ease;
+      background-color: var(--background);
     }
 
     .sidebar.hidden + .content {
       margin-left: 0;
     }
 
-    .user-profile {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-    }
-    
-    .profile-image {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #fff;
-    }
-    
-    .top-buttons {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    /* Contenido principal */
+    /* Estilos para el horario */
     .panel {
       background-color: white;
       border-radius: 8px;
@@ -148,14 +254,14 @@
     }
 
     .panel-header {
-      color: #4a6b8a;
+      color: var(--primary);
       font-size: 24px;
       margin-bottom: 20px;
       text-align: center;
     }
 
     .panel-subheader {
-      color: #4a6b8a;
+      color: var(--primary);
       font-size: 18px;
       margin-bottom: 15px;
     }
@@ -167,11 +273,11 @@
     .career-select select {
       width: 100%;
       padding: 10px 15px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--divider);
       border-radius: 4px;
-      background-color: #f9f9f9;
+      background-color: var(--background);
       font-size: 16px;
-      color: #333;
+      color: var(--text-primary);
     }
 
     /* Tabla de horario */
@@ -182,7 +288,7 @@
     }
 
     .schedule-table th {
-      background-color: #4a6b8a;
+      background-color: var(--primary);
       color: white;
       padding: 12px;
       text-align: center;
@@ -192,16 +298,16 @@
 
     .schedule-table td {
       padding: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--divider);
       height: 80px;
       vertical-align: top;
       background-color: white;
     }
 
     .time-cell {
-      background-color: #f0f4f8;
+      background-color: var(--primary-light);
       font-weight: 500;
-      color: #333;
+      color: var(--text-primary);
     }
 
     .class-block {
@@ -218,7 +324,7 @@
 
     .class-details {
       font-size: 12px;
-      color: #555;
+      color: var(--text-secondary);
     }
 
     /* Colores de materias */
@@ -229,10 +335,24 @@
     .subject-5 { background-color: #e0f7fa; border-left: 3px solid #00838f; }
     .subject-6 { background-color: #f1f8e9; border-left: 3px solid #558b2f; }
 
-    @media (max-width: 768px) {
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.visible {
+        transform: translateX(0);
+      }
+      
       .content {
-        margin-left: 0 !important;
-        padding: 15px;
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-title {
+        display: none;
       }
       
       .schedule-table th, 
@@ -246,41 +366,124 @@
         padding: 4px;
       }
     }
+
+    @media (max-width: 576px) {
+      .header {
+        padding: 0.75rem 1rem;
+      }
+      
+      .header-btn span {
+        display: none;
+      }
+      
+      .username {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
 
   <header>
     <div class="school-info">
-        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
-        <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela">
-        <h1>NYAPT EDUCATION EDITION</h1>
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
+      <div>
+        <span class="header-title">NYAPT EDUCATION</span>
+        <span class="header-subtitle">Edición Estudiantil</span>
+      </div>
     </div>
     <div class="top-buttons">
-        <button>¿Necesita ayuda?</button>
-        <button>🔔 Notificaciones</button>
-        <div class="user-profile">
-            <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
-            <span id="username">Cargando ...</span>
-        </div>
+      <button class="header-btn">
+        <i class="fas fa-question-circle"></i>
+        <span>Ayuda</span>
+      </button>
+      <button class="header-btn">
+        <i class="fas fa-bell"></i>
+        <span>Notificaciones</span>
+      </button>
+      <div class="user-profile" onclick="toggleUserMenu()">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <span class="username" id="username">Eduardo</span>
+      </div>
     </div>
   </header>
 
   <div class="main">
     <div class="sidebar" id="sidebar">
-      <button onclick="window.location.href='inicio.html'">🏠 Inicio</button>
-      <button onclick="window.location.href='kardex.html'">📋 Kardex</button>
-      <button onclick="window.location.href='editar_datos.html'">📘 Editar datos</button>
-      <button onclick="window.location.href='horario.html'">📅 Horario</button>
-      <button onclick="window.location.href='calificaciones.html'">📚 Calificaciones</button>
-      <button onclick="window.location.href='perfil.html'">👤 Mi Perfil</button>
-      <button onclick="window.location.href='actividadescomplementarias.html'">📝 Histórico de actividades</button>
-      <button onclick="window.location.href='recibos.html'">💳 Recibos</button>
-      <button onclick="window.location.href='cargamaterrias.html'">📦 Carga de materias</button>
-      <button onclick="window.location.href='calendario.html'">🗓️ Calendario escolar</button>
-      <button onclick="window.location.href='contador.html'">🏖️ Contador de vacaciones</button>
-      <button onclick="window.location.href='ajustes.html'">⚙️ Ajustes</button>
-      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='inicio.html'">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Académico</div>
+        <button class="sidebar-btn" onclick="window.location.href='kardex.html'">
+          <i class="fas fa-file-alt"></i>
+          <span>Kardex</span>
+        </button>
+        <button class="sidebar-btn active" onclick="window.location.href='horario.html'">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Horario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calificaciones.html'">
+          <i class="fas fa-clipboard-check"></i>
+          <span>Calificaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
+          <i class="fas fa-book"></i>
+          <span>Carga de Materias</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Personal</div>
+        <button class="sidebar-btn" onclick="window.location.href='perfil.html'">
+          <i class="fas fa-user"></i>
+          <span>Mi Perfil</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='editar_datos.html'">
+          <i class="fas fa-edit"></i>
+          <span>Editar Datos</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Servicios</div>
+        <button class="sidebar-btn" onclick="window.location.href='recibos.html'">
+          <i class="fas fa-receipt"></i>
+          <span>Recibos</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
+          <i class="fas fa-certificate"></i>
+          <span>Actividades</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
+          <i class="fas fa-calendar-day"></i>
+          <span>Calendario</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='contador.html'">
+          <i class="fas fa-umbrella-beach"></i>
+          <span>Vacaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='ajustes.html'">
+          <i class="fas fa-cog"></i>
+          <span>Ajustes</span>
+        </button>
+        <button class="sidebar-btn" onclick="cerrarSesion()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
     </div>
 
     <div class="content" id="mainContent">
@@ -417,15 +620,38 @@
     function toggleSidebar() {
       const sidebar = document.getElementById("sidebar");
       sidebar.classList.toggle("hidden");
+      
+      // En móviles, queremos que el sidebar se superponga
+      if (window.innerWidth <= 992) {
+        sidebar.classList.toggle("visible");
+      }
     }
 
     function cerrarSesion() {
       // Lógica para cerrar sesión
-      alert('Sesión cerrada');
-      localStorage.removeItem('token');
-      window.location.href = 'login.html';
+      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+      }
     }
+    
+    function toggleUserMenu() {
+      // Aquí podrías implementar un menú desplegable del perfil
+      console.log("Mostrar menú de usuario");
+    }
+    
+    // Cerrar sidebar al hacer clic fuera en móviles
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      
+      if (window.innerWidth <= 992 && 
+          !sidebar.contains(event.target) && 
+          !toggleBtn.contains(event.target) &&
+          sidebar.classList.contains('visible')) {
+        sidebar.classList.remove('visible');
+      }
+    });
   </script>
-
 </body>
 </html>
