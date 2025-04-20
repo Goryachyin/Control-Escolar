@@ -6,6 +6,208 @@
     <title>Calendario Escolar</title>
 </head>
 <body>
-    <h1>Hola mundo</h1>
+    <!-- Panel de Calendario Escolar -->
+<div class="panel">
+    <div class="panel-header">Calendario Escolar 2025</div>
+  
+    <div id="calendar" style="display: flex; flex-direction: column; gap: 40px; max-height: calc(100vh - 150px); overflow-y: auto; padding: 10px;">
+      <!-- Los meses se generarán aquí -->
+    </div>
+  </div>
+  
+  <script>
+    const months = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    const daysOfWeek = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+  
+    // Definir días especiales basados en el calendario escolar
+    const specialDays = {
+      // Vacaciones
+      "2025-04-14": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-15": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-16": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-17": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-18": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-21": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-22": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-23": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-24": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-25": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+
+      "2025-07-07": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-08": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-09": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-10": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-11": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-14": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-15": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-16": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-17": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-18": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-21": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-22": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-23": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-24": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-25": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-28": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-29": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-30": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-31": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-08-01": { type: "Receso Escolar", color: "#a5d6a7" },
+
+      "2025-12-22": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-23": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-24": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-26": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-27": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-28": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-29": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-30": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-31": { type: "Receso Escolar", color: "#a5d6a7" },
+      
+  
+      // Inicio de cursos
+      "2025-02-04": { type: "Inicio de Cursos", color: "#ffcc80" },
+      "2025-08-25": { type: "Inicio de Cursos", color: "#ffcc80" },
+  
+      // Suspensión de labores
+      "2025-02-03": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-01-01": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-03-17": { type: "Suspensión de labores (Natalicio Benito Juárez)", color: "#ef9a9a" },
+      "2025-05-01": { type: "Suspensión de labores (Día del Trabajo)", color: "#ef9a9a" },
+      "2025-05-05": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-05-15": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-09-16": { type: "Suspensión de labores (Independencia)", color: "#ef9a9a" },
+      "2025-10-01": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-11-18": { type: "Suspensión de labores (Revolución Mexicana)", color: "#ef9a9a" },
+      "2025-12-25": { type: "Suspensión de labores (Navidad)", color: "#ef9a9a" },
+  
+      // Fin de curso
+      "2025-06-06": { type: "Fin de Curso", color: "#ffcc80" },
+       
+      //Selección de materias 
+      "2025-01-27": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-01-28": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-01-29": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-01-30": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-01-31": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-18": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-19": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-20": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-21": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-22": { type: "Selección de materias", color: "#7e86bc" },
+
+      // Cursos de verano / intersemestrales
+      "2025-06-09": { type: "Inicio Cursos Intersemestrales Docentes", color: "#fff59d" },
+      "2025-07-04": { type: "Fin Cursos Intersemestrales Docentes", color: "#fff59d" },
+
+      // Inscripciones y Reinscripciones
+      "2025-01-21": { type: "Inicio Reinscripciones", color: "#ce93d8" },
+      "2025-08-11": { type: "Reinscripciones Nuevo Ingreso", color: "#ce93d8" },
+      "2025-08-12": { type: "Reinscripciones Nuevo Ingreso", color: "#ce93d8" },
+      "2025-08-13": { type: "Reinscripciones Nuevo Ingreso", color: "#ce93d8" },
+
+      //Cusos nuevo ingreso
+      "2025-08-14": { type: "Cursos de inducción nuevo ingreso", color: "#f37be4" },
+      "2025-08-15": { type: "Cursos de inducción nuevo ingreso", color: "#f37be4" },
+  
+      // Honor a la bandera (primer lunes de cada mes, enero a junio)
+      "2025-03-03": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-05-06": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-04-07": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-06-02": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-09-01": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-10-06": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-11-03": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-12-01": { type: "Honores a la Bandera", color: "#90caf9" }
+
+
+    };
+  
+    function generateCalendar(year) {
+      const calendar = document.getElementById('calendar');
+  
+      months.forEach((monthName, monthIndex) => {
+        const monthPanel = document.createElement('div');
+        monthPanel.style.background = "#f4f4f8";
+        monthPanel.style.padding = "20px";
+        monthPanel.style.borderRadius = "10px";
+        monthPanel.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
+        
+        const title = document.createElement('h3');
+        title.style.textAlign = "center";
+        title.style.color = "#4a6b8a";
+        title.style.marginBottom = "15px";
+        title.textContent = monthName + " " + year;
+        monthPanel.appendChild(title);
+  
+        const daysGrid = document.createElement('div');
+        daysGrid.style.display = "grid";
+        daysGrid.style.gridTemplateColumns = "repeat(7, 1fr)";
+        daysGrid.style.gap = "8px";
+  
+        // Encabezados de días
+        daysOfWeek.forEach(day => {
+          const dayHeader = document.createElement('div');
+          dayHeader.style.background = "#4a6b8a";
+          dayHeader.style.color = "white";
+          dayHeader.style.padding = "10px";
+          dayHeader.style.textAlign = "center";
+          dayHeader.style.borderRadius = "6px";
+          dayHeader.style.fontWeight = "bold";
+          dayHeader.textContent = day;
+          daysGrid.appendChild(dayHeader);
+        });
+  
+        const firstDay = new Date(year, monthIndex, 1).getDay();
+        const totalDays = new Date(year, monthIndex + 1, 0).getDate();
+  
+        // Espacios vacíos
+        for (let i = 0; i < firstDay; i++) {
+          const emptyCell = document.createElement('div');
+          emptyCell.style.background = "transparent";
+          daysGrid.appendChild(emptyCell);
+        }
+  
+        // Días
+        for (let day = 1; day <= totalDays; day++) {
+          const date = new Date(year, monthIndex, day);
+          const dateString = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const dayCell = document.createElement('div');
+  
+          // Verificar si el día es especial
+          if (specialDays[dateString]) {
+            dayCell.style.background = specialDays[dateString].color;
+            dayCell.title = specialDays[dateString].type;
+          } else {
+            dayCell.style.background = "#c8d3dd";
+          }
+  
+          dayCell.style.padding = "10px";
+          dayCell.style.borderRadius = "6px";
+          dayCell.style.textAlign = "center";
+          dayCell.style.fontSize = "14px";
+          dayCell.style.color = "#37474f";
+          dayCell.innerHTML = `<strong>${day}</strong><br>${daysOfWeek[date.getDay()]}`;
+  
+          daysGrid.appendChild(dayCell);
+        }
+  
+        monthPanel.appendChild(daysGrid);
+        calendar.appendChild(monthPanel);
+      });
+    }
+  
+    generateCalendar(2025);
+  </script>
+  
+    
+  </script>
+  
+  
+  
+  
 </body>
 </html>
