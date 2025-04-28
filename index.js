@@ -25,6 +25,8 @@ app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'in
 app.get('/superusuario/registrar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-estudiante.html')) })
 app.get('/superusuario/consultar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'consultar-estudiante.html')) })
 app.get('/superusuario/registrar-docente', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-docente.html')) })
+app.get('/superusuario/registrar-materia', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-materia.html')) })
+app.get('/superusuario/cargar-grupo', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'cargar-grupo.html')) })
 // API's
 app.get('/api/verificar-token', verifToken, (req, res) => { res.json({ valid: true, usuario: req.usuario }) })
 app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
@@ -118,7 +120,89 @@ app.post('/api/superuser/registrar-docente', async (req, res) => {
     })
   }
 })
+// Obtener carreras
+app.get('/api/superuser/carreras', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT id_carrera, nombre_carrera FROM public.carreras_impartidas')
+    res.json(result.rows)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Error al obtener carreras' })
+  }
+})
+// Registrar materia
+app.post('/api/superuser/registrar-materias-lote', async (req, res) => {
+  try {
+    // Validación básica del request
+    if (!req.body.materias || !Array.isArray(req.body.materias)) {
+      return res.status(400).json({
+        error: 'Formato inválido',
+        detalles: 'Se espera un objeto con propiedad "materias" (array)'
+      })
+    }
 
+    // Validación de cantidad máxima
+    if (req.body.materias.length > 20) {
+      return res.status(400).json({
+        error: 'Límite excedido',
+        detalles: 'Máximo 20 materias por lote'
+      })
+    }
+
+    // Llamar al middleware
+    const resultado = await superuser.methods.registrarMateriasEnLote(req.body.materias)
+
+    // Manejar diferentes resultados
+    if (resultado.success === true) {
+      return res.status(201).json({
+        success: true,
+        message: `Todas las ${resultado.resultados.length} materias registradas exitosamente`,
+        data: resultado.resultados
+      })
+    }
+
+    if (resultado.success === 'partial') {
+      return res.status(207).json({ // 207 Multi-Status
+        success: 'partial',
+        message: resultado.message,
+        registrosExitosos: resultado.resultados.length,
+        registrosFallidos: resultado.errores.length,
+        resultados: resultado.resultados,
+        errores: resultado.errores
+      })
+    }
+
+    if (resultado.success === false) {
+      return res.status(400).json({
+        error: 'Ninguna materia pudo ser registrada',
+        detalles: resultado.errores
+      })
+    }
+  } catch (error) {
+    console.error('❌ Error en endpoint:', error)
+
+    // Manejo de errores específicos de PostgreSQL
+    if (error.code === '23505') {
+      return res.status(409).json({
+        error: 'Violación de restricción única',
+        detalles: 'Algunos IDs de materia ya existen en la base de datos'
+      })
+    }
+
+    if (error.code === '23503') {
+      return res.status(404).json({
+        error: 'Referencia inválida',
+        detalles: 'Una o más carreras especificadas no existen'
+      })
+    }
+
+    // Error genérico
+    return res.status(500).json({
+      error: 'Error interno del servidor',
+      detalles: process.env.NODE_ENV === 'development' ? error.message : undefined
+    })
+  }
+})
 app.post('/api/superuser/rollback-persona', async (req, res) => {
   const { idPersona } = req.body
   console.log('🔹 Intentando hacer rollback de la persona registrada con ID:', idPersona)
@@ -177,7 +261,138 @@ app.get('/api/superuser/consultar-estudiante/:matricula', async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' })
   }
 })
+app.get('/api/superuser/consultar-docente/:matricula', async (req, res) => {
+  const matricula = req.params.matricula
+  try {
+    const query = `
+      SELECT dp.nombre_persona, dp.apellido_p_persona, dp.apellido_m_persona, dp.telefono_persona, dp.curp_persona, 
+      d.correo_institucional, d.id_docente, d.horario_entrada_docente, d.horario_salida_docente
+      FROM public.docente as d
+      INNER JOIN public.datos_personales as dp ON dp.id_persona = d.id_persona
+      Where d.id_docente=$1`
 
+    const result = await pool.query(query, [matricula])
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Docente no encontrado' })
+    }
+
+    res.json(result.rows[0]) // Devuelve los datos del docente
+  } catch (error) {
+    console.error('❌ Error al consultar docente:', error)
+    res.status(500).json({ error: 'Error interno del servidor' })
+  }
+})
+// Inhutilizado
+app.get('/api/superuser/carreras-materias', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT c.id_carrera, c.nombre_carrera, 
+      m.id_materia, m.nombre_materia, m.semestre
+      FROM carreras_impartidas c
+      JOIN plan_estudios m ON c.id_carrera = m.id_carrera
+      ORDER BY c.nombre_carrera, m.semestre
+    `)
+
+    // Agrupar por carrera
+    const carreras = []
+    result.rows.forEach(row => {
+      let carrera = carreras.find(c => c.id_carrera === row.id_carrera)
+      if (!carrera) {
+        carrera = {
+          id_carrera: row.id_carrera,
+          nombre_carrera: row.nombre_carrera,
+          materias: []
+        }
+        carreras.push(carrera)
+      }
+      carrera.materias.push({
+        id_materia: row.id_materia,
+        nombre_materia: row.nombre_materia,
+        semestre: row.semestre
+      })
+    })
+
+    res.json(carreras)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Error al obtener carreras y materias' })
+  }
+})
+app.get('/api/superuser/carrera-materia/:carreraId/:semestreId', async (req, res) => {
+  const { carreraId, semestreId } = req.params
+
+  try {
+    const query = `
+      SELECT c.id_carrera, c.nombre_carrera, 
+             m.id_materia, m.nombre_materia, m.semestre
+      FROM carreras_impartidas c
+      JOIN plan_estudios m ON c.id_carrera = m.id_carrera
+      WHERE c.id_carrera = $1 AND m.semestre = $2
+      ORDER BY c.nombre_carrera, m.semestre
+    `
+
+    const result = await pool.query(query, [carreraId, semestreId])
+
+    // Agrupar por carrera
+    const carreras = []
+    result.rows.forEach(row => {
+      let carrera = carreras.find(c => c.id_carrera === row.id_carrera)
+      if (!carrera) {
+        carrera = {
+          id_carrera: row.id_carrera,
+          nombre_carrera: row.nombre_carrera,
+          materias: []
+        }
+        carreras.push(carrera)
+      }
+      carrera.materias.push({
+        id_materia: row.id_materia,
+        nombre_materia: row.nombre_materia,
+        semestre: row.semestre
+      })
+    })
+
+    res.json(carreras)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Error al obtener materias' })
+  }
+})
+app.get('/api/superuser/carreras', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT id_carrera, nombre_carrera FROM public.carreras_impartidas ORDER BY nombre_carrera')
+    res.json(result.rows)
+  } catch (error) {
+    console.error('Error al obtener carreras:', error)
+    res.status(500).json({ error: 'Error al obtener carreras' })
+  }
+})
+app.get('/api/superuser/getMaxSemestre/:idCarrera', async (req, res) => {
+  try {
+    const { idCarrera } = req.params // Obtener el idCarrera de la consulta
+    console.log('🔍 Consultando el semestre máximo para la carrera:', idCarrera)
+    const result = await pool.query('SELECT MAX(semestre) AS max_semestre FROM public.plan_estudios WHERE id_carrera = $1',
+      [idCarrera])
+
+    res.json(result.rows[0]) // Devuelve el semestre máximo en formato JSON
+  } catch (error) {
+    console.error('Error al obtener semestres:', error)
+    res.status(500).json({ error: 'Error al obtener semestres' })
+  }
+})
+app.post('/api/superuser/registrar-materias', async (req, res) => {
+  try {
+    const { id_materia, id_docente, aula, horarioEntrada, horarioSalida, diasSeleccionados, cupo } = req.body
+    console.log('REQ.BODY: ', req.body)
+    console.log('🔍 Registrando grupo:', { id_materia, id_docente, aula, horarioEntrada, horarioSalida, diasSeleccionados, cupo })
+    res.json({ sucess: true, message: 'Grupo registrado exitosamente' }) // Respuesta de éxito
+  } catch (error) {
+    console.error('Error al registrar el grupo:', error)
+    res.status(500).json({ error: error.message }) // Retorna JSON si ocurre un error
+    res.status(500).json({ error: 'Error al registrar el grupo' })
+  }
+})
 module.exports = app
 
 // Inicia el servidor solo en desarrollo local

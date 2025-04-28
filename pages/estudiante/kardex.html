@@ -21,6 +21,7 @@
       --warning: #ff9800;
       --error: #f44336;
       --info: #2196f3;
+      --gray-card: #e0e0e0;
     }
 
     * {
@@ -511,11 +512,17 @@
     }
 
     .pending {
-      background: linear-gradient(135deg, #9E9E9E, #616161);
+      background: linear-gradient(135deg, #e0e0e0, #bdbdbd);
+      color: var(--text-primary);
     }
 
     .invalidated {
       background: linear-gradient(135deg, #F44336, #C62828);
+    }
+
+    .gray-card {
+      background: var(--gray-card);
+      color: var(--text-primary);
     }
 
     /* Responsive */
@@ -544,6 +551,27 @@
       
       .progress-bar {
         width: 150px;
+      }
+      
+      /* Nuevo diseño para móviles - 6 filas x 3 columnas con scroll horizontal */
+      .subjects-container {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(6, 1fr);
+        grid-auto-columns: calc(33.33% - 0.67rem);
+        gap: 1rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        height: calc(6 * 120px); /* 6 filas x altura de tarjeta */
+      }
+      
+      .subject-card {
+        scroll-snap-align: start;
+        height: 110px;
+        min-width: 0;
       }
     }
 
@@ -574,8 +602,14 @@
         flex-grow: 1;
       }
       
+      /* Ajuste para pantallas muy pequeñas */
       .subjects-container {
-        grid-template-columns: 1fr;
+        grid-auto-columns: calc(50% - 0.5rem); /* 2 columnas en móviles muy pequeños */
+        height: calc(6 * 100px);
+      }
+      
+      .subject-card {
+        height: 95px;
       }
     }
   </style>
@@ -620,10 +654,6 @@
       
       <div class="sidebar-section">
         <div class="sidebar-title">Académico</div>
-        <button class="sidebar-btn active" onclick="window.location.href='kardex.html'">
-          <i class="fas fa-file-alt"></i>
-          <span>Kardex</span>
-        </button>
         <button class="sidebar-btn" onclick="window.location.href='horario.html'">
           <i class="fas fa-calendar-alt"></i>
           <span>Horario</span>
@@ -632,21 +662,21 @@
           <i class="fas fa-clipboard-check"></i>
           <span>Calificaciones</span>
         </button>
+        <button class="sidebar-btn active" onclick="window.location.href='kardex.html'">
+          <i class="fas fa-file-alt"></i>
+          <span>Kardex</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
+          <i class="fas fa-calendar-day"></i>
+          <span>Calendario</span>
+        </button>
         <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
           <i class="fas fa-book"></i>
           <span>Carga de Materias</span>
         </button>
-      </div>
-      
-      <div class="sidebar-section">
-        <div class="sidebar-title">Personal</div>
-        <button class="sidebar-btn" onclick="window.location.href='perfil.html'">
-          <i class="fas fa-user"></i>
-          <span>Mi Perfil</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='editar_datos.html'">
-          <i class="fas fa-edit"></i>
-          <span>Editar Datos</span>
+        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
+          <i class="fas fa-certificate"></i>
+          <span>Actividades complementarias</span>
         </button>
       </div>
       
@@ -656,13 +686,9 @@
           <i class="fas fa-receipt"></i>
           <span>Recibos</span>
         </button>
-        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
-          <i class="fas fa-certificate"></i>
-          <span>Actividades</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
-          <i class="fas fa-calendar-day"></i>
-          <span>Calendario</span>
+        <button class="sidebar-btn" onclick="window.location.href='pagos.html'">
+          <i class="fas fa-credit-card"></i>
+          <span>Pagos</span>
         </button>
       </div>
       
@@ -672,10 +698,6 @@
         <button class="sidebar-btn" onclick="window.location.href='contador.html'">
           <i class="fas fa-umbrella-beach"></i>
           <span>Vacaciones</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='ajustes.html'">
-          <i class="fas fa-cog"></i>
-          <span>Ajustes</span>
         </button>
         <button class="sidebar-btn" onclick="cerrarSesion()">
           <i class="fas fa-sign-out-alt"></i>
@@ -698,21 +720,13 @@
           </div>
         </div>
         
-        <div class="career-info">
-          <select class="career-select" id="careerSelect">
-            <option>INGENIERÍA EN SISTEMAS COMPUTACIONALES</option>
-            <!-- Otras carreras vendrían de la base de datos -->
-          </select>
-          <div style="font-size: 0.875rem; margin-top: 0.5rem; color: #7f8c8d;">Estatus: Vigente</div>
-        </div>
-        
         <div class="semester-info">
           <div>
             <div class="semester-title">Semestre 6</div>
             <div class="semester-detail">Créditos totales: 260</div>
           </div>
           <div class="progress-container">
-            <span class="progress-text">Avance: 47%</span>
+            <span class="progress-text">Avance: 0%</span>
             <div class="progress-bar">
               <div class="progress-fill"></div>
             </div>
@@ -722,19 +736,19 @@
         <div class="stats-container">
           <div class="stats-box">
             <div class="stats-label">Créditos acumulados</div>
-            <div class="stats-value">122</div>
+            <div class="stats-value">0</div>
           </div>
           <div class="stats-box">
             <div class="stats-label">Materias aprobadas</div>
-            <div class="stats-value">15</div>
+            <div class="stats-value">0</div>
           </div>
           <div class="stats-box">
             <div class="stats-label">Materias reprobadas</div>
-            <div class="stats-value">3</div>
+            <div class="stats-value">0</div>
           </div>
           <div class="stats-box">
             <div class="stats-label">Materias por cursar</div>
-            <div class="stats-value">12</div>
+            <div class="stats-value">0</div>
           </div>
         </div>
         
@@ -770,60 +784,88 @@
   </div>
 
   <script>
-    // Datos del estudiante (esto vendría de una base de datos)
-    const studentData = {
-      name: "EDUARDO RIVERA AVILA",
-      id: "22220865",
-      career: "INGENIERÍA EN SISTEMAS COMPUTACIONALES",
-      semester: 6,
-      totalCredits: 260,
-      accumulatedCredits: 122,
-      progress: 47,
-      status: "Vigente",
-      subjects: [
-        { code: "SCF0900", name: "CALCULO DIFERENCIAL", grade: 7, credits: 3, status: "reprobated" },
-        { code: "SCF0902", name: "CALCULO INTEGRAL", grade: 7, credits: 3, status: "reprobated" },
-        { code: "SCF0904", name: "CALCULO VECTORIAL", grade: 90, credits: 3, status: "approved" },
-        { code: "SCF0905", name: "ECUACIONES DIFERENCIALES", grade: 0, credits: 3, status: "current" },
-        { code: "SCF0703", name: "GRAFICACIÓN", grade: 95, credits: 4, status: "approved" },
-        { code: "SCF0708", name: "LENGUAJES Y AUTOMATAS", grade: null, credits: 5, status: "pending" },
-        { code: "SCF0709", name: "LENGUAJES Y AUTOMATAS II", grade: null, credits: 5, status: "pending" },
-        { code: "IBR2020", name: "INVESTIGACIÓN", grade: null, credits: 10, status: "pending" },
-        { code: "SSE0303", name: "FUNDAMENTOS DE PROGRAMACIÓN", grade: 85, credits: 3, status: "approved" },
-        { code: "SSE0304", name: "PROGRAMACIÓN ORIENTADA A OBJETOS", grade: 70, credits: 5, status: "approved" },
-        { code: "SE0305", name: "ESTRUCTURAS DE DATOS", grade: 80, credits: 5, status: "approved" },
-        { code: "SSE0301", name: "MÉTODOS NUMÉRICOS", grade: 60, credits: 4, status: "approved" },
-        { code: "SSE0305", name: "FUNDAMENTOS DE TELECOMUNICACIONES", grade: 70, credits: 5, status: "approved" },
-        { code: "SCAG007", name: "TALLER DE ÉTICA", grade: 96, credits: 4, status: "approved" },
-        { code: "SLC1000", name: "CONTABILIDAD FINANCIERA", grade: 96, credits: 4, status: "approved" },
-        { code: "SLC1010", name: "INVESTIGACIÓN OPERATIVA", grade: 84, credits: 4, status: "approved" },
-        { code: "SLC1030", name: "TÓPICOS AVANZADOS DE PROGRAMACIÓN", grade: 90, credits: 5, status: "approved" },
-        { code: "SCAG003", name: "TALLER DE BASES DE DATOS", grade: 100, credits: 5, status: "approved" },
-        { code: "SCE1000", name: "ADMINISTRACIÓN DE BASES DE DATOS", grade: null, credits: 5, status: "pending" },
-        { code: "SCE1050", name: "INGENIERÍA DE SOFTWARE", grade: null, credits: 4, status: "pending" }
-      ]
-    };
+    // Datos base para las materias (versión gris sin calificaciones)
+    const baseSubjects = [
+      // PRIMER SEMESTRE
+      { code: "SCH-1024", name: "Taller de Administración", credits: 4 },
+      { code: "AED-1285", name: "Fundamentos de Programación", credits: 5 },
+      { code: "ACF-1058", name: "Matemáticas Discretas", credits: 4 },
+      { code: "ACA-0907", name: "Taller de Ética", credits: 4 },
+      { code: "AEF-1052", name: "Fundamentos de Investigación", credits: 3 },
+      { code: "ACF-0901", name: "Cálculo Diferencial", credits: 5 },
 
-    // Función para renderizar las materias
-    function renderSubjects() {
+      // SEGUNDO SEMESTRE
+      { code: "AED-1286", name: "Programación Orientada a Objetos", credits: 5 },
+      { code: "ACF-1058", name: "Química", credits: 4 },
+      { code: "AEF-1054", name: "Probabilidad y Estadística", credits: 5 },
+      { code: "ACF-1008", name: "Contabilidad Financiera", credits: 4 },
+      { code: "ACF-0903", name: "Álgebra Lineal", credits: 5 },
+      { code: "ACF-0902", name: "Cálculo Integral", credits: 5 },
+
+      // TERCER SEMESTRE
+      { code: "AED-1055", name: "Investigación de Operaciones", credits: 4 },
+      { code: "SCF-1006", name: "Física General", credits: 5 },
+      { code: "AEC-0902", name: "Cultura Empresarial", credits: 4 },
+      { code: "SCD-1008", name: "Estructura de Datos", credits: 5 },
+      { code: "AEC-0904", name: "Desarrollo Sustentable", credits: 4 },
+      { code: "ACF-0904", name: "Cálculo Vectorial", credits: 5 },
+
+      // CUARTO SEMESTRE
+      { code: "SCD-1027", name: "Tópicos Avanzados de Programación", credits: 4 },
+      { code: "SCD-1002", name: "Simulación", credits: 5 },
+      { code: "SCD-1009", name: "Principios Eléctricos y Aplicaciones Digitales", credits: 5 },
+      { code: "SCD-1002", name: "Métodos Numéricos", credits: 5 },
+      { code: "SCA-1025", name: "Fundamentos de Base de Datos", credits: 4 },
+      { code: "ACF-0905", name: "Ecuaciones Diferenciales", credits: 5 },
+
+      // QUINTO SEMESTRE
+      { code: "SCA-1025", name: "Taller de Base de Datos", credits: 4 },
+      { code: "SCC-1010", name: "Graficación", credits: 4 },
+      { code: "SCD-1012", name: "Fundamentos de Ingeniería de Software", credits: 6 },
+      { code: "SCD-1010", name: "Arquitectura de Computadoras", credits: 5 },
+      { code: "SCD-1026", name: "Sistemas Operativos I", credits: 4 },
+      { code: "SCC-1034", name: "Fundamentos de Telecomunicaciones", credits: 4 },
+
+      // SEXTO SEMESTRE
+      { code: "SCA-1032", name: "Taller de Sistemas Operativos", credits: 4 },
+      { code: "SCD-1021", name: "Redes de Computadoras", credits: 5 },
+      { code: "SCD-1015", name: "Lenguajes y Autómatas I", credits: 5 },
+      { code: "SCD-1003", name: "Lenguajes de Interfaz", credits: 4 },
+      { code: "SCD-1014", name: "Ingeniería de Software", credits: 5 },
+      { code: "SCB-1001", name: "Administración de Base de Datos", credits: 5 },
+
+      // SÉPTIMO SEMESTRE
+      { code: "SCD-1031", name: "Sistemas Programables", credits: 4 },
+      { code: "SCC-1019", name: "Programación Lógica y Funcional", credits: 4 },
+      { code: "SCD-1016", name: "Lenguajes y Autómatas II", credits: 5 },
+      { code: "SCD-1012", name: "Gestión de Proyectos de Software", credits: 6 },
+      { code: "SCD-1004", name: "Conmutación y Enrutamiento en Redes de Datos", credits: 4 },
+      { code: "SCD-1003", name: "Programación Web", credits: 4 },
+
+      // OCTAVO SEMESTRE
+      { code: "SCD-1003", name: "Tecnologías Web", credits: 4 },
+      { code: "CDC-2002", name: "Ciencia de Datos", credits: 4 },
+      { code: "SCC-1012", name: "Inteligencia Artificial", credits: 4 },
+      { code: "SCD-1001", name: "Administración de Redes", credits: 4 },
+      { code: "ACA-0909", name: "Taller de Investigación I", credits: 4 },
+
+      // NOVENO SEMESTRE
+      { code: "ACA-0910", name: "Taller de Investigación II", credits: 4 }
+    ];
+
+    // Función para renderizar las materias en versión base (gris)
+    function renderBaseSubjects() {
       const container = document.getElementById('subjectsContainer');
       container.innerHTML = '';
       
-      studentData.subjects.forEach(subject => {
+      baseSubjects.forEach(subject => {
         const card = document.createElement('div');
-        card.className = `subject-card ${subject.status}`;
-        
-        let gradeText = '';
-        if (subject.grade !== null) {
-          gradeText = subject.status === 'approved' || subject.status === 'reprobated' 
-            ? `Calificación: ${subject.grade}` 
-            : `Cursando`;
-        }
+        card.className = 'subject-card gray-card';
         
         card.innerHTML = `
           <div class="subject-code">${subject.code}</div>
           <div class="subject-name">${subject.name}</div>
-          <div class="subject-grade">${gradeText}</div>
+          <div class="subject-grade">Por cursar</div>
           <div class="subject-credits">Créditos: ${subject.credits}</div>
         `;
         
@@ -833,11 +875,11 @@
 
     // Inicialización
     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('studentName').textContent = studentData.name;
-      document.getElementById('studentId').textContent = studentData.id;
-      document.querySelector('.progress-fill').style.width = `${studentData.progress}%`;
+      document.getElementById('studentName').textContent = "EDUARDO RIVERA AVILA";
+      document.getElementById('studentId').textContent = "22220865";
+      document.querySelector('.progress-fill').style.width = `1%`;
       
-      renderSubjects();
+      renderBaseSubjects();
     });
 
     function toggleSidebar() {

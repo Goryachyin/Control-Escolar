@@ -436,10 +436,6 @@
       
       <div class="sidebar-section">
         <div class="sidebar-title">Académico</div>
-        <button class="sidebar-btn" onclick="window.location.href='kardex.html'">
-          <i class="fas fa-file-alt"></i>
-          <span>Kardex</span>
-        </button>
         <button class="sidebar-btn" onclick="window.location.href='horario.html'">
           <i class="fas fa-calendar-alt"></i>
           <span>Horario</span>
@@ -448,21 +444,21 @@
           <i class="fas fa-clipboard-check"></i>
           <span>Calificaciones</span>
         </button>
+        <button class="sidebar-btn" onclick="window.location.href='kardex.html'">
+          <i class="fas fa-file-alt"></i>
+          <span>Kardex</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
+          <i class="fas fa-calendar-day"></i>
+          <span>Calendario</span>
+        </button>
         <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
           <i class="fas fa-book"></i>
           <span>Carga de Materias</span>
         </button>
-      </div>
-      
-      <div class="sidebar-section">
-        <div class="sidebar-title">Personal</div>
-        <button class="sidebar-btn" onclick="window.location.href='perfil.html'">
-          <i class="fas fa-user"></i>
-          <span>Mi Perfil</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='editar_datos.html'">
-          <i class="fas fa-edit"></i>
-          <span>Editar Datos</span>
+        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
+          <i class="fas fa-certificate"></i>
+          <span>Actividades complementarias</span>
         </button>
       </div>
       
@@ -472,13 +468,9 @@
           <i class="fas fa-receipt"></i>
           <span>Recibos</span>
         </button>
-        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
-          <i class="fas fa-certificate"></i>
-          <span>Actividades</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
-          <i class="fas fa-calendar-day"></i>
-          <span>Calendario</span>
+        <button class="sidebar-btn" onclick="window.location.href='pagos.html'">
+          <i class="fas fa-credit-card"></i>
+          <span>Pagos</span>
         </button>
       </div>
       
@@ -488,10 +480,6 @@
         <button class="sidebar-btn active" onclick="window.location.href='contador.html'">
           <i class="fas fa-umbrella-beach"></i>
           <span>Vacaciones</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='ajustes.html'">
-          <i class="fas fa-cog"></i>
-          <span>Ajustes</span>
         </button>
         <button class="sidebar-btn" onclick="cerrarSesion()">
           <i class="fas fa-sign-out-alt"></i>
@@ -503,8 +491,8 @@
     <div class="content" id="mainContent">
       <!-- Panel del contador de vacaciones -->
       <div class="vacation-container">
-        <h1>FIN DE VACACIONES</h1>
-        <h2>¡Disfruta! Solo quedan...</h2>
+        <h1>FIN DE SEMESTRE</h1>
+        <h2>¡Aguanta! Solo quedan...</h2>
         
         <div class="countdown">
           <div class="countdown-box">
@@ -530,11 +518,11 @@
         </div>
         
         <div class="status">
-          Estatus: <span class="status-value">Vacaciones en curso...</span>
+          Estatus: <span class="status-value">Semestre en curso...</span>
         </div>
         
         <div class="end-date">
-          Las vacaciones terminan el: <strong>Lunes 28 de Abril 2025</strong>
+          El semestre termina el: <strong>Viernes 6 de Junio 2025</strong>
         </div>
       </div>
     </div>
@@ -578,7 +566,7 @@
     });
 
     // Contador de vacaciones
-    const endDate = new Date(2025, 3, 28, 0, 0, 0); // Mes 3 = Abril (0-11)
+    const endDate = new Date(2025, 5, 6, 0, 0, 0); // Mes 5 = Junio (0-11), 6 de junio 2025
     
     function updateCountdown() {
       const now = new Date();
@@ -589,7 +577,7 @@
         document.getElementById('hours').textContent = '00';
         document.getElementById('minutes').textContent = '00';
         document.getElementById('seconds').textContent = '00';
-        document.querySelector('.status-value').textContent = '¡Vacaciones terminadas!';
+        document.querySelector('.status-value').textContent = '¡Semestre terminado!';
         document.getElementById('progress-bar').style.width = '100%';
         return;
       }
@@ -604,10 +592,11 @@
       document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
       document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
       
-      const totalVacationDays = 14;
+      // Calcular progreso del semestre (asumiendo un semestre de 16 semanas)
+      const totalSemesterDays = 16 * 7; // 16 semanas
       const daysLeft = days;
-      const daysPassed = totalVacationDays - daysLeft;
-      const progress = (daysPassed / totalVacationDays) * 100;
+      const daysPassed = totalSemesterDays - daysLeft;
+      const progress = (daysPassed / totalSemesterDays) * 100;
       document.getElementById('progress-bar').style.width = `${progress}%`;
     }
     

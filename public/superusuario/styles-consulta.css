@@ -6,31 +6,44 @@
     --background: #f8f9fa;
     --card: #ffffff;
     --border: #e9ecef;
-    --error: #ef233c;
     --success: #2ec4b6;
+    --success-light: #e8f7f6;
+    --error: #ef233c;
+    --error-light: #fde8ea;
 }
 
+/* Scrollable content area */
 .confirm-data {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: var(--primary-light);
-    border-radius: 6px;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    max-height: calc(70vh - 120px);
+    /* Adjust based on your needs */
+    max-width: 850px;
+    /* Limit width to 850px */
+    padding-right: 10px;
+    /* Prevent content from touching scrollbar */
+    margin-bottom: 15px;
 }
 
 .confirm-data p {
     margin: 8px 0;
     font-size: 15px;
+    margin-left: 25px;
 }
 
 .confirm-data strong {
     color: var(--primary);
 }
 
+/* Fixed buttons at bottom */
 .modal-actions {
+    margin-top: auto;
+    /* Push to bottom */
+    padding-top: 15px;
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 20px;
+    border-top: 1px solid #eee;
 }
 
 .btn-secondary {
@@ -90,16 +103,19 @@
 
 body {
     font-family: 'Inter', sans-serif;
+    font-size: 16px;
     background-color: var(--background);
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.7;
     padding: 20px;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
+    /* Cambiado de 800px a 1000px */
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px;
+    /* Aumentado el padding lateral */
 }
 
 .header {
@@ -111,13 +127,13 @@ body {
 }
 
 .header-icon {
-    font-size: 28px;
+    font-size: 32px;
     margin-right: 15px;
     color: var(--primary);
 }
 
 .header-title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 600;
     color: var(--text);
 }
@@ -126,14 +142,14 @@ body {
     background-color: var(--card);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    padding: 25px;
+    padding: 30px;
     margin-bottom: 25px;
 }
 
 .card-title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: var(--primary);
     display: flex;
     align-items: center;
@@ -144,7 +160,7 @@ body {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 label {
@@ -181,7 +197,7 @@ input[readonly] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 24px;
+    padding: 14px 28px;
     border-radius: 6px;
     font-weight: 500;
     font-size: 15px;
@@ -244,7 +260,6 @@ input[readonly] {
     }
 }
 
-/* Modal de error */
 .modal {
     position: fixed;
     top: 0;
@@ -252,21 +267,23 @@ input[readonly] {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1001;
-    display: none;
+    z-index: 1000;
 }
 
 .modal-content {
-    background-color: var(--card);
-    padding: 25px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    position: relative;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 900px;
+    /* Limit width to 900px */
+    max-height: 80vh;
+    /* Limit height to 80% of viewport */
+    display: flex;
+    flex-direction: column;
 }
 
 .close {
@@ -288,6 +305,13 @@ input[readonly] {
     font-size: 15px;
 }
 
+@media (min-width: 1200px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 columnas en pantallas muy grandes */
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .grid-container {
@@ -297,4 +321,351 @@ input[readonly] {
     .card {
         padding: 20px;
     }
+}
+
+/* Estilos adicionales para el registro masivo */
+.materia-form {
+    margin-bottom: 20px;
+}
+
+.materia-form h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.materias-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.materia-item {
+    background-color: var(--primary-light);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.materia-item h4 {
+    margin-top: 0;
+    color: var(--primary);
+}
+
+/* Content styles */
+.materia-confirm {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.confirm-data hr {
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+#cantidadMaterias {
+    width: 80px;
+    margin-right: 10px;
+}
+
+#generarFormulariosBtn {
+    padding: 10px 15px;
+}
+
+#submitContainer {
+    margin-top: 20px;
+}
+
+.error-details {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid var(--error);
+}
+
+.error-details h4 {
+    margin-top: 0;
+    color: var(--error);
+}
+
+.error-item {
+    padding: 8px;
+    margin-bottom: 5px;
+    background-color: white;
+    border-radius: 4px;
+    border-left: 3px solid var(--error);
+}
+
+.error-item strong {
+    color: var(--text);
+}
+
+.error-item p {
+    margin: 5px 0 0 0;
+    color: var(--text-light);
+}
+
+/* Estilos para modales diferenciados */
+.success-modal {
+    border-left: 5px solid var(--success);
+}
+
+.error-modal {
+    border-left: 5px solid var(--error);
+}
+
+.success-message {
+    color: var(--text);
+    background-color: var(--success-light);
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.error-message {
+    color: var(--text);
+    background-color: var(--error-light);
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+    white-space: pre-wrap;
+}
+
+.btn-success {
+    background-color: var(--success);
+}
+
+.btn-error {
+    background-color: var(--error);
+}
+
+/* Estilos para el registro de docentes */
+/*
+.carrera-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--primary-light);
+    border-radius: 8px;
+}
+
+.carrera-group h3 {
+    margin-top: 0;
+    color: var(--primary);
+}
+
+.materia-item {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    border-left: 3px solid var(--primary);
+}
+
+.grupo-options {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: var(--background);
+    border-radius: 5px;
+}
+
+.grupo-options label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.grupo-options input {
+    margin-left: 5px;
+    padding: 5px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+*/
+
+/* Estilos para los modales */
+.success-modal {
+    border-left: 5px solid var(--success);
+}
+
+.error-modal {
+    border-left: 5px solid var(--error);
+}
+
+.success-message {
+    color: var(--text);
+    background-color: var(--success-light);
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.error-message {
+    color: var(--text);
+    background-color: var(--error-light);
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+    white-space: pre-wrap;
+}
+
+.btn-success {
+    background-color: var(--success);
+}
+
+.btn-error {
+    background-color: var(--error);
+}
+
+/* Contenedor general */
+#materiasContainer {
+    padding: 1rem;
+    font-family: Arial, sans-serif;
+}
+
+/* Sección de cada carrera */
+.carrera-group {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.carrera-group h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.3rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+/* Cada materia */
+.materia-item {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.materia-item label {
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    line-height: 1.4;
+    font-size: 15px;
+    padding: 8px 0;
+}
+
+/* Estilo para el nombre de la materia */
+.materia-nombre {
+    flex: 1;
+    min-width: 0;
+    /* Permite que el texto se trunque correctamente */
+}
+
+/* Estilo para el semestre entre paréntesis */
+.materia-semestre {
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* Contenedor flexible para alinear nombre y semestre */
+.materia-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    width: 100%;
+}
+
+.materia-item input[type="checkbox"] {
+    width: 16px;
+    /* Ancho visible */
+    height: 16px;
+    /* Alto visible */
+    margin: 0 8px 0 0;
+    /* Margen solo a la derecha */
+    padding: 0;
+    /* Eliminar padding interno */
+    transform: scale(1);
+    /* Resetear transform si existía */
+    position: relative;
+    /* Para manejar posicionamiento */
+    flex-shrink: 0;
+    /* Evita que se reduzca */
+}
+
+.materia-confirm h4 {
+    margin-top: 0;
+    color: var(--primary);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* Contenedor de campos adicionales */
+.grupo-options {
+    margin-top: 1rem;
+    background-color: #f0f4f8;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px dashed #ccc;
+}
+
+.grupo-options label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+
+.grupo-options input[type="text"],
+.grupo-options input[type="time"],
+.grupo-options input[type="number"] {
+    padding: 0.4rem;
+    width: 100%;
+    max-width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    margin-top: 0.2rem;
+}
+
+/* Checkbox de días de la semana */
+.dias-semana {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.dias-semana label {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.select-hora-entrada,
+.select-hora-salida {
+    width: 100%;
+    max-width: 250px;
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    margin-top: 0.2rem;
+}
+
+.select-hora-entrada:focus,
+.select-hora-salida:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
 }
