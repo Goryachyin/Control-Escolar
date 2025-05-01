@@ -10,10 +10,13 @@ const superuser = require('./controllers/superuser.js')
 const pool = require('./conexion.js').pool
 const port = process.env.PORT || 5500
 
+
+
 dotenv.config()
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'pages')))
 app.use(express.static(path.join(__dirname, 'public')))
+
 
 app.get('/', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
 app.get('/login', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'login.html')) })
@@ -49,6 +52,9 @@ app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' }) // Retorna JSON si ocurre un error
   }
 })
+
+
+
 app.post('/api/estudiante/login', authetications.methods.estudianteLogin)
 app.post('/api/superuser/registrar-persona', async (req, res) => {
   console.log('🔹 Recibiendo solicitud para registrar persona... (index, linea 35)')
