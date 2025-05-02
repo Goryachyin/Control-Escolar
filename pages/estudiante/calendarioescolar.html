@@ -1,9 +1,5 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendario Escolar</title>
 </head>
 <body>
     <!-- Panel de Calendario Escolar -->
@@ -16,6 +12,19 @@
   </div>
   
   <script>
+
+  // Función para hacer scroll automático al mes actual
+    window.addEventListener('load', () => {
+    const now = new Date();
+    const currentMonthIndex = now.getMonth(); // 0 = Enero, 1 = Febrero, etc.
+    const calendar = document.getElementById('calendar');
+    const monthPanels = calendar.children;
+
+    if (monthPanels[currentMonthIndex]) {
+      monthPanels[currentMonthIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+   });
+
     const months = [
       "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
       "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
