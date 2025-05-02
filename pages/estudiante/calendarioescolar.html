@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYAPT EDUCATION - Calendario Escolar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4a6b8a;
+      --primary-dark: #3a576f;
+      --primary-light: #e1e7ed;
+      --accent: #ffab40;
+      --text-primary: #212121;
+      --text-secondary: #757575;
+      --divider: #e0e0e0;
+      --background: #f5f7fa;
+      --card-bg: #ffffff;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
+      --info: #2196f3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--primary);
+      color: white;
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 64px;
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .school-logo {
+      height: 36px;
+      width: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      font-weight: 400;
+      margin-left: 0.5rem;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+      margin-right: 0.5rem;
+    }
+
+    .toggle-btn:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .top-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-btn {
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .header-btn:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 50px;
+      transition: background-color 0.2s;
+    }
+
+    .user-profile:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .profile-image {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .username {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Main Layout */
+    .main {
+      display: flex;
+      flex: 1;
+      margin-top: 64px;
+      height: calc(100vh - 64px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 64px;
+      bottom: 0;
+      width: 240px;
+      background-color: #1b2631;
+      overflow-y: auto;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 999;
+      padding: 1rem 0;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar-section {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.6);
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      gap: 0.75rem;
+    }
+
+    .sidebar-btn:hover, .sidebar-btn.active {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-btn.active {
+      border-left: 3px solid var(--accent);
+      padding-left: calc(1.5rem - 3px);
+    }
+
+    .sidebar-btn i {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .sidebar-divider {
+      border: none;
+      height: 1px;
+      background-color: rgba(255,255,255,0.1);
+      margin: 1rem 1.5rem;
+    }
+
+    /* Content Area */
+    .content {
+      flex: 1;
+      margin-left: 240px;
+      padding: 20px;
+      overflow-y: auto;
+      transition: margin-left 0.3s ease;
+      background-color: var(--background);
+    }
+
+    .sidebar.hidden + .content {
+      margin-left: 0;
+    }
+
+    /* Estilos para el calendario */
+    .panel {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel-header {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--divider);
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.visible {
+        transform: translateX(0);
+      }
+      
+      .content {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-title {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header {
+        padding: 0.75rem 1rem;
+      }
+      
+      .header-btn span {
+        display: none;
+      }
+      
+      .username {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="school-info">
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
+      <div>
+        <span class="header-title">NYAPT EDUCATION</span>
+        <span class="header-subtitle">Edición Estudiantil</span>
+      </div>
+    </div>
+    <div class="top-buttons">
+      <button class="header-btn">
+        <i class="fas fa-question-circle"></i>
+        <span>Ayuda</span>
+      </button>
+      <button class="header-btn">
+        <i class="fas fa-bell"></i>
+        <span>Notificaciones</span>
+      </button>
+      <div class="user-profile" onclick="toggleUserMenu()">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <span class="username" id="username">Eduardo</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='inicio.html'">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Académico</div>
+        <button class="sidebar-btn" onclick="window.location.href='horario.html'">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Horario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calificaciones.html'">
+          <i class="fas fa-clipboard-check"></i>
+          <span>Calificaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='kardex.html'">
+          <i class="fas fa-file-alt"></i>
+          <span>Kardex</span>
+        </button>
+        <button class="sidebar-btn active" onclick="window.location.href='calendario.html'">
+          <i class="fas fa-calendar-day"></i>
+          <span>Calendario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
+          <i class="fas fa-book"></i>
+          <span>Carga de Materias</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
+          <i class="fas fa-certificate"></i>
+          <span>Actividades complementarias</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Servicios</div>
+        <button class="sidebar-btn" onclick="window.location.href='recibos.html'">
+          <i class="fas fa-receipt"></i>
+          <span>Recibos</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='pagos.html'">
+          <i class="fas fa-credit-card"></i>
+          <span>Pagos</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='contador.html'">
+          <i class="fas fa-umbrella-beach"></i>
+          <span>Vacaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="cerrarSesion()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="content" id="mainContent">
+      <!-- Panel de Calendario Escolar -->
+      <div class="panel">
+        <div class="panel-header">Calendario Escolar 2025</div>
+      
+        <div id="calendar" style="display: flex; flex-direction: column; gap: 40px; max-height: calc(100vh - 150px); overflow-y: auto; padding: 10px;">
+          <!-- Los meses se generarán aquí -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+      
+      // En móviles, queremos que el sidebar se superponga
+      if (window.innerWidth <= 992) {
+        sidebar.classList.toggle("visible");
+      }
+    }
+
+    function cerrarSesion() {
+      // Lógica para cerrar sesión
+      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+      }
+    }
+    
+    function toggleUserMenu() {
+      // Aquí podrías implementar un menú desplegable del perfil
+      console.log("Mostrar menú de usuario");
+    }
+    
+    // Cerrar sidebar al hacer clic fuera en móviles
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      
+      if (window.innerWidth <= 992 && 
+          !sidebar.contains(event.target) && 
+          !toggleBtn.contains(event.target) &&
+          sidebar.classList.contains('visible')) {
+        sidebar.classList.remove('visible');
+      }
+    });
+
+    // Generar calendario
+    const months = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    const daysOfWeek = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+
+    // Definir días especiales basados en el calendario escolar
+    const specialDays = {
+      // Vacaciones
+      "2025-04-14": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-15": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-16": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-17": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-18": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-21": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-22": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-23": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-24": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+      "2025-04-25": { type: "Vacaciones de Semana Santa", color: "#a5d6a7" },
+
+      "2025-07-07": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-08": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-09": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-10": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-11": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-14": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-15": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-16": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-17": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-18": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-21": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-22": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-23": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-24": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-25": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-28": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-29": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-30": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-07-31": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-08-01": { type: "Receso Escolar", color: "#a5d6a7" },
+
+      "2025-12-22": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-23": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-24": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-26": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-27": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-28": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-29": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-30": { type: "Receso Escolar", color: "#a5d6a7" },
+      "2025-12-31": { type: "Receso Escolar", color: "#a5d6a7" },
+      
+
+      // Inicio de cursos
+      "2025-02-04": { type: "Inicio de Cursos", color: "#ffcc80" },
+      "2025-08-25": { type: "Inicio de Cursos", color: "#ffcc80" },
+
+      // Suspensión de labores
+      "2025-02-03": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-01-01": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-03-17": { type: "Suspensión de labores (Natalicio Benito Juárez)", color: "#ef9a9a" },
+      "2025-05-01": { type: "Suspensión de labores (Día del Trabajo)", color: "#ef9a9a" },
+      "2025-05-05": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-05-15": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-09-16": { type: "Suspensión de labores (Independencia)", color: "#ef9a9a" },
+      "2025-10-01": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-11-18": { type: "Suspensión de labores (Revolución Mexicana)", color: "#ef9a9a" },
+      "2025-12-25": { type: "Suspensión de labores (Navidad)", color: "#ef9a9a" },
+
+      // Fin de curso
+      "2025-06-06": { type: "Fin de Curso", color: "#ffcc80" },
+       
+      //Selección de materias 
+      "2025-01-27": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-01-28": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-01-29": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-01-30": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-01-31": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-18": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-19": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-20": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-21": { type: "Selección de materias", color: "#7e86bc" },
+      "2025-08-22": { type: "Selección de materias", color: "#7e86bc" },
+
+      // Cursos de verano / intersemestrales
+      "2025-06-09": { type: "Inicio Cursos Intersemestrales Docentes", color: "#fff59d" },
+      "2025-07-04": { type: "Fin Cursos Intersemestrales Docentes", color: "#fff59d" },
+
+      // Inscripciones y Reinscripciones
+      "2025-01-21": { type: "Inicio Reinscripciones", color: "#ce93d8" },
+      "2025-08-11": { type: "Reinscripciones Nuevo Ingreso", color: "#ce93d8" },
+      "2025-08-12": { type: "Reinscripciones Nuevo Ingreso", color: "#ce93d8" },
+      "2025-08-13": { type: "Reinscripciones Nuevo Ingreso", color: "#ce93d8" },
+
+      //Cusos nuevo ingreso
+      "2025-08-14": { type: "Cursos de inducción nuevo ingreso", color: "#f37be4" },
+      "2025-08-15": { type: "Cursos de inducción nuevo ingreso", color: "#f37be4" },
+
+      // Honor a la bandera (primer lunes de cada mes, enero a junio)
+      "2025-03-03": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-05-06": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-04-07": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-06-02": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-09-01": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-10-06": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-11-03": { type: "Honores a la Bandera", color: "#90caf9" },
+      "2025-12-01": { type: "Honores a la Bandera", color: "#90caf9" }
+    };
+
+    function generateCalendar(year) {
+      const calendar = document.getElementById('calendar');
+
+      months.forEach((monthName, monthIndex) => {
+        const monthPanel = document.createElement('div');
+        monthPanel.style.background = "#f4f4f8";
+        monthPanel.style.padding = "20px";
+        monthPanel.style.borderRadius = "10px";
+        monthPanel.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
+        
+        const title = document.createElement('h3');
+        title.style.textAlign = "center";
+        title.style.color = "#4a6b8a";
+        title.style.marginBottom = "15px";
+        title.textContent = monthName + " " + year;
+        monthPanel.appendChild(title);
+
+        const daysGrid = document.createElement('div');
+        daysGrid.style.display = "grid";
+        daysGrid.style.gridTemplateColumns = "repeat(7, 1fr)";
+        daysGrid.style.gap = "8px";
+
+        // Encabezados de días
+        daysOfWeek.forEach(day => {
+          const dayHeader = document.createElement('div');
+          dayHeader.style.background = "#4a6b8a";
+          dayHeader.style.color = "white";
+          dayHeader.style.padding = "10px";
+          dayHeader.style.textAlign = "center";
+          dayHeader.style.borderRadius = "6px";
+          dayHeader.style.fontWeight = "bold";
+          dayHeader.textContent = day;
+          daysGrid.appendChild(dayHeader);
+        });
+
+        const firstDay = new Date(year, monthIndex, 1).getDay();
+        const totalDays = new Date(year, monthIndex + 1, 0).getDate();
+
+        // Espacios vacíos
+        for (let i = 0; i < firstDay; i++) {
+          const emptyCell = document.createElement('div');
+          emptyCell.style.background = "transparent";
+          daysGrid.appendChild(emptyCell);
+        }
+
+        // Días
+        for (let day = 1; day <= totalDays; day++) {
+          const date = new Date(year, monthIndex, day);
+          const dateString = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const dayCell = document.createElement('div');
+
+          // Verificar si el día es especial
+          if (specialDays[dateString]) {
+            dayCell.style.background = specialDays[dateString].color;
+            dayCell.title = specialDays[dateString].type;
+          } else {
+            dayCell.style.background = "#c8d3dd";
+          }
+
+          dayCell.style.padding = "10px";
+          dayCell.style.borderRadius = "6px";
+          dayCell.style.textAlign = "center";
+          dayCell.style.fontSize = "14px";
+          dayCell.style.color = "#37474f";
+          dayCell.innerHTML = `<strong>${day}</strong><br>${daysOfWeek[date.getDay()]}`;
+
+          daysGrid.appendChild(dayCell);
+        }
+
+        monthPanel.appendChild(daysGrid);
+        calendar.appendChild(monthPanel);
+      });
+    }
+
+    // Generar el calendario cuando la página cargue
+    window.onload = function() {
+      generateCalendar(2025);
+    };
+  </script>
+</body>
+</html>
