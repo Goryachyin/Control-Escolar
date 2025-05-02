@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grupos del Docente</title>
+  <title>NYAPT EDUCATION - Calificaciones</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -244,174 +244,103 @@
       margin-left: 0;
     }
 
-    /* Panel de Grupos */
-    .panel-container {
-      max-width: 1200px;
-      margin: 0 auto;
+    /* Estilos para la tabla de calificaciones */
+    .card {
       background-color: var(--card-bg);
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .container {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       overflow: hidden;
     }
 
-    .panel-header {
+    .header {
+      display: flex;
+      justify-content: space-between;
       background-color: var(--primary);
       color: white;
-      padding: 1.5rem 2rem;
+      padding: 1rem 1.5rem;
+      font-weight: 500;
     }
 
-    .panel-header h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
-    .panel-content {
-      padding: 2rem;
-    }
-
-    .data-table {
+    table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
-    .data-table th {
-      background-color: var(--primary);
-      color: var(--card-bg);
-      text-transform: uppercase;
-      text-align: left;
+    thead th {
+      background-color: var(--primary-light);
       padding: 1rem;
+      text-align: center;
       font-weight: 600;
       border-bottom: 2px solid var(--divider);
     }
 
-    .data-table td {
-      padding: 1rem;
-      text-align: left;
-      vertical-align: middle;
+    tbody tr {
       border-bottom: 1px solid var(--divider);
-    }
-
-    .data-table tr {
-      cursor: pointer;
       transition: background-color 0.2s;
     }
 
-    .data-table tr:not(.expanded-row):hover {
+    tbody tr:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    td {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .alumno-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-align: left !important;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       background-color: var(--primary-light);
-    }
-
-    .data-table tr.expanded-row {
-      background-color: var(--primary-light);
-    }
-
-    .data-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    /* Panel de detalles expandible */
-    .row-details {
-      display: none;
-      background-color: var(--card-bg);
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    .row-details.expanded {
-      display: table-row;
-    }
-
-    .row-details td {
-      padding: 0;
-    }
-
-    .details-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      padding: 1.5rem;
-    }
-
-    .details-section {
-      margin-bottom: 1rem;
-    }
-
-    .details-title {
-      font-size: 1.1rem;
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: var(--primary);
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--divider);
+      font-weight: bold;
     }
 
-    .details-grid {
-      display: grid;
-      grid-template-columns: max-content 1fr;
-      gap: 0.75rem 1rem;
-    }
-
-    .detail-label {
+    .nombre-id div:first-child {
       font-weight: 500;
+    }
+
+    .nombre-id div:last-child {
+      font-size: 0.8rem;
       color: var(--text-secondary);
     }
 
-    .detail-value {
-      color: var(--text-primary);
-    }
-
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-      margin-right: 10px;
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .refresh-btn {
-      background-color: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
+    .calificacion {
+      width: 60px;
+      padding: 0.5rem;
+      border: 1px solid var(--divider);
       border-radius: 4px;
-      cursor: pointer;
+      text-align: center;
       font-weight: 500;
-      display: flex;
-      align-items: center;
+      transition: all 0.2s;
     }
 
-    .refresh-btn:hover {
-      opacity: 0.9;
+    .calificacion:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(74, 107, 138, 0.2);
     }
 
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.5rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background-color: var(--primary);
-      color: white;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    /* Responsive */
     @media (max-width: 992px) {
       .sidebar {
         transform: translateX(-100%);
@@ -423,6 +352,7 @@
       
       .content {
         margin-left: 0;
+        padding: 1rem;
       }
     }
 
@@ -432,26 +362,22 @@
       }
       
       .content {
+        padding: 1rem 0.5rem;
+      }
+      
+      .card {
         padding: 1rem;
       }
       
-      .panel-content {
-        padding: 1rem;
-      }
-      
-      .data-table {
-        display: block;
-        overflow-x: auto;
-      }
-
-      .details-container {
-        grid-template-columns: 1fr;
-      }
-
-      .header-content {
+      .alumno-info {
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 0.5rem;
+      }
+      
+      .avatar {
+        width: 32px;
+        height: 32px;
       }
     }
 
@@ -466,6 +392,20 @@
       
       .username {
         display: none;
+      }
+      
+      thead th {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.8rem;
+      }
+      
+      td {
+        padding: 0.75rem 0.5rem;
+      }
+      
+      .calificacion {
+        width: 50px;
+        padding: 0.3rem;
       }
     }
   </style>
@@ -510,11 +450,11 @@
       
       <div class="sidebar-section">
         <div class="sidebar-title">Docencia</div>
-        <button class="sidebar-btn active" onclick="window.location.href='visual_grupo.html'">
+        <button class="sidebar-btn" onclick="window.location.href='visual_grupo.html'">
           <i class="fas fa-users"></i>
           <span>Mis Grupos</span>
         </button>
-        <button class="sidebar-btn" onclick="window.location.href='calificaciones.html'">
+        <button class="sidebar-btn active" onclick="window.location.href='calificaciones.html'">
           <i class="fas fa-clipboard-check"></i>
           <span>Calificaciones</span>
         </button>
@@ -555,37 +495,67 @@
     </div>
 
     <div class="content" id="mainContent">
-      <div class="panel-container">
-        <div class="panel-header">
-          <div class="header-content">
-            <h1>Mis Grupos</h1>
-            <button class="refresh-btn" id="refreshBtn">
-              <span class="loading" id="refreshLoading" style="display: none;"></span>
-              Actualizar
-            </button>
-          </div>
+      <div class="card">
+        <h2>Lista de Calificaciones</h2>
+        <div id="table-container"></div>
+      </div>
+      
+      <div class="container">
+        <div class="header">
+          <span>MATERIA</span>
+          <span>GRUPO</span>
+          <span>HORARIO</span>
+          <span>PERIODO</span>
         </div>
+    
+        <table>
+          <thead>
+            <tr>
+              <th>Alumnos</th>
+              <th>Unidad: 1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="alumno-info">
+                <div class="avatar">EA</div>
+                <div class="nombre-id">
+                  <div>Nombre Completo Alumno</div>
+                  <div>22320700</div>
+                </div>
+              </td>
+              <td><input class="calificacion" value="95" /></td>
+              <td><input class="calificacion" value="90" /></td>
+              <td><input class="calificacion" value="92" /></td>
+              <td><input class="calificacion" value="93" /></td>
+              <td><input class="calificacion" value="94" /></td>
+              <td><input class="calificacion" value="90" /></td>
+            </tr>
         
-        <div class="panel-content">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Materia</th>
-                <th>Periodo</th>
-                <th>Aula</th>
-                <th>Horario</th>
-                <th>Dias Impartidos</th>
-              </tr>
-            </thead>
-            <tbody id="gruposBody">
-              <tr>
-                <td colspan="6" style="text-align: center; padding: 2rem;">
-                  Cargando grupos...
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    
+            <!-- Puedes duplicar esta fila para más alumnos -->
+            <tr>
+              <td class="alumno-info">
+                <div class="avatar">OA</div>
+                <div class="nombre-id">
+                  <div>Otro Alumno</div>
+                  <div>22320701</div>
+                </div>
+              </td>
+              <td><input class="calificacion" value="85" /></td>
+              <td><input class="calificacion" value="80" /></td>
+              <td><input class="calificacion" value="87" /></td>
+              <td><input class="calificacion" value="88" /></td>
+              <td><input class="calificacion" value="86" /></td>
+              <td><input class="calificacion" value="89" /></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -627,96 +597,12 @@
       }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const refreshBtn = document.getElementById('refreshBtn');
-      const refreshLoading = document.getElementById('refreshLoading');
-      const gruposBody = document.getElementById('gruposBody');
-      
-      // ID del docente (debería obtenerse de la sesión o autenticación)
-      const idDocente = 'TEC32HESC170580'; // Reemplazar con el ID real del docente
-      
-      // Cargar grupos al iniciar
-      loadGruposDocente(idDocente);
+    function cargarCalificaciones() {
+      // Aquí iría la lógica para cargar las calificaciones desde una API
+      console.log("Cargando calificaciones...");
+    }
 
-      // Manejar clic en botón Actualizar
-      refreshBtn.addEventListener('click', function() {
-        loadGruposDocente(idDocente);
-      });
-
-      // Función para cargar los grupos del docente
-      function loadGruposDocente(docenteId) {
-        // Mostrar loading
-        refreshLoading.style.display = 'inline-block';
-        refreshBtn.disabled = true;
-        gruposBody.innerHTML = `
-          <tr>
-            <td colspan="6" style="text-align: center; padding: 2rem;">
-              Cargando grupos...
-            </td>
-          </tr>
-        `;
-        
-        fetch(`/api/docente/getGrupos/${docenteId}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Error al cargar grupos');
-            }
-            return response.json();
-          })
-          .then(grupos => {
-            renderGrupos(grupos);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            gruposBody.innerHTML = `
-              <tr>
-                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--error)">
-                  Error al cargar los grupos. Por favor intente nuevamente.
-                </td>
-              </tr>
-            `;
-          })
-          .finally(() => {
-            // Ocultar loading
-            refreshLoading.style.display = 'none';
-            refreshBtn.disabled = false;
-          });
-      }
-
-      // Función para renderizar los grupos
-      function renderGrupos(grupos) {
-        if (grupos.length === 0) {
-          gruposBody.innerHTML = `
-            <tr>
-              <td colspan="6" style="text-align: center; padding: 2rem;">
-                No tienes grupos asignados actualmente
-              </td>
-            </tr>
-          `;
-          return;
-        }
-
-        gruposBody.innerHTML = '';
-        console.log(grupos);
-        grupos.forEach((grupo, index) => {
-          const rowId = `row-${index}`;
-          const detailsId = `details-${index}`;
-          
-          // Crear fila principal
-          const row = document.createElement('tr');
-          row.dataset.grupoId = grupo.id_grupo;
-
-          row.innerHTML = `
-            <td>${grupo.nombre_materia}</td>
-            <td>${grupo.periodo}</td>
-            <td>${grupo.aula || 'No asignada'}</td>
-            <td>${grupo.horario_entrada} a ${grupo.horario_salida}</td>
-            <td>${grupo.dias_semana.join(', ')}</td>
-          `;
-          
-          gruposBody.appendChild(row);
-          });
-      }});
- </script>
+    document.addEventListener('DOMContentLoaded', cargarCalificaciones);
+  </script>
 </body>
 </html>
