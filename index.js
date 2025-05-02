@@ -398,7 +398,6 @@ app.get('/api/superuser/getMaxSemestre/:idCarrera', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener semestres' })
   }
 })
-
 app.get('/api/docente/getGrupos/:id_docente', async (req, res) => {
   try {
     const { id_docente } = req.params; // Obtener el id_docente de los query parameters
@@ -432,13 +431,25 @@ app.get('/api/docente/getGrupos/:id_docente', async (req, res) => {
     });
   }
 });
-
 app.post('/api/superuser/registrar-materias', async (req, res) => {
   try {
-    const { id_materia, id_docente, aula, horarioEntrada, horarioSalida, diasSeleccionados, cupo } = req.body
-    console.log('REQ.BODY: ', req.body)
-    console.log('🔍 Registrando grupo:', { id_materia, id_docente, aula, horarioEntrada, horarioSalida, diasSeleccionados, cupo })
-    res.json({ sucess: true, message: 'Grupo registrado exitosamente' }) // Respuesta de éxito
+    const result = await superuser.methods.registrarDocenteYMateria(req)
+
+    if (result.success === true) {
+      return res.status(201).json({
+        success: true,
+        message: 'Grupo registrado exitosamente',
+        data: result.data // Si tienes un ID a devolver
+      })
+    }
+
+    if (result.success === false) {
+      return res.status(400).json({
+        error: 'Error al registrar el grupo',
+        detalles: result.error
+      })
+    }
+    // res.json({ sucess: true, message: 'Grupo registrado exitosamente' }) // Respuesta de éxito
   } catch (error) {
     console.error('Error al registrar el grupo:', error)
     res.status(500).json({ error: error.message }) // Retorna JSON si ocurre un error

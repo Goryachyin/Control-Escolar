@@ -227,14 +227,44 @@ async function registrarMateriasEnLote (materias) {
   }
 }
 
-async function registrarDocenteMateria (materias) {
+async function registrarDocenteYMateria (req) {
+  try {
+    const grupos = req.body
 
+    for (const grupo of grupos) {
+      const { id_materia, id_docente, aula, horarioEntrada, horarioSalida, diasSeleccionados, cupo } = grupo
+      console.log('🔍 Registrando grupo:', { id_materia, id_docente, aula, horarioEntrada, horarioSalida, diasSeleccionados, cupo })
+
+      const query = `
+      INSERT INTO public.grupos(
+      id_materia, id_docente,  aula, horario_entrada, horario_salida, dias_semana, cupo)
+      VALUES ($1, $2, $3, $4, $5, $6, $7);
+      `
+
+      const values = [
+        id_materia,
+        id_docente,
+        aula,
+        horarioEntrada,
+        horarioSalida,
+        diasSeleccionados,
+        cupo
+      ]
+
+      await pool.query(query, values)
+      console.log(`✅ Grupo ${id_materia} insertado.`)
+    }
+
+    return { success: true }
+  } catch (error) {
+    console.error('❌ Error al registrar docente y materia en superuser:', error)
+    throw error
+  }
 }
-
 export const methods = {
   registrarPersona,
   registrarEstudiante,
   registrarDocente,
-  registrarMateriasEnLote, 
-  registrarDocenteMateria
+  registrarMateriasEnLote,
+  registrarDocenteYMateria
 }

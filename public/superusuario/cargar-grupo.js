@@ -338,7 +338,7 @@ async function confirmarRegistro () {
     const response = await fetch('/api/superuser/registrar-materias', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(materiasRegistradas[0])
+      body: JSON.stringify(materiasRegistradas)
     })
 
     if (!response.ok) {
