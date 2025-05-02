@@ -112,8 +112,129 @@ async function registrarDocente (req, res, docente) {
   }
 }
 
+async function registrarMateriasEnLote (materias) {
+  console.log('🔹 Iniciando registro masivo de materias...')
+  const client = await pool.connect()
+
+  try {
+    await client.query('BEGIN')
+    const resultados = []
+    const errores = []
+
+    for (const [index, materia] of materias.entries()) {
+      try {
+        // Validación individual
+        if (!materia.id_carrera || !materia.semestre || !materia.nombre_materia ||
+            !materia.creditos || !materia.id_materia) {
+          // eslint-disable-next-line no-throw-literal
+          throw {
+            code: 'INVALID_DATA',
+            message: `Materia ${index + 1}: Datos incompletos`,
+            materiaIndex: index
+          }
+        }
+
+        // Verificar carrera existe
+        const carreraCheck = await client.query(
+          'SELECT nombre_carrera FROM carreras_impartidas WHERE id_carrera = $1',
+          [materia.id_carrera]
+        )
+
+        if (carreraCheck.rows.length === 0) {
+          // eslint-disable-next-line no-throw-literal
+          throw {
+            code: 'CARRE_NOT_FOUND',
+            message: `Materia ${index + 1}: Carrera ${materia.id_carrera} no existe`,
+            materiaIndex: index
+          }
+        }
+
+        // Verificar ID materia único
+        const materiaCheck = await client.query(
+          'SELECT 1 FROM plan_estudios WHERE id_materia = $1',
+          [materia.id_materia]
+        )
+
+        if (materiaCheck.rows.length > 0) {
+          // eslint-disable-next-line no-throw-literal
+          throw {
+            code: 'MATERIA_DUPLICADA',
+            message: `Materia ${index + 1}: ID ${materia.id_materia} ya existe`,
+            materiaIndex: index
+          }
+        }
+
+        // Insertar materia
+        const result = await client.query(
+          `INSERT INTO plan_estudios(
+            id_carrera, semestre, nombre_materia, especialidad, creditos, id_materia
+          ) VALUES ($1, $2, $3, $4, $5, $6)
+          RETURNING id_materia, nombre_materia, id_carrera, semestre`,
+          [
+            materia.id_carrera,
+            materia.semestre,
+            materia.nombre_materia,
+            materia.especialidad,
+            materia.creditos,
+            materia.id_materia
+          ]
+        )
+
+        resultados.push({
+          ...result.rows[0],
+          nombre_carrera: carreraCheck.rows[0].nombre_carrera,
+          success: true,
+          materiaIndex: index
+        })
+      } catch (error) {
+        errores.push({
+          ...error,
+          materiaData: materia,
+          success: false
+        })
+      }
+    }
+
+    // Si hay errores y ningún éxito, hacer rollback completo
+    if (errores.length > 0 && resultados.length === 0) {
+      await client.query('ROLLBACK')
+      console.log('🔸 Rollback completo - Todos los registros fallaron')
+      return { success: false, errores }
+    }
+
+    // Si hay mezcla de éxitos y errores, commit parcial
+    if (errores.length > 0) {
+      await client.query('COMMIT')
+      console.log('🔸 Commit parcial - Algunos registros exitosos')
+      return {
+        success: 'partial',
+        resultados,
+        errores,
+        message: 'Algunas materias no se pudieron registrar'
+      }
+    }
+
+    // Todo exitoso
+    await client.query('COMMIT')
+    console.log('✅ Registro masivo completado - Todas las materias registradas')
+    return { success: true, resultados }
+  } catch (error) {
+    await client.query('ROLLBACK')
+    console.error('❌ Error en transacción:', error)
+    throw error
+  } finally {
+    client.release()
+  }
+}
+
+async function registrarDocenteMateria (materias) {
+
+}
+
 export const methods = {
   registrarPersona,
   registrarEstudiante,
-  registrarDocente
+  registrarDocente,
+  registrarMateriasEnLote, 
+  registrarDocenteMateria
 }

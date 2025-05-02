@@ -2,333 +2,1866 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>NYAPT EDUCATION EDITION</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYAPT EDUCATION - Panel Estudiantil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    :root {
+      --primary: #4a6b8a;
+      --primary-dark: #3a576f;
+      --primary-light: #e1e7ed;
+      --accent: #ffab40;
+      --text-primary: #212121;
+      --text-secondary: #757575;
+      --divider: #e0e0e0;
+      --background: #f5f7fa;
+      --card-bg: #ffffff;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
+      --info: #2196f3;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
+      background-color: var(--background);
+      color: var(--text-primary);
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* Header */
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background-color: #4a6b8a;
+      background-color: var(--primary);
       color: white;
-      padding: 10px 20px;
+      padding: 0.75rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 64px;
     }
 
     .school-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 1rem;
     }
 
-    .school-info img {
-      height: 40px;
-      width: 40px;
+    .school-logo {
+      height: 36px;
+      width: 36px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      font-weight: 400;
+      margin-left: 0.5rem;
     }
 
     .toggle-btn {
-      background-color: #37474f;
-      color: white;
+      background: none;
       border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
+      color: white;
+      font-size: 1.25rem;
       cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+      margin-right: 0.5rem;
     }
 
-    .top-buttons button {
-      margin-left: 10px;
-      background-color: #37474f;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
+    .toggle-btn:hover {
+      background-color: rgba(255,255,255,0.1);
     }
 
+    .top-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-btn {
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .header-btn:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 50px;
+      transition: background-color 0.2s;
+      position: relative;
+    }
+
+    .user-profile:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .profile-image {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .username {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* User dropdown menu */
+    .user-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 200px;
+      z-index: 1001;
+      display: none;
+      overflow: hidden;
+    }
+
+    .user-menu.show {
+      display: block;
+    }
+
+    .user-menu-header {
+      padding: 1rem;
+      background-color: var(--primary-light);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .user-menu-name {
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .user-menu-career {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .user-menu-item {
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .user-menu-item:hover {
+      background-color: var(--primary-light);
+    }
+
+    .user-menu-item i {
+      width: 20px;
+      text-align: center;
+      color: var(--primary);
+    }
+
+    .user-menu-divider {
+      border: none;
+      height: 1px;
+      background-color: var(--divider);
+      margin: 0;
+    }
+
+    /* Password change modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 2000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background-color: white;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 1rem 1.5rem;
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .password-field {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .password-field label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .password-field input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--divider);
+      border-radius: 6px;
+      font-size: 0.9375rem;
+    }
+
+    .password-field input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .checkbox-field {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-field input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .checkbox-field label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .modal-divider {
+      border: none;
+      height: 1px;
+      background-color: var(--divider);
+      margin: 1rem 0;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      background-color: var(--background);
+    }
+
+    .modal-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+    }
+
+    .modal-btn-cancel {
+      background-color: transparent;
+      color: var(--text-secondary);
+    }
+
+    .modal-btn-cancel:hover {
+      background-color: var(--divider);
+    }
+
+    .modal-btn-confirm {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .modal-btn-confirm:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Main Layout */
     .main {
       display: flex;
       flex: 1;
-      position: relative;
-      margin-top: 60px; /* Para compensar el header fijo */
-      height: calc(100vh - 60px);
+      margin-top: 64px;
+      height: calc(100vh - 64px);
     }
 
+    /* Sidebar */
     .sidebar {
       position: fixed;
       left: 0;
-      top: 60px;
+      top: 64px;
       bottom: 0;
-      width: 220px;
+      width: 240px;
       background-color: #1b2631;
-      color: white;
       overflow-y: auto;
       transform: translateX(0);
       transition: transform 0.3s ease;
-      z-index: 10;
+      z-index: 999;
+      padding: 1rem 0;
     }
 
     .sidebar.hidden {
       transform: translateX(-100%);
     }
 
-    .sidebar button {
-      display: block;
+    .sidebar-section {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.6);
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
       width: 100%;
-      padding: 15px;
+      padding: 0.75rem 1.5rem;
       border: none;
       background: none;
       color: white;
       text-align: left;
       cursor: pointer;
-      border-bottom: 1px solid #444;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      gap: 0.75rem;
     }
 
+    .sidebar-btn:hover, .sidebar-btn.active {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-btn.active {
+      border-left: 3px solid var(--accent);
+      padding-left: calc(1.5rem - 3px);
+    }
+
+    .sidebar-btn i {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .sidebar-divider {
+      border: none;
+      height: 1px;
+      background-color: rgba(255,255,255,0.1);
+      margin: 1rem 1.5rem;
+    }
+
+    /* Content Area */
     .content {
       flex: 1;
-      margin-left: 220px;
-      padding: 20px;
-      background-color: #f8f5f4;
+      margin-left: 240px;
+      padding: 2rem;
       overflow-y: auto;
       transition: margin-left 0.3s ease;
+      background-color: var(--background);
     }
 
     .sidebar.hidden + .content {
       margin-left: 0;
     }
 
-    .noticias {
-      width: 250px;
-      background-color: #eeeeff;
-      padding: 15px;
-      border-left: 1px solid #ccc;
-    }
-
-    .noticias h2 {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .noticia {
-      background-color: white;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .user-profile {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-    }
-    
-    .profile-image {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #fff;
-    }
-    
-    .top-buttons {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    /* inicio*/
-    body {
-      background-color: #f4f4f8;
-      padding: 20px;
-    }
-
-    .panel {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 25px;
-      max-width: 800px;
-      margin: 0 auto;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      color: #ffffff;
-      font-size: 24px;
-      margin-bottom: 5px;
-    }
-
-    h2 {
-      color: #1e1e3c;
-      font-size: 20px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-    }
-
-    .career-select {
-      margin-bottom: 25px;
-    }
-
-    .career-select select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: #f9f9f9;
-      margin-top: 5px;
-    }
-
-    .user-header {
+    /* Welcome Banner */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(74, 107, 138, 0.2);
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
+      gap: 1.5rem;
     }
 
-    .user-checkbox {
-      margin-right: 15px;
+    .welcome-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,0.3);
     }
 
-    .user-main-info {
+    .welcome-text {
       flex: 1;
     }
 
-    .user-name {
-      font-weight: bold;
-      margin-bottom: 3px;
+    .welcome-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
     }
 
-    .user-email {
-      color: #666;
-      font-size: 14px;
-    }
-
-    .user-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #ddd;
-      margin-right: 15px;
-      display: inline-block;
+    .welcome-subtitle {
+      font-size: 0.9375rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
     }
 
     .upload-btn {
-      padding: 8px 15px;
-      background-color: #4CAF50;
+      background-color: rgba(255,255,255,0.2);
       color: white;
       border: none;
-      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
       cursor: pointer;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s;
     }
 
     .upload-btn:hover {
-      background-color: #45a049;
+      background-color: rgba(255,255,255,0.3);
     }
 
-    .user-stats-table {
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      height: 100%;
+    }
+
+    .action-btn:hover {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .action-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .action-label {
+      font-size: 0.9375rem;
+      font-weight: 500;
+    }
+
+    /* Data Panel */
+    .data-panel {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .panel-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .panel-title i {
+      color: var(--primary);
+    }
+
+    .data-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
     }
 
-    .user-stats-table th, .user-stats-table td {
-      padding: 8px;
+    .data-table th {
       text-align: left;
-      border-bottom: 1px solid #eee;
+      padding: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--divider);
     }
 
-    .user-stats-table th {
-      color: #666;
-      font-weight: normal;
-    }
-
-    .promedios-section {
-      margin-bottom: 25px;
-    }
-
-    .promedio-item {
-      margin-bottom: 5px;
-    }
-
-    .divider {
-      border-top: 1px solid #eee;
-      margin: 20px 0;
-    }
-
-    .personal-data-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .personal-data-table td {
-      padding: 8px;
-      border-bottom: 1px solid #eee;
+    .data-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--divider);
       vertical-align: top;
     }
 
-    .personal-data-table td:first-child {
-      width: 40%;
-      color: #666;
+    .data-table tr:last-child td {
+      border-bottom: none;
     }
 
-    .section-title {
-      margin-bottom: 15px;
-      font-size: 18px;
+    .label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      width: 40%;
+    }
+
+    .value {
+      font-weight: 500;
+    }
+
+    /* Identification card - Mejorado */
+    .id-card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+      border: 1px solid var(--divider);
+    }
+
+    .id-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .id-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .id-title i {
+      color: var(--primary);
+      font-size: 1.1em;
+    }
+
+    .id-info {
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .id-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .id-number {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background-color: var(--primary-light);
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .id-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .id-detail-group {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+
+    .id-detail-group:hover {
+      background-color: var(--primary-light);
+    }
+
+    .id-detail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .id-detail-value {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+    }
+
+    /* News Section */
+    .news-section {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .news-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--divider);
+      display: flex;
+      gap: 1rem;
+    }
+
+    .news-item:last-child {
+      border-bottom: none;
+    }
+
+    .news-icon {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 0.25rem;
+    }
+
+    .news-content {
+      flex: 1;
+    }
+
+    .news-title {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-size: 1.0625rem;
+    }
+
+    .news-description {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .news-date {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    /* Collapsible Panels */
+    .collapsible-panel {
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background-color: var(--primary-light);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .panel-header:hover {
+      background-color: #d4e0eb;
+    }
+
+    .panel-title {
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .panel-title i {
+      color: var(--primary);
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .panel-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+    }
+
+    .panel-btn:hover {
+      background-color: rgba(74, 107, 138, 0.1);
+    }
+
+    .panel-btn i {
+      margin-right: 0.25rem;
+    }
+
+    .panel-content {
+      padding: 1rem;
+      background-color: var(--card-bg);
+      border-radius: 0 0 8px 8px;
+      border: 1px solid var(--divider);
+      border-top: none;
+      display: none;
+    }
+
+    .panel-content.show {
+      display: block;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .info-table tr:not(:last-child) {
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .info-table td {
+      padding: 0.75rem 0;
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: var(--text-secondary);
+      width: 40%;
+    }
+
+    .info-value {
+      font-weight: 500;
+    }
+
+    .edit-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--divider);
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.visible {
+        transform: translateX(0);
+      }
+      
+      .content {
+        margin-left: 0;
+      }
+      
+      .welcome-banner {
+        flex-direction: column;
+        text-align: center;
+      }
     }
 
     @media (max-width: 768px) {
-      .noticias {
+      .header-title {
         display: none;
       }
-      .content {
-        margin-left: 0 !important;
+      
+      .quick-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .id-details {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header {
+        padding: 0.75rem 1rem;
       }
       
+      .header-btn span {
+        display: none;
+      }
+      
+      .username {
+        display: none;
+      }
+      
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .id-details {
+        grid-template-columns: 1fr;
+      }
     }
+    .user-menu-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.user-menu-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary-dark);
+}
+
+.user-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+}
+
+.user-menu-icon {
+  width: 16px;
+  text-align: center;
+  color: inherit;
+}
   </style>
-  <script src="/estudiante/inicio_estudiante.js"></script>
 </head>
 <body>
 
   <header>
     <div class="school-info">
-        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
-        <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela">
-        <h1>NYAPT EDUCATION EDITION</h1>
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
+      <div>
+        <span class="header-title">NYAPT EDUCATION</span>
+        <span class="header-subtitle">Edición Estudiantil</span>
+      </div>
     </div>
     <div class="top-buttons">
-        <button>¿Necesita ayuda?</button>
-        <button>🔔 Notificaciones</button>
-        <div class="user-profile">
-            <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
-            <span id="username">Cargando ...</span>
+      <button class="header-btn">
+        <i class="fas fa-question-circle"></i>
+        <span>Ayuda</span>
+      </button>
+      <button class="header-btn">
+        <i class="fas fa-bell"></i>
+        <span>Notificaciones</span>
+      </button>
+      <div class="user-profile" id="userProfile">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <span class="username" id="nombre">Eduardo</span>
+        
+        <!-- User dropdown menu -->
+        <div class="user-menu" id="userMenu">
+          <div class="user-menu-header">
+            <div class="user-menu-name">
+              <i class="fas fa-user user-menu-icon"></i>
+              <span>Eduardo Rivera Avila</span>
+            </div>
+          </div>
+          <a href="#" class="user-menu-item" id="changePasswordBtn">
+            <i class="fas fa-key user-menu-icon"></i>
+            <span>Cambiar contraseña</span>
+          </a>
+          <div class="user-menu-divider"></div>
+          <a href="#" class="user-menu-item" onclick="cerrarSesion()">
+            <i class="fas fa-sign-out-alt user-menu-icon"></i>
+            <span>Salir</span>
+          </a>
         </div>
+      </div>
     </div>
-</header>
+  </header>
+
+  <!-- Password change modal -->
+  <div class="modal-overlay" id="passwordModal">
+    <div class="modal">
+      <div class="modal-header">Cambiar Contraseña</div>
+      <div class="modal-body">
+        <div class="password-field">
+          <div class="checkbox-field">
+            <input type="checkbox" id="currentPasswordCheck" checked disabled>
+            <label for="currentPasswordCheck">Contraseña Actual</label>
+          </div>
+          <input type="password" placeholder="Ingresa tu contraseña actual">
+        </div>
+        
+        <div class="password-field">
+          <div class="checkbox-field">
+            <input type="checkbox" id="newPasswordCheck" checked>
+            <label for="newPasswordCheck">Nueva Contraseña</label>
+          </div>
+          <input type="password" placeholder="Ingresa tu nueva contraseña">
+        </div>
+        
+        <div class="password-field">
+          <div class="checkbox-field">
+            <input type="checkbox" id="confirmPasswordCheck">
+            <label for="confirmPasswordCheck">Confirmar Nueva Contraseña</label>
+          </div>
+          <input type="password" placeholder="Confirma tu nueva contraseña">
+        </div>
+        
+        <div class="modal-divider"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-cancel" id="cancelPasswordBtn">CANCELAR</button>
+        <button class="modal-btn modal-btn-confirm">CONFIRMAR</button>
+      </div>
+    </div>
+  </div>
 
   <div class="main">
     <div class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <button class="sidebar-btn active" onclick="window.location.href='inicio.html'">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Académico</div>
+        <button class="sidebar-btn" onclick="window.location.href='horario.html'">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Horario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calificaciones.html'">
+          <i class="fas fa-clipboard-check"></i>
+          <span>Calificaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='kardex.html'">
+          <i class="fas fa-file-alt"></i>
+          <span>Kardex</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
+          <i class="fas fa-calendar-day"></i>
+          <span>Calendario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
+          <i class="fas fa-book"></i>
+          <span>Carga de Materias</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
+          <i class="fas fa-certificate"></i>
+          <span>Actividades complementarias</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Servicios</div>
+        <button class="sidebar-btn" onclick="window.location.href='recibos.html'">
+          <i class="fas fa-receipt"></i>
+          <span>Recibos</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='pagos.html'">
+          <i class="fas fa-credit-card"></i>
+          <span>Pagos</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='contador.html'">
+          <i class="fas fa-umbrella-beach"></i>
+          <span>Vacaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="cerrarSesion()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="content" id="mainContent">
+      <div class="welcome-banner">
+        <img src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="welcome-avatar">
+        <div class="welcome-text">
+          <h1 class="welcome-title" id="titulo-bienvenida">Bienvenida, Eduardo</h1>
+          <p class="welcome-subtitle" id="subtitulo-bienvenida">INGENIERÍA EN SISTEMAS COMPUTACIONALES</p>
+        </div>
+      </div>
+      
+      <!-- Identification Card -->
+      <div class="id-card">
+        <div class="id-header">
+          <h2 class="id-title">
+            <i class="fas fa-id-card"></i>
+            Identificación
+          </h2>
+        </div>
+        
+        <div class="id-info">
+          <div class="id-name">Correo institucional</div>
+          <div class="id-number">eduardo.rivera@nyapt.edu.mx</div>
+        </div>
+        
+        <div class="id-details">
+          <div class="id-detail-group">
+            <div class="id-detail-label">Carrera</div>
+            <div class="id-detail-value">ING. SISTEMAS 2010</div>
+          </div>
+          
+          <div class="id-detail-group">
+            <div class="id-detail-label">Semestre</div>
+            <div class="id-detail-value">5</div>
+          </div>
+          
+          <div class="id-detail-group">
+            <div class="id-detail-label">Prom. sin reprobadas</div>
+            <div class="id-detail-value">87.70</div>
+          </div>
+          
+          <div class="id-detail-group">
+            <div class="id-detail-label">Prom. con reprobadas</div>
+            <div class="id-detail-value">81.66</div>
+          </div>
+          
+          <div class="id-detail-group">
+            <div class="id-detail-label">Estatus</div>
+            <div class="id-detail-value">VIGENTE</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Collapsible Panel - Información Personal -->
+      <div class="collapsible-panel">
+        <div class="panel-header" onclick="togglePanel('personalInfoPanel')">
+          <div class="panel-title">
+            <i class="fas fa-user"></i>
+            Información Personal
+          </div>
+          <div class="panel-actions">
+            <button class="panel-btn edit-btn" onclick="editPanel('personalInfoPanel', event)">
+              <i class="fas fa-edit"></i>
+              <span class="edit-text">Editar</span>
+            </button>
+            <button class="panel-btn save-btn" onclick="savePanel('personalInfoPanel', event)" style="display: none;">
+              <i class="fas fa-save"></i>
+              <span>Guardar</span>
+            </button>
+          </div>
+        </div>
+        <div class="panel-content" id="personalInfoPanel">
+          <table class="info-table">
+            <tr>
+              <td class="info-label">Nombre Completo</td>
+              <td class="info-value" data-field="nombre">Eduardo Rivera Avila</td>
+            </tr>
+            <tr>
+              <td class="info-label">Fecha de Nacimiento</td>
+              <td class="info-value" data-field="fechaNacimiento">12/05/1995</td>
+            </tr>
+            <tr>
+              <td class="info-label">Género</td>
+              <td class="info-value" data-field="genero">Masculino</td>
+            </tr>
+            <tr>
+              <td class="info-label">CURP</td>
+              <td class="info-value" data-field="curp">RODAS50512MDFNN509</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Collapsible Panel - Información de Contacto -->
+      <div class="collapsible-panel">
+        <div class="panel-header" onclick="togglePanel('contactInfoPanel')">
+          <div class="panel-title">
+            <i class="fas fa-address-book"></i>
+            Información de Contacto
+          </div>
+          <div class="panel-actions">
+            <button class="panel-btn edit-btn" onclick="editPanel('contactInfoPanel', event)">
+              <i class="fas fa-edit"></i>
+              <span class="edit-text">Editar</span>
+            </button>
+            <button class="panel-btn save-btn" onclick="savePanel('contactInfoPanel', event)" style="display: none;">
+              <i class="fas fa-save"></i>
+              <span>Guardar</span>
+            </button>
+          </div>
+        </div>
+        <div class="panel-content" id="contactInfoPanel">
+          <table class="info-table">
+            <tr>
+              <td class="info-label">Correo Alternativo</td>
+              <td class="info-value" data-field="correoAlternativo">eduardo.rivera@gmail.com</td>
+            </tr>
+            <tr>
+              <td class="info-label">Teléfono</td>
+              <td class="info-value" data-field="telefono">55 1234 5678</td>
+            </tr>
+            <tr>
+              <td class="info-label">Teléfono de Emergencia</td>
+              <td class="info-value" data-field="telefonoEmergencia">55 9876 5432</td>
+            </tr>
+            <tr>
+              <td class="info-label">Dirección</td>
+              <td class="info-value" data-field="direccion">Calle Flores #123, Col. Jardines, CDMX, 01234</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <div class="news-section">
+        <h2 class="panel-title">
+          <i class="fas fa-bullhorn"></i>
+          Avisos y Noticias
+        </h2>
+        
+        <div class="news-item">
+          <div class="news-icon">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <div class="news-content">
+            <div class="news-title">Nuevo aviso académico</div>
+            <p class="news-description">Se ha publicado el calendario de exámenes finales para el semestre actual.</p>
+            <div class="news-date">Hoy, 10:45 AM</div>
+          </div>
+        </div>
+        
+        <div class="news-item">
+          <div class="news-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <div class="news-content">
+            <div class="news-title">Cambios en el calendario escolar</div>
+            <p class="news-description">Se han ajustado las fechas del periodo vacacional de primavera.</p>
+            <div class="news-date">Ayer, 3:30 PM</div>
+          </div>
+        </div>
+        
+        <div class="news-item">
+          <div class="news-icon">
+            <i class="fas fa-briefcase"></i>
+          </div>
+          <div class="news-content">
+            <div class="news-title">Feria de empleo próximamente</div>
+            <p class="news-description">No te pierdas la feria de empleo para estudiantes de ingeniería el próximo mes.</p>
+            <div class="news-date">15/06/2023</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+      
+      // En móviles, queremos que el sidebar se superponga
+      if (window.innerWidth <= 992) {
+        sidebar.classList.toggle("visible");
+      }
+    }
+
+    function cerrarSesion() {
+      // Lógica para cerrar sesión
+      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+      }
+    }
+    
+    // Toggle user menu
+    document.getElementById('userProfile').addEventListener('click', function(e) {
+      e.stopPropagation();
+      document.getElementById('userMenu').classList.toggle('show');
+    });
+    
+    // Close user menu when clicking outside
+    document.addEventListener('click', function() {
+      document.getElementById('userMenu').classList.remove('show');
+    });
+    
+    // Prevent menu from closing when clicking inside
+    document.getElementById('userMenu').addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+    
+    // Password change modal
+    document.getElementById('changePasswordBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('userMenu').classList.remove('show');
+      document.getElementById('passwordModal').classList.add('show');
+    });
+    
+    document.getElementById('cancelPasswordBtn').addEventListener('click', function() {
+      document.getElementById('passwordModal').classList.remove('show');
+    });
+    
+    // Close modal when clicking outside
+    document.getElementById('passwordModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('show');
+      }
+    });
+    
+    // Cerrar sidebar al hacer clic fuera en móviles
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      
+      if (window.innerWidth <= 992 && 
+          !sidebar.contains(event.target) && 
+          !toggleBtn.contains(event.target) &&
+          sidebar.classList.contains('visible')) {
+        sidebar.classList.remove('visible');
+      }
+    });
+
+    // Funciones para los paneles desplegables
+    function togglePanel(panelId) {
+      const panel = document.getElementById(panelId);
+      panel.classList.toggle('show');
+    }
+
+    function editPanel(panelId, event) {
+      event.stopPropagation(); // Evita que se cierre el panel al hacer clic en el botón
+      
+      const panel = document.getElementById(panelId);
+      const editBtn = panel.closest('.collapsible-panel').querySelector('.edit-btn');
+      const saveBtn = panel.closest('.collapsible-panel').querySelector('.save-btn');
+      
+      // Cambiar botones
+      editBtn.style.display = 'none';
+      saveBtn.style.display = 'block';
+      
+      // Hacer editables los campos
+      const fields = panel.querySelectorAll('.info-value');
+      fields.forEach(field => {
+        const originalValue = field.textContent;
+        const fieldName = field.getAttribute('data-field');
+        field.innerHTML = `<input type="text" class="edit-input" value="${originalValue}" data-field="${fieldName}">`;
+      });
+    }
+
+    function savePanel(panelId, event) {
+      event.stopPropagation(); // Evita que se cierre el panel al hacer clic en el botón
+      
+      const panel = document.getElementById(panelId);
+      const editBtn = panel.closest('.collapsible-panel').querySelector('.edit-btn');
+      const saveBtn = panel.closest('.collapsible-panel').querySelector('.save-btn');
+      
+      // Cambiar botones
+      editBtn.style.display = 'block';
+      saveBtn.style.display = 'none';
+      
+      // Guardar valores y volver a modo visualización
+      const fields = panel.querySelectorAll('.edit-input');
+      fields.forEach(input => {
+        const fieldName = input.getAttribute('data-field');
+        const fieldValue = input.value;
+        const fieldElement = panel.querySelector(`.info-value[data-field="${fieldName}"]`);
+        fieldElement.textContent = fieldValue;
+      });
+      
+      // Aquí podrías agregar código para guardar los cambios en el servidor
+      alert('Cambios guardados correctamente');
+    }
+
+    // Mostrar el primer panel por defecto
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('personalInfoPanel').classList.add('show');
+    });
+  </script>
+</body>
+</html>ont-size: 0.9375rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-btn {
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .upload-btn:hover {
+      background-color: rgba(255,255,255,0.3);
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      height: 100%;
+    }
+
+    .action-btn:hover {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .action-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .action-label {
+      font-size: 0.9375rem;
+      font-weight: 500;
+    }
+
+    /* Data Panel */
+    .data-panel {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .panel-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .panel-title i {
+      color: var(--primary);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .data-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--divider);
+      vertical-align: top;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      width: 40%;
+    }
+
+    .value {
+      font-weight: 500;
+    }
+
+    /* Identification card - Mejorado */
+    .id-card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+      border: 1px solid var(--divider);
+    }
+
+    .id-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .id-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .id-title i {
+      color: var(--primary);
+      font-size: 1.1em;
+    }
+
+    .id-info {
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .id-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .id-number {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background-color: var(--primary-light);
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .id-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .id-detail-group {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+
+    .id-detail-group:hover {
+      background-color: var(--primary-light);
+    }
+
+    .id-detail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .id-detail-value {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+    }
+
+    /* News Section */
+    .news-section {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .news-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--divider);
+      display: flex;
+      gap: 1rem;
+    }
+
+    .news-item:last-child {
+      border-bottom: none;
+    }
+
+    .news-icon {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 0.25rem;
+    }
+
+    .news-content {
+      flex: 1;
+    }
+
+    .news-title {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-size: 1.0625rem;
+    }
+
+    .news-description {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .news-date {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    /* Collapsible Panels */
+    .collapsible-panel {
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background-color: var(--primary-light);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .panel-header:hover {
+      background-color: #d4e0eb;
+    }
+
+    .panel-title {
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .panel-title i {
+      color: var(--primary);
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .panel-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+    }
+
+    .panel-btn:hover {
+      background-color: rgba(74, 107, 138, 0.1);
+    }
+
+    .panel-btn i {
+      margin-right: 0.25rem;
+    }
+
+    .panel-content {
+      padding: 1rem;
+      background-color: var(--card-bg);
+      border-radius: 0 0 8px 8px;
+      border: 1px solid var(--divider);
+      border-top: none;
+      display: none;
+    }
+
+    .panel-content.show {
+      display: block;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .info-table tr:not(:last-child) {
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .info-table td {
+      padding: 0.75rem 0;
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: var(--text-secondary);
+      width: 40%;
+    }
+
+    .info-value {
+      font-weight: 500;
+    }
+
+    .edit-input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--divider);
+      border-radius: 4px;
+      font-family: inherit;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.visible {
+        transform: translateX(0);
+      }
+      
+      .content {
+        margin-left: 0;
+      }
+      
+      .welcome-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-title {
+        display: none;
+      }
+      
+      .quick-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .id-details {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header {
+        padding: 0.75rem 1rem;
+      }
+      
+      .header-btn span {
+        display: none;
+      }
+      
+      .username {
+        display: none;
+      }
+      
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .id-details {
+        grid-template-columns: 1fr;
+      }
+    }
+    .user-menu-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.user-menu-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary-dark);
+}
+
+.user-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+}
+
+.user-menu-icon {
+  width: 16px;
+  text-align: center;
+  color: inherit;
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="school-info">
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
+      <div>
+        <span class="header-title">NYAPT EDUCATION</span>
+        <span class="header-subtitle">Edición Estudiantil</span>
+      </div>
+    </div>
+    <div class="top-buttons">
+      <button class="header-btn">
+        <i class="fas fa-question-circle"></i>
+        <span>Ayuda</span>
+      </button>
+      <button class="header-btn">
+        <i class="fas fa-bell"></i>
+        <span>Notificaciones</span>
+      </button>
+      <div class="user-profile" id="userProfile">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <span class="username" id="nombre">Eduardo</span>
+        
+        <!-- User dropdown menu -->
+        <div class="user-menu" id="userMenu">
+          <div class="user-menu-header">
+            <div class="user-menu-name">
+              <i class="fas fa-user user-menu-icon"></i>
+              <span>Eduardo Rivera Avila</span>
+            </div>
+          </div>
+          <a href="#" class="user-menu-item" id="changePasswordBtn">
+            <i class="fas fa-key user-menu-icon"></i>
+            <span>Cambiar contraseña</span>
+          </a>
+          <div class="user-menu-divider"></div>
+          <a href="#" class="user-menu-item" onclick="cerrarSesion()">
+            <i class="fas fa-sign-out-alt user-menu-icon"></i>
+            <span>Salir</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Password change modal -->
+  <div class="modal-overlay" id="passwordModal">
+    <div class="modal">
+      <div class="modal-header">Cambiar Contraseña</div>
+      <div class="modal-body">
+        <div class="password-field">
+          <div class="checkbox-field">
+            <input type="checkbox" id="currentPasswordCheck" checked disabled>
+            <label for="currentPasswordCheck">Contraseña Actual</label>
+          </div>
+          <input type="password" placeholder="Ingresa tu contraseña actual">
+        </div>
+        
+        <div class="password-field">
+          <div class="checkbox-field">
+            <input type="checkbox" id="newPasswordCheck" checked>
+            <label for="newPasswordCheck">Nueva Contraseña</label>
+          </div>
+          <input type="password" placeholder="Ingresa tu nueva contraseña">
+        </div>
+        
+        <div class="password-field">
+          <div class="checkbox-field">
+            <input type="checkbox" id="confirmPasswordCheck">
+            <label for="confirmPasswordCheck">Confirmar Nueva Contraseña</label>
+          </div>
+          <input type="password" placeholder="Confirma tu nueva contraseña">
+        </div>
+        
+        <div class="modal-divider"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-cancel" id="cancelPasswordBtn">CANCELAR</button>
+        <button class="modal-btn modal-btn-confirm">CONFIRMAR</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="sidebar" id="sidebar">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <button onclick="loadContent('inicio.html')">🏠 Inicio</button>
         <button onclick="location.href='editar_datos.html'">📘 Editar datos</button>
@@ -338,127 +1871,366 @@
         <button onclick="loadContent('ajustes.html')">⚙ Ajustes</button>
         <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
 =======
+=======
+      <div class="sidebar-section">
+        <button class="sidebar-btn active" onclick="window.location.href='inicio.html'">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </button>
+      </div>
+>>>>>>> main
       
-      <button onclick="window.location.href='inicio.html'">🏠 Inicio</button>
-      <button onclick="window.location.href='kardex.html'">📋 Kardex</button>
-      <button onclick="window.location.href='editar_datos.html'">📘 Editar datos</button>
-      <button onclick="window.location.href='horario.html'">📅 Horario</button>
-      <button onclick="window.location.href='calificaciones.html'">📚 Calificaciones</button>
-      <button onclick="window.location.href='perfil.html'">👤 Mi Perfil</button>
-      <button onclick="window.location.href='actividadescomplementarias.html'">📝 Histórico de actividades</button>
-      <button onclick="window.location.href='recibos.html'">💳 Recibos</button>
-      <button onclick="window.location.href='cargamaterrias.html'">📦 Carga de materias</button>
-      <button onclick="window.location.href='calendario.html'">🗓️ Calendario escolar</button>
-      <button onclick="window.location.href='contador.html'">🏖️ Contador de vacaciones</button>
-      <button onclick="window.location.href='ajustes.html'">⚙️ Ajustes</button>
-      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Académico</div>
+        <button class="sidebar-btn" onclick="window.location.href='horario.html'">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Horario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calificaciones.html'">
+          <i class="fas fa-clipboard-check"></i>
+          <span>Calificaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='kardex.html'">
+          <i class="fas fa-file-alt"></i>
+          <span>Kardex</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
+          <i class="fas fa-calendar-day"></i>
+          <span>Calendario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
+          <i class="fas fa-book"></i>
+          <span>Carga de Materias</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
+          <i class="fas fa-certificate"></i>
+          <span>Actividades complementarias</span>
+        </button>
+      </div>
       
+<<<<<<< HEAD
 >>>>>>> 4cc766ed0c38a9889b226e34027ff6333695324e
+=======
+      <div class="sidebar-section">
+        <div class="sidebar-title">Servicios</div>
+        <button class="sidebar-btn" onclick="window.location.href='recibos.html'">
+          <i class="fas fa-receipt"></i>
+          <span>Recibos</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='pagos.html'">
+          <i class="fas fa-credit-card"></i>
+          <span>Pagos</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='contador.html'">
+          <i class="fas fa-umbrella-beach"></i>
+          <span>Vacaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="cerrarSesion()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+>>>>>>> main
     </div>
 
     <div class="content" id="mainContent">
-        <!-- Contenido dinámico se cargará aquí -->
-        <body>
-          <div class="panel">
-            <h1>Inicio</h1>
-            <h2>IDENTIFICACIÓN</h2>
-            
-            <div class="career-select">
-              <label>Selecciona una carrera</label>
-              <select>
-                <option id="carrera">INGENIERÍA EN SISTEMAS COMPUTACIONALES</option>
-              </select>
-            </div>
-            
-            <div class="user-header">
-              <div class="user-avatar"></div> <!-- Avatar de usuario -->
-              <div class="user-main-info">
-                <div class="user-name" id="nombre">Cargando ...</div>
-                <div class="user-email" id="email">Cargando ...</div>
-              </div>
-              <input type="file" id="file-upload" style="display:none;">
-              <label for="file-upload" class="upload-btn">Subir Foto</label>
-            </div>
-            
-            <table class="user-stats-table">
-              <tr>
-                <th>No. Control</th>
-                <th>Semestre</th>
-              </tr>
-              <tr>
-                <td id="matricula">Cargando ...</td>
-                <td id="semestre">Cargando ...</td>
-              </tr>
-            </table>
-            
-            <div class="promedios-section">
-              <div class="promedio-item"><strong>Prom. sin reprobadas:</strong> <p id="promedioSR">Cargando ...</p></div>
-              <div class="promedio-item"><strong>Prom. con reprobadas:</strong> <p id="promedioCR">Cargando ...</p></div>
-              <div class="promedio-item"><strong>Estatus:</strong> <p id="estatus">Cargando ...</p></div>
-            </div>
-          </div>
+      <div class="welcome-banner">
+        <img src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="welcome-avatar">
+        <div class="welcome-text">
+          <h1 class="welcome-title" id="titulo-bienvenida">Bienvenida, Eduardo</h1>
+          <p class="welcome-subtitle" id="subtitulo-bienvenida">INGENIERÍA EN SISTEMAS COMPUTACIONALES</p>
+        </div>
+      </div>
+      
+      <!-- Identification Card -->
+      <div class="id-card">
+        <div class="id-header">
+          <h2 class="id-title">
+            <i class="fas fa-id-card"></i>
+            Identificación
+          </h2>
+        </div>
         
-          <div class="panel">
-            <h3 class="section-title">Datos personales</h3>
-            <table class="personal-data-table">
-              <tr>
-                <td>CURP</td>
-                <td>Cargando ...</td>
-              </tr>
-              <tr>
-                <td>Teléfono</td>
-                <td>Cargando ...</td>
-              </tr>
-              <tr>
-                <td>Correo personal</td>
-                <td>Cargando ...</td>
-              </tr>
-              <tr>
-                <td>Fecha de nacimiento</td>
-                <td>Cargando ...</td>
-              </tr>
-              <tr>
-                <td>Ciudad</td>
-                <td>Cargando ...</td>
-              </tr>
-              <tr>
-                <td>Colonia</td>
-                <td>Cargando ...</td>
-              </tr>
-              <tr>
-                <td>Calle</td>
-                <td>Cargando ...</td>
-              </tr>
-              <tr>
-                <td>Código Postal</td>
-                <td>Cargando ...</td>
-              </tr>
-            </table>
+        <div class="id-info">
+          <div class="id-name">Correo institucional</div>
+          <div class="id-number">eduardo.rivera@nyapt.edu.mx</div>
+        </div>
+        
+        <div class="id-details">
+          <div class="id-detail-group">
+            <div class="id-detail-label">Carrera</div>
+            <div class="id-detail-value">ING. SISTEMAS 2010</div>
           </div>
-        </body>
+          
+          <div class="id-detail-group">
+            <div class="id-detail-label">Semestre</div>
+            <div class="id-detail-value">5</div>
+          </div>
+          
+          <div class="id-detail-group">
+            <div class="id-detail-label">Prom. sin reprobadas</div>
+            <div class="id-detail-value">87.70</div>
+          </div>
+          
+          <div class="id-detail-group">
+            <div class="id-detail-label">Prom. con reprobadas</div>
+            <div class="id-detail-value">81.66</div>
+          </div>
+          
+          <div class="id-detail-group">
+            <div class="id-detail-label">Estatus</div>
+            <div class="id-detail-value">VIGENTE</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Collapsible Panel - Información Personal -->
+      <div class="collapsible-panel">
+        <div class="panel-header" onclick="togglePanel('personalInfoPanel')">
+          <div class="panel-title">
+            <i class="fas fa-user"></i>
+            Información Personal
+          </div>
+          <div class="panel-actions">
+            <button class="panel-btn edit-btn" onclick="editPanel('personalInfoPanel', event)">
+              <i class="fas fa-edit"></i>
+              <span class="edit-text">Editar</span>
+            </button>
+            <button class="panel-btn save-btn" onclick="savePanel('personalInfoPanel', event)" style="display: none;">
+              <i class="fas fa-save"></i>
+              <span>Guardar</span>
+            </button>
+          </div>
+        </div>
+        <div class="panel-content" id="personalInfoPanel">
+          <table class="info-table">
+            <tr>
+              <td class="info-label">Nombre Completo</td>
+              <td class="info-value" data-field="nombre">Eduardo Rivera Avila</td>
+            </tr>
+            <tr>
+              <td class="info-label">Fecha de Nacimiento</td>
+              <td class="info-value" data-field="fechaNacimiento">12/05/1995</td>
+            </tr>
+            <tr>
+              <td class="info-label">Género</td>
+              <td class="info-value" data-field="genero">Masculino</td>
+            </tr>
+            <tr>
+              <td class="info-label">CURP</td>
+              <td class="info-value" data-field="curp">RODAS50512MDFNN509</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Collapsible Panel - Información de Contacto -->
+      <div class="collapsible-panel">
+        <div class="panel-header" onclick="togglePanel('contactInfoPanel')">
+          <div class="panel-title">
+            <i class="fas fa-address-book"></i>
+            Información de Contacto
+          </div>
+          <div class="panel-actions">
+            <button class="panel-btn edit-btn" onclick="editPanel('contactInfoPanel', event)">
+              <i class="fas fa-edit"></i>
+              <span class="edit-text">Editar</span>
+            </button>
+            <button class="panel-btn save-btn" onclick="savePanel('contactInfoPanel', event)" style="display: none;">
+              <i class="fas fa-save"></i>
+              <span>Guardar</span>
+            </button>
+          </div>
+        </div>
+        <div class="panel-content" id="contactInfoPanel">
+          <table class="info-table">
+            <tr>
+              <td class="info-label">Correo Alternativo</td>
+              <td class="info-value" data-field="correoAlternativo">eduardo.rivera@gmail.com</td>
+            </tr>
+            <tr>
+              <td class="info-label">Teléfono</td>
+              <td class="info-value" data-field="telefono">55 1234 5678</td>
+            </tr>
+            <tr>
+              <td class="info-label">Teléfono de Emergencia</td>
+              <td class="info-value" data-field="telefonoEmergencia">55 9876 5432</td>
+            </tr>
+            <tr>
+              <td class="info-label">Dirección</td>
+              <td class="info-value" data-field="direccion">Calle Flores #123, Col. Jardines, CDMX, 01234</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <div class="news-section">
+        <h2 class="panel-title">
+          <i class="fas fa-bullhorn"></i>
+          Avisos y Noticias
+        </h2>
+        
+        <div class="news-item">
+          <div class="news-icon">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <div class="news-content">
+            <div class="news-title">Nuevo aviso académico</div>
+            <p class="news-description">Se ha publicado el calendario de exámenes finales para el semestre actual.</p>
+            <div class="news-date">Hoy, 10:45 AM</div>
+          </div>
+        </div>
+        
+        <div class="news-item">
+          <div class="news-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <div class="news-content">
+            <div class="news-title">Cambios en el calendario escolar</div>
+            <p class="news-description">Se han ajustado las fechas del periodo vacacional de primavera.</p>
+            <div class="news-date">Ayer, 3:30 PM</div>
+          </div>
+        </div>
+        
+        <div class="news-item">
+          <div class="news-icon">
+            <i class="fas fa-briefcase"></i>
+          </div>
+          <div class="news-content">
+            <div class="news-title">Feria de empleo próximamente</div>
+            <p class="news-description">No te pierdas la feria de empleo para estudiantes de ingeniería el próximo mes.</p>
+            <div class="news-date">15/06/2023</div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="noticias">
-        <h2>Centro de Noticias</h2>
-        <div class="noticia">📢 Nuevo aviso académico</div>
-        <div class="noticia">🗓 Cambios en el calendario escolar</div>
-        <div class="noticia">💼 Feria de empleo próximamente</div>
-    </div>
-</div>
-
-<script>
+  <script>
     function toggleSidebar() {
-        const sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("hidden");
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+      
+      // En móviles, queremos que el sidebar se superponga
+      if (window.innerWidth <= 992) {
+        sidebar.classList.toggle("visible");
+      }
     }
 
     function cerrarSesion() {
-        // Lógica para cerrar sesión
-        alert('Sesión cerrada');
-        localStorage.removeItem('token') // Elimina el token JWT
-        window.location.href = 'login.html';
+      // Lógica para cerrar sesión
+      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+      }
     }
-</script>
+    
+    // Toggle user menu
+    document.getElementById('userProfile').addEventListener('click', function(e) {
+      e.stopPropagation();
+      document.getElementById('userMenu').classList.toggle('show');
+    });
+    
+    // Close user menu when clicking outside
+    document.addEventListener('click', function() {
+      document.getElementById('userMenu').classList.remove('show');
+    });
+    
+    // Prevent menu from closing when clicking inside
+    document.getElementById('userMenu').addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+    
+    // Password change modal
+    document.getElementById('changePasswordBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('userMenu').classList.remove('show');
+      document.getElementById('passwordModal').classList.add('show');
+    });
+    
+    document.getElementById('cancelPasswordBtn').addEventListener('click', function() {
+      document.getElementById('passwordModal').classList.remove('show');
+    });
+    
+    // Close modal when clicking outside
+    document.getElementById('passwordModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('show');
+      }
+    });
+    
+    // Cerrar sidebar al hacer clic fuera en móviles
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      
+      if (window.innerWidth <= 992 && 
+          !sidebar.contains(event.target) && 
+          !toggleBtn.contains(event.target) &&
+          sidebar.classList.contains('visible')) {
+        sidebar.classList.remove('visible');
+      }
+    });
 
+    // Funciones para los paneles desplegables
+    function togglePanel(panelId) {
+      const panel = document.getElementById(panelId);
+      panel.classList.toggle('show');
+    }
+
+    function editPanel(panelId, event) {
+      event.stopPropagation(); // Evita que se cierre el panel al hacer clic en el botón
+      
+      const panel = document.getElementById(panelId);
+      const editBtn = panel.closest('.collapsible-panel').querySelector('.edit-btn');
+      const saveBtn = panel.closest('.collapsible-panel').querySelector('.save-btn');
+      
+      // Cambiar botones
+      editBtn.style.display = 'none';
+      saveBtn.style.display = 'block';
+      
+      // Hacer editables los campos
+      const fields = panel.querySelectorAll('.info-value');
+      fields.forEach(field => {
+        const originalValue = field.textContent;
+        const fieldName = field.getAttribute('data-field');
+        field.innerHTML = `<input type="text" class="edit-input" value="${originalValue}" data-field="${fieldName}">`;
+      });
+    }
+
+    function savePanel(panelId, event) {
+      event.stopPropagation(); // Evita que se cierre el panel al hacer clic en el botón
+      
+      const panel = document.getElementById(panelId);
+      const editBtn = panel.closest('.collapsible-panel').querySelector('.edit-btn');
+      const saveBtn = panel.closest('.collapsible-panel').querySelector('.save-btn');
+      
+      // Cambiar botones
+      editBtn.style.display = 'block';
+      saveBtn.style.display = 'none';
+      
+      // Guardar valores y volver a modo visualización
+      const fields = panel.querySelectorAll('.edit-input');
+      fields.forEach(input => {
+        const fieldName = input.getAttribute('data-field');
+        const fieldValue = input.value;
+        const fieldElement = panel.querySelector(`.info-value[data-field="${fieldName}"]`);
+        fieldElement.textContent = fieldValue;
+      });
+      
+      // Aquí podrías agregar código para guardar los cambios en el servidor
+      alert('Cambios guardados correctamente');
+    }
+
+    // Mostrar el primer panel por defecto
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('personalInfoPanel').classList.add('show');
+    });
+  </script>
 </body>
 </html>

@@ -14,15 +14,21 @@
 
 /* Scrollable content area */
 .confirm-data {
-    overflow-y: auto; /* Enable vertical scrolling */
-    max-height: calc(70vh - 120px); /* Adjust based on your needs */
-    padding-right: 10px; /* Prevent content from touching scrollbar */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    max-height: calc(70vh - 120px);
+    /* Adjust based on your needs */
+    max-width: 850px;
+    /* Limit width to 850px */
+    padding-right: 10px;
+    /* Prevent content from touching scrollbar */
     margin-bottom: 15px;
-  }
+}
 
 .confirm-data p {
     margin: 8px 0;
     font-size: 15px;
+    margin-left: 25px;
 }
 
 .confirm-data strong {
@@ -31,7 +37,8 @@
 
 /* Fixed buttons at bottom */
 .modal-actions {
-    margin-top: auto; /* Push to bottom */
+    margin-top: auto;
+    /* Push to bottom */
     padding-top: 15px;
     display: flex;
     justify-content: flex-end;
@@ -96,16 +103,19 @@
 
 body {
     font-family: 'Inter', sans-serif;
+    font-size: 16px;
     background-color: var(--background);
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.7;
     padding: 20px;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
+    /* Cambiado de 800px a 1000px */
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px;
+    /* Aumentado el padding lateral */
 }
 
 .header {
@@ -117,13 +127,13 @@ body {
 }
 
 .header-icon {
-    font-size: 28px;
+    font-size: 32px;
     margin-right: 15px;
     color: var(--primary);
 }
 
 .header-title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 600;
     color: var(--text);
 }
@@ -132,14 +142,14 @@ body {
     background-color: var(--card);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    padding: 25px;
+    padding: 30px;
     margin-bottom: 25px;
 }
 
 .card-title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: var(--primary);
     display: flex;
     align-items: center;
@@ -150,7 +160,7 @@ body {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 label {
@@ -187,7 +197,7 @@ input[readonly] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 24px;
+    padding: 14px 28px;
     border-radius: 6px;
     font-weight: 500;
     font-size: 15px;
@@ -268,8 +278,10 @@ input[readonly] {
     padding: 20px;
     border-radius: 8px;
     width: 80%;
-    max-width: 700px;
-    max-height: 80vh; /* Limit height to 80% of viewport */
+    max-width: 900px;
+    /* Limit width to 900px */
+    max-height: 80vh;
+    /* Limit height to 80% of viewport */
     display: flex;
     flex-direction: column;
 }
@@ -291,6 +303,13 @@ input[readonly] {
     color: var(--error);
     margin-top: 15px;
     font-size: 15px;
+}
+
+@media (min-width: 1200px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 columnas en pantallas muy grandes */
+    }
 }
 
 /* Responsive */
@@ -338,18 +357,13 @@ input[readonly] {
     padding: 10px;
     background-color: #f8f9fa;
     border-radius: 5px;
-  }
-  
-  .materia-confirm h4 {
-    margin-top: 0;
-    color: #2c3e50;
-  }
-  
-  .confirm-data hr {
+}
+
+.confirm-data hr {
     margin: 15px 0;
     border: 0;
     border-top: 1px solid #eee;
-  }
+}
 
 #cantidadMaterias {
     width: 80px;
@@ -515,7 +529,7 @@ input[readonly] {
     border: 1px solid #ccc;
     border-radius: 12px;
     margin-bottom: 2rem;
-    padding: 1rem 1.5rem;
+    padding: 20px;
     background-color: #f9f9f9;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
 }
@@ -537,13 +551,63 @@ input[readonly] {
     border-radius: 10px;
 }
 
-/* Checkbox y nombre materia */
 .materia-item label {
-    font-weight: 500;
-    color: #444;
+    font-weight: 600;
+    color: var(--text);
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.8rem;
+    line-height: 1.4;
+    font-size: 15px;
+    padding: 8px 0;
+}
+
+/* Estilo para el nombre de la materia */
+.materia-nombre {
+    flex: 1;
+    min-width: 0;
+    /* Permite que el texto se trunque correctamente */
+}
+
+/* Estilo para el semestre entre paréntesis */
+.materia-semestre {
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* Contenedor flexible para alinear nombre y semestre */
+.materia-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    width: 100%;
+}
+
+.materia-item input[type="checkbox"] {
+    width: 16px;
+    /* Ancho visible */
+    height: 16px;
+    /* Alto visible */
+    margin: 0 8px 0 0;
+    /* Margen solo a la derecha */
+    padding: 0;
+    /* Eliminar padding interno */
+    transform: scale(1);
+    /* Resetear transform si existía */
+    position: relative;
+    /* Para manejar posicionamiento */
+    flex-shrink: 0;
+    /* Evita que se reduzca */
+}
+
+.materia-confirm h4 {
+    margin-top: 0;
+    color: var(--primary);
+    font-size: 1.4rem;
+    font-weight: 600;
 }
 
 /* Contenedor de campos adicionales */
@@ -561,6 +625,7 @@ input[readonly] {
     font-size: 0.95rem;
     color: #333;
 }
+
 
 .grupo-options input[type="text"],
 .grupo-options input[type="time"],
@@ -604,4 +669,3 @@ input[readonly] {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
 }
-
