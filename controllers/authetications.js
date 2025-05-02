@@ -26,7 +26,7 @@ async function estudianteLogin (req, res) {
       const token = jwt.sign(
         { id: usuario.id, numeroControl: usuario.numero_control },
         process.env.JWT_SECRET,
-        { expiresIn: '1m' }
+        { expiresIn: '1h' }
       )
 
       console.log('✅ Login exitoso, enviando token...(Authetications, linea 32)')

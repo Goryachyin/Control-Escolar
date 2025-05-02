@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupos del Docente</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4a6b8a;
+      --primary-dark: #3a576f;
+      --primary-light: #e1e7ed;
+      --accent: #ffab40;
+      --text-primary: #212121;
+      --text-secondary: #757575;
+      --divider: #e0e0e0;
+      --background: #f5f7fa;
+      --card-bg: #ffffff;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
+      --info: #2196f3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text-primary);
+      padding: 2rem;
+    }
+
+    /* Panel de Grupos */
+    .panel-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      background-color: var(--primary);
+      color: white;
+      padding: 1.5rem 2rem;
+    }
+
+    .panel-header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .panel-content {
+      padding: 2rem;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .data-table th {
+      background-color: var(--primary);
+      color: var(--card-bg);
+      text-transform: uppercase;
+      text-align: left;
+      padding: 1rem;
+      font-weight: 600;
+      border-bottom: 2px solid var(--divider);
+    }
+
+    .data-table td {
+      padding: 1rem;
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .data-table tr {
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .data-table tr:not(.expanded-row):hover {
+      background-color: var(--primary-light);
+    }
+
+    .data-table tr.expanded-row {
+      background-color: var(--primary-light);
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Panel de detalles expandible */
+    .row-details {
+      display: none;
+      background-color: var(--card-bg);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .row-details.expanded {
+      display: table-row;
+    }
+
+    .row-details td {
+      padding: 0;
+    }
+
+    .details-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+
+    .details-section {
+      margin-bottom: 1rem;
+    }
+
+    .details-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 0.75rem 1rem;
+    }
+
+    .detail-label {
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .detail-value {
+      color: var(--text-primary);
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .refresh-btn {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+    }
+
+    .refresh-btn:hover {
+      opacity: 0.9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: var(--primary);
+      color: white;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .panel-content {
+        padding: 1rem;
+      }
+      
+      .data-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .details-container {
+        grid-template-columns: 1fr;
+      }
+
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="panel-container">
+    <div class="panel-header">
+      <div class="header-content">
+        <h1>Mis Grupos</h1>
+        <button class="refresh-btn" id="refreshBtn">
+          <span class="loading" id="refreshLoading" style="display: none;"></span>
+          Actualizar
+        </button>
+      </div>
+    </div>
+    
+    <div class="panel-content">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Materia</th>
+            <th>Periodo</th>
+            <th>Aula</th>
+            <th>Horario</th>
+            <th>Alumnos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="gruposBody">
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 2rem;">
+              Cargando grupos...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const refreshBtn = document.getElementById('refreshBtn');
+      const refreshLoading = document.getElementById('refreshLoading');
+      const gruposBody = document.getElementById('gruposBody');
+      
+      // ID del docente (debería obtenerse de la sesión o autenticación)
+      const idDocente = 'TEC32HESC170580'; // Reemplazar con el ID real del docente
+      
+      // Cargar grupos al iniciar
+      loadGruposDocente(idDocente);
+
+      // Manejar clic en botón Actualizar
+      refreshBtn.addEventListener('click', function() {
+        loadGruposDocente(idDocente);
+      });
+
+      // Función para cargar los grupos del docente
+      function loadGruposDocente(docenteId) {
+        // Mostrar loading
+        refreshLoading.style.display = 'inline-block';
+        refreshBtn.disabled = true;
+        gruposBody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 2rem;">
+              Cargando grupos...
+            </td>
+          </tr>
+        `;
+        
+        fetch(`/api/docente/getGrupos/${docenteId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error al cargar grupos');
+            }
+            return response.json();
+          })
+          .then(grupos => {
+            renderGrupos(grupos);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            gruposBody.innerHTML = `
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--error)">
+                  Error al cargar los grupos. Por favor intente nuevamente.
+                </td>
+              </tr>
+            `;
+          })
+          .finally(() => {
+            // Ocultar loading
+            refreshLoading.style.display = 'none';
+            refreshBtn.disabled = false;
+          });
+      }
+
+      // Función para renderizar los grupos
+      function renderGrupos(grupos) {
+        if (grupos.length === 0) {
+          gruposBody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 2rem;">
+                No tienes grupos asignados actualmente
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        gruposBody.innerHTML = '';
+        
+        grupos.forEach((grupo, index) => {
+          const rowId = `row-${index}`;
+          const detailsId = `details-${index}`;
+          
+          // Crear fila principal
+          const row = document.createElement('tr');
+          row.dataset.grupoId = grupo.id_grupo;
+          
+          row.innerHTML = `
+            <td>${grupo.nombre_materia}</td>
+            <td>${grupo.periodo}</td>
+            <td>${grupo.aula || 'No asignada'}</td>
+            <td>${grupo.horario || 'No asignado'}</td>
+            <td><span class="badge">${grupo.alumnos_inscritos || 0} alumnos</span></td>
+            <td>
+              <button class="ver-alumnos-btn" data-grupo-id="${grupo.id_grupo}">Ver alumnos</button>
+            </td>
+          `;
+          
+          // Crear fila de detalles (para alumnos)
+          const detailsRow = document.createElement('tr');
+          detailsRow.className = 'row-details';
+          detailsRow.innerHTML = `
+            <td colspan="6">
+              <div class="details-container" id="${detailsId}"></div>
+            </td>
+          `;
+          
+          gruposBody.appendChild(row);
+          gruposBody.appendChild(detailsRow);
+          
+          // Agregar evento al botón "Ver alumnos"
+          const verAlumnosBtn = row.querySelector('.ver-alumnos-btn');
+          verAlumnosBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Evitar que el click se propague a la fila
+            
+            const grupoId = this.getAttribute('data-grupo-id');
+            const detailsContainer = document.getElementById(detailsId);
+            const isExpanded = detailsRow.classList.contains('expanded');
+            
+            // Cerrar todos los detalles primero
+            document.querySelectorAll('.row-details').forEach(r => {
+              if (r !== detailsRow) {
+                r.classList.remove('expanded');
+                r.previousElementSibling.classList.remove('expanded-row');
+              }
+            });
+            
+            if (!isExpanded) {
+              loadAlumnosGrupo(grupoId, detailsContainer);
+              detailsRow.classList.add('expanded');
+              row.classList.add('expanded-row');
+            } else {
+              detailsRow.classList.remove('expanded');
+              row.classList.remove('expanded-row');
+            }
+          });
+        });
+      }
+
+      // Función para cargar los alumnos de un grupo
+      function loadAlumnosGrupo(grupoId, container) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 1rem;">
+            Cargando lista de alumnos...
+          </div>
+        `;
+        
+        fetch(`/api/docente/getAlumnosGrupo?grupo_id=${grupoId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error al cargar alumnos');
+            }
+            return response.json();
+          })
+          .then(alumnos => {
+            renderAlumnosGrupo(alumnos, container);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            container.innerHTML = `
+              <div style="text-align: center; padding: 1rem; color: var(--error)">
+                Error al cargar la lista de alumnos
+              </div>
+            `;
+          });
+      }
+
+      // Función para renderizar los alumnos de un grupo
+      function renderAlumnosGrupo(alumnos, container) {
+        if (alumnos.length === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 1rem;">
+              No hay alumnos inscritos en este grupo
+            </div>
+          `;
+          return;
+        }
+
+        let html = `
+          <div class="details-section">
+            <h3 class="details-title">Lista de Alumnos</h3>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="background-color: var(--primary-light);">
+                    <th style="padding: 0.75rem; text-align: left;">Matrícula</th>
+                    <th style="padding: 0.75rem; text-align: left;">Nombre</th>
+                    <th style="padding: 0.75rem; text-align: left;">Correo</th>
+                    <th style="padding: 0.75rem; text-align: left;">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+        `;
+
+        alumnos.forEach(alumno => {
+          html += `
+            <tr style="border-bottom: 1px solid var(--divider);">
+              <td style="padding: 0.75rem;">${alumno.matricula}</td>
+              <td style="padding: 0.75rem;">${alumno.nombre} ${alumno.apellidos}</td>
+              <td style="padding: 0.75rem;">${alumno.correo || 'No disponible'}</td>
+              <td style="padding: 0.75rem;">
+                <button class="ver-calificaciones-btn" data-alumno-id="${alumno.id_alumno}" data-grupo-id="${alumno.id_grupo}">
+                  Ver calificaciones
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += `
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+
+        container.innerHTML = html;
+
+        // Agregar eventos a los botones de calificaciones
+        container.querySelectorAll('.ver-calificaciones-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const alumnoId = this.getAttribute('data-alumno-id');
+            const grupoId = this.getAttribute('data-grupo-id');
+            // Aquí puedes implementar la lógica para ver calificaciones
+            alert(`Mostrar calificaciones del alumno ${alumnoId} en el grupo ${grupoId}`);
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

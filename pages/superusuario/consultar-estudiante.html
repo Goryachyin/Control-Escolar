@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Estudiante</title>
+    <link rel="stylesheet" href="/superusuario/styles.css">
+    <script src="/superusuario/consultarEstudiante.js"></script>
+</head>
+
+<body>
+    <div class="main-title">
+        <span class="book-icon">📚</span>
+        <span class="section-title">Consulta de Estudiante</span>
+    </div>
+    <!-- Contenedor del overlay y el círculo de carga -->
+    <div id="loadingOverlay" style="display: none;">
+        <div id="loadingSpinner" class="spinner"></div>
+    </div>
+
+    <!-- Modal de error -->
+    <div id="modalError" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <p id="mensajeError"></p>
+        </div>
+    </div>
+
+    <form id="consultaForm">
+        <!-- Sección de Datos Personales -->
+        <fieldset id="datosPersonales">
+            <legend>Datos Personales</legend>
+            <label for="numero_control">Número Control:</label>
+            <input type="text" id="numero_control" name="numero_control" required>
+
+            <button type="submit" id="consultarBtn">Consultar</button>
+        </fieldset>
+    </form>
+
+
+    <form id="resultadosForm">
+        <!-- Sección de Resultados -->
+        <fieldset id="resultados">
+            <legend>Resultados</legend>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" readonly>
+
+            <label for="apellido_p">Apellido Paterno:</label>
+            <input type="text" id="apellido_p" name="apellido_p" readonly>
+
+            <label for="apellido_m">Apellido Materno:</label>
+            <input type="text" id="apellido_m" name="apellido_m" readonly>
+
+            <label for="CURP">CURP:</label>
+            <input type="text" id="CURP" name="CURP" readonly>
+
+            <label for="telefono">Telefono:</label>
+            <input type="text" id="telefono" name="telefono" readonly>
+
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" readonly>
+            
+            <label for="carrera">Carrera:</label>
+            <input type="text" id="carrera" name="carrera" readonly>
+            
+            <label for="semestre">Semestre:</label>
+            <input type="text" id="semestre" name="semestre" readonly>
+            
+            <label for="estado">Estado del estudiante:</label>
+            <input type="text" id="estado" name="estado" readonly>
+
+        </fieldset>
+    </form>
+</body>
+
+</html>

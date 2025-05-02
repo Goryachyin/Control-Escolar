@@ -1,189 +1,431 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horario Semestral</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .header-icon {
-            font-size: 20px;
-            margin-right: 10px;
-            color: #555;
-        }
-        
-        .header-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .header-title:before {
-            content: "→";
-            margin: 0 8px;
-        }
-        
-        .main-title {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            background-color: #4a6b8a;
-            color: white;
-        }
-        
-        .calendar-icon {
-            font-size: 24px;
-            margin-right: 15px;
-        }
-        
-        .schedule-container {
-            padding: 20px;
-        }
+  <meta charset="UTF-8">
+  <title>NYAPT EDUCATION EDITION</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #f5f7fa;
+    }
 
-        th, td {
-            padding: 15px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #4a6b8a;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
 
-        th {
-            background-color: #37474f;
-            color: white;
-        }
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        td {
-            background-color: #e0e1e1;
-            vertical-align: middle;
-        }
+    .school-info img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
-        .class-block {
-            display: block;
-            padding: 12px 15px;
-            border-radius: 8px;
-            color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 5px;
-        }
+    .toggle-btn {
+      background-color: #37474f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-        .class-time {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
+    .top-buttons button {
+      margin-left: 10px;
+      background-color: #37474f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-        .class-name {
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
+    .main {
+      display: flex;
+      flex: 1;
+      position: relative;
+      margin-top: 60px;
+      height: calc(100vh - 60px);
+    }
 
-        .class-room {
-            font-size: 13px;
-            opacity: 0.9;
-        }
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 60px;
+      bottom: 0;
+      width: 220px;
+      background-color: #1b2631;
+      color: white;
+      overflow-y: auto;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 10;
+    }
 
-        .blue { background-color: #4285f4; }
-        .green { background-color: #34a853; }
-        .purple { background-color: #9c27b0; }
-        .yellow { background-color: #fbbc05; }
-        .red { background-color: #ea4335; }
-    </style>
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      background: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid #444;
+    }
+
+    .content {
+      flex: 1;
+      margin-left: 220px;
+      padding: 20px;
+      background-color: #f8f5f4;
+      overflow-y: auto;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar.hidden + .content {
+      margin-left: 0;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+    
+    .profile-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+    }
+    
+    .top-buttons {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* Contenido principal */
+    .panel {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    .panel-header {
+      color: #4a6b8a;
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .panel-subheader {
+      color: #4a6b8a;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .career-select {
+      margin-bottom: 25px;
+    }
+
+    .career-select select {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      font-size: 16px;
+      color: #333;
+    }
+
+    /* Tabla de horario */
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .schedule-table th {
+      background-color: #4a6b8a;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      font-weight: 500;
+      width: 12.5%; /* Para 8 columnas (100/8) */
+    }
+
+    .schedule-table td {
+      padding: 8px;
+      border: 1px solid #e2e8f0;
+      height: 80px;
+      vertical-align: top;
+      background-color: white;
+    }
+
+    .time-cell {
+      background-color: #f0f4f8;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .class-block {
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      height: 100%;
+    }
+
+    .class-name {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .class-details {
+      font-size: 12px;
+      color: #555;
+    }
+
+    /* Colores de materias */
+    .subject-1 { background-color: #e3f2fd; border-left: 3px solid #1565c0; }
+    .subject-2 { background-color: #e8f5e9; border-left: 3px solid #2e7d32; }
+    .subject-3 { background-color: #f3e5f5; border-left: 3px solid #6a1b9a; }
+    .subject-4 { background-color: #fff3e0; border-left: 3px solid #e65100; }
+    .subject-5 { background-color: #e0f7fa; border-left: 3px solid #00838f; }
+    .subject-6 { background-color: #f1f8e9; border-left: 3px solid #558b2f; }
+
+    @media (max-width: 768px) {
+      .content {
+        margin-left: 0 !important;
+        padding: 15px;
+      }
+      
+      .schedule-table th, 
+      .schedule-table td {
+        padding: 6px 3px;
+        font-size: 12px;
+      }
+      
+      .class-block {
+        font-size: 11px;
+        padding: 4px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-icon">🏠</div>
-        <div class="header-title">Horario</div>
+
+  <header>
+    <div class="school-info">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela">
+        <h1>NYAPT EDUCATION EDITION</h1>
     </div>
-    
-    <div class="main-title">
-        <div class="calendar-icon">📅</div>
-        <h1>HORARIO SEMESTRAL</h1>
+    <div class="top-buttons">
+        <button>¿Necesita ayuda?</button>
+        <button>🔔 Notificaciones</button>
+        <div class="user-profile">
+            <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+            <span id="username">Cargando ...</span>
+        </div>
     </div>
-    
-    <div class="schedule-container">
-        <!-- Tabla de horario -->
-        <table>
+  </header>
+
+  <div class="main">
+    <div class="sidebar" id="sidebar">
+      <button onclick="window.location.href='inicio.html'">🏠 Inicio</button>
+      <button onclick="window.location.href='kardex.html'">📋 Kardex</button>
+      <button onclick="window.location.href='editar_datos.html'">📘 Editar datos</button>
+      <button onclick="window.location.href='horario.html'">📅 Horario</button>
+      <button onclick="window.location.href='calificaciones.html'">📚 Calificaciones</button>
+      <button onclick="window.location.href='perfil.html'">👤 Mi Perfil</button>
+      <button onclick="window.location.href='actividadescomplementarias.html'">📝 Histórico de actividades</button>
+      <button onclick="window.location.href='recibos.html'">💳 Recibos</button>
+      <button onclick="window.location.href='cargamaterrias.html'">📦 Carga de materias</button>
+      <button onclick="window.location.href='calendario.html'">🗓️ Calendario escolar</button>
+      <button onclick="window.location.href='contador.html'">🏖️ Contador de vacaciones</button>
+      <button onclick="window.location.href='ajustes.html'">⚙️ Ajustes</button>
+      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+    </div>
+
+    <div class="content" id="mainContent">
+      <!-- Panel de identificación -->
+      <div class="panel">
+        <div class="panel-header">HORARIO SEMESTRAL</div>
+        
+        <div class="career-select">
+          <div class="panel-subheader">Selecciona una carrera</div>
+          <select>
+            <option selected>Arquitectura</option>
+            <option>Ingeniería en Sistemas</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Panel de horario -->
+      <div class="panel">
+        <div class="panel-header"></div>
+        
+        <div style="overflow-x: auto;">
+          <table class="schedule-table">
             <thead>
-                <tr>
-                    <th>Hora</th>
-                    <th>Lunes</th>
-                    <th>Martes</th>
-                    <th>Miércoles</th>
-                    <th>Jueves</th>
-                    <th>Viernes</th>
-                </tr>
+              <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+              </tr>
             </thead>
             <tbody>
-                <!-- Fila de horarios -->
-                <tr>
-                    <td class="hora">08:00 - 10:00</td>
-                    <td><div class="class-block blue">
-                        <div class="class-time">08:00 - 10:00</div>
-                        <div class="class-name">Matemáticas III</div>
-                        <div class="class-room">Salón 302</div>
-                    </div></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="hora">10:30 - 12:30</td>
-                    <td></td>
-                    <td><div class="class-block green">
-                        <div class="class-time">10:30 - 12:30</div>
-                        <div class="class-name">Laboratorio de Química</div>
-                        <div class="class-room">Edificio C - Lab 4</div>
-                    </div></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="hora">14:00 - 16:00</td>
-                    <td></td>
-                    <td><div class="class-block purple">
-                        <div class="class-time">14:00 - 16:00</div>
-                        <div class="class-name">Historia del Arte</div>
-                        <div class="class-room">Salón 101</div>
-                    </div></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="hora">16:00 - 18:00</td>
-                    <td></td>
-                    <td></td>
-                    <td><div class="class-block red">
-                        <div class="class-time">16:00 - 18:00</div>
-                        <div class="class-name">Taller de Investigación</div>
-                        <div class="class-room">Edificio D - Sala 3</div>
-                    </div></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+              <tr>
+                <td class="time-cell">07:00 - 08:00</td>
+                <td>
+                  <div class="class-block subject-1">
+                    <div class="class-name">ECUACIONES DIFERENCIALES</div>
+                    <div class="class-details">Aula 703 - P155</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">09:00 - 10:00</td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-2">
+                    <div class="class-name">REDES COMPUTADORAS</div>
+                    <div class="class-details">Aula 706 - P151</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">12:00 - 13:00</td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-3">
+                    <div class="class-name">ADMON BASESDATOS</div>
+                    <div class="class-details">Aula 710 - P152</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">13:00 - 14:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-4">
+                    <div class="class-name">ARQ. COMPUTADORAS</div>
+                    <div class="class-details">Aula 705 - P152</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">14:00 - 15:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-5">
+                    <div class="class-name">LENG DE INTERFAZ</div>
+                    <div class="class-details">Aula 308 - P153</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="time-cell">15:00 - 16:00</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <div class="class-block subject-6">
+                    <div class="class-name">ING. SOFTWARE</div>
+                    <div class="class-details">Aula 706 - P153</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
             </tbody>
-        </table>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+    }
+
+    function cerrarSesion() {
+      // Lógica para cerrar sesión
+      alert('Sesión cerrada');
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    }
+  </script>
+
 </body>
 </html>

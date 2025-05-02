@@ -1,283 +1,447 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor de Datos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .header-icon {
-            font-size: 20px;
-            margin-right: 10px;
-        }
-        
-        .header-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .header-title:before {
-            content: "→";
-            margin: 0 8px;
-        }
-        
-        .main-title {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #4a6b8a;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .book-icon {
-            font-size: 20px;
-            margin-right: 15px;
-            color: #555;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .form-container {
-            padding: 20px;
-            background-color: white;
-            margin: 20px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .form-section {
-            margin-bottom: 30px;
-        }
-        
-        .form-section-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #444;
-        }
-        
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-        
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-            margin-right: 20px;
-            margin-bottom: 10px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 5px;
-            color: #666;
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        
-        .form-group input::placeholder {
-            color: #999;
-        }
-        
-        .contacts-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        
-        .contacts-table th {
-            text-align: left;
-            padding: 10px;
-            background-color: #f0f0f0;
-            font-size: 14px;
-            color: #555;
-        }
-        
-        .contacts-table td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            font-size: 14px;
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .pagination-controls {
-            display: flex;
-            align-items: center;
-        }
-        
-        .pagination-controls button {
-            background: none;
-            border: 1px solid #ddd;
-            padding: 5px 10px;
-            margin: 0 5px;
-            cursor: pointer;
-        }
-        
-        .divider {
-            border-top: 1px solid #eee;
-            margin: 20px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>NYAPT EDUCATION EDITION</title>
+  <style>
+    :root {
+      --primary-color: #4a6b8a;
+      --secondary-color: #e0e7f0;
+      --text-color: #333;
+      --light-bg: #f5f7fa;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background-color: var(--light-bg);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .school-info img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .toggle-btn {
+      background-color: #37474f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .top-buttons button {
+      margin-left: 10px;
+      background-color: #37474f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+      position: relative;
+      margin-top: 60px;
+      height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 60px;
+      bottom: 0;
+      width: 220px;
+      background-color: #1b2631;
+      color: white;
+      overflow-y: auto;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 10;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      background: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid #444;
+    }
+
+    .content {
+      flex: 1;
+      margin-left: 220px;
+      padding: 20px;
+      background-color: var(--light-bg);
+      overflow-y: auto;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar.hidden + .content {
+      margin-left: 0;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    
+    .profile-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+    }
+    
+    .top-buttons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* Estilos para el editor de datos */
+    .editor-container {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    .editor-header {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .editor-icon {
+      margin-right: 15px;
+      font-size: 20px;
+    }
+
+    .editor-title {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .form-container {
+      padding: 20px;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .form-section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      gap: 15px;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #555;
+    }
+
+    .form-group input, 
+    .form-group select {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 14px;
+      background-color: var(--card-bg);
+    }
+
+    .contacts-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .contacts-table th {
+      text-align: left;
+      padding: 12px;
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 500;
+    }
+
+    .contacts-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 14px;
+    }
+
+    .contacts-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .edit-btn {
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .divider {
+      border-top: 1px solid var(--border-color);
+      margin: 25px 0;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        margin-left: 0 !important;
+        padding: 15px;
+      }
+      
+      .form-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .form-group {
+        min-width: 100%;
+      }
+      
+      .contacts-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-icon">🏠</div>
-        <div class="header-title">Editar datos</div>
+
+  <header>
+    <div class="school-info">
+      <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela">
+      <h1>NYAPT EDUCATION EDITION</h1>
     </div>
-    
-    <div class="main-title">
-        <div class="book-icon">📖</div>
-        <div class="section-title">Editar datos</div>
+    <div class="top-buttons">
+      <button>¿Necesita ayuda?</button>
+      <button>🔔 Notificaciones</button>
+      <div class="user-profile">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <span id="username">Cargando ...</span>
+      </div>
     </div>
-    
-    <div class="form-container">
-        <div class="form-section">
-            <div class="form-section-title">Domicilio</div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Estado</label>
-                    <select>
-                        <option>Seleccione estado</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Nombre</label>
-                    <input type="text" placeholder="Nombre" readonly>
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Ciudad</label>
-                    <select>
-                        <option>Seleccione ciudad</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Estado</label>
-                    <select>
-                        <option>Seleccione estado</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Número</label>
-                    <select>
-                        <option>Seleccione municipio</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Código postal</label>
-                    <input type="text" placeholder="Codigo postal">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Seleccione colonia</label>
-                    <select>
-                        <option>Seleccione colonia</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Calle</label>
-                    <input type="text" placeholder="Número interior">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Teléfono casa</label>
-                    <input type="text" placeholder="Número exterior">
-                </div>
-                <div class="form-group">
-                    <label>Teléfono celular</label>
-                    <input type="text" placeholder="Teléfono celular">
-                </div>
-            </div>
+  </header>
+
+  <div class="main">
+    <div class="sidebar" id="sidebar">
+      <button onclick="window.location.href='inicio.html'">🏠 Inicio</button>
+      <button onclick="window.location.href='kardex.html'">📋 Kardex</button>
+      <button onclick="window.location.href='editar_datos.html'">📘 Editar datos</button>
+      <button onclick="window.location.href='horario.html'">📅 Horario</button>
+      <button onclick="window.location.href='calificaciones.html'">📚 Calificaciones</button>
+      <button onclick="window.location.href='perfil.html'">👤 Mi Perfil</button>
+      <button onclick="window.location.href='actividadescomplementarias.html'">📝 Histórico de actividades</button>
+      <button onclick="window.location.href='recibos.html'">💳 Recibos</button>
+      <button onclick="window.location.href='cargamaterrias.html'">📦 Carga de materias</button>
+      <button onclick="window.location.href='calendario.html'">🗓️ Calendario escolar</button>
+      <button onclick="window.location.href='contador.html'">🏖️ Contador de vacaciones</button>
+      <button onclick="window.location.href='ajustes.html'">⚙️ Ajustes</button>
+      <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+    </div>
+
+    <div class="content" id="mainContent">
+      <div class="editor-container">
+        <div class="editor-header">
+          <div class="editor-icon">📖</div>
+          <div class="editor-title">Editar datos</div>
         </div>
         
-        <div class="divider"></div>
-        
-        <div class="form-section">
+        <div class="form-container">
+          <div class="form-section">
+            <div class="form-section-title">Editar Domicilio</div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" placeholder="Nombre" readonly>
+              </div>
+              <div class="form-group">
+                <label>Estado</label>
+                <select>
+                  <option>Seleccione estado</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Municipio</label>
+                <select>
+                  <option>Seleccione municipio</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Ciudad</label>
+                <select>
+                  <option>Seleccione ciudad</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Código postal</label>
+                <input type="text" placeholder="Código postal">
+              </div>
+              <div class="form-group">
+                <label>Colonia</label>
+                <select>
+                  <option>Seleccione colonia</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Calle</label>
+                <input type="text" placeholder="Calle">
+              </div>
+              
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Teléfono casa</label>
+                <input type="text" placeholder="Teléfono casa">
+              </div>
+              <div class="form-group">
+                <label>Teléfono celular</label>
+                <input type="text" placeholder="Teléfono celular">
+              </div>
+            </div>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <div class="form-section">
             <div class="form-section-title">Contactos</div>
             
             <table class="contacts-table">
-                <thead>
-                    <tr>
-                        <th>Apellido paterno</th>
-                        <th>Apellido materno</th>
-                        <th>Nombre</th>
-                        <th>Teléfono casa</th>
-                        <th>Teléfono celular</th>
-                        <th>Relación</th>
-                        <th>Editar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td></td>
-                        <td></td>
-                        <td>Padre</td>
-                        <td>✏</td>
-                    </tr>
-                    <tr>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td></td>
-                        <td></td>
-                        <td>Madre</td>
-                        <td>✏</td>
-                    </tr>
-                </tbody>
+              <thead>
+                <tr>
+                  <th>Apellido paterno</th>
+                  <th>Apellido materno</th>
+                  <th>Nombre</th>
+                  <th>Teléfono casa</th>
+                  <th>Teléfono celular</th>
+                  <th>Relación</th>
+                  <th>Editar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td></td>
+                  <td></td>
+                  <td>Padre</td>
+                  <td class="edit-btn">✏</td>
+                </tr>
+                <tr>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td></td>
+                  <td></td>
+                  <td>Madre</td>
+                  <td class="edit-btn">✏</td>
+                </tr>
+              </tbody>
             </table>
-              
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+    }
+
+    function cerrarSesion() {
+      // Lógica para cerrar sesión
+      alert('Sesión cerrada');
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    }
+  </script>
+
 </body>
 </html>

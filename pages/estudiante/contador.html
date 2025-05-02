@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>NYAPT EDUCATION EDITION</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #f4f4f8;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #4a6b8a;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .school-info img {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .toggle-btn {
+      background-color: #37474f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .top-buttons button {
+      margin-left: 10px;
+      background-color: #37474f;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+      position: relative;
+      margin-top: 60px;
+      height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 60px;
+      bottom: 0;
+      width: 220px;
+      background-color: #1b2631;
+      color: white;
+      overflow-y: auto;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 10;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      background: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid #444;
+    }
+
+    .content {
+      flex: 1;
+      margin-left: 220px;
+      padding: 0;
+      background-color: #f8f5f4;
+      overflow-y: auto;
+      transition: margin-left 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar.hidden + .content {
+      margin-left: 0;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+    
+    .profile-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+    }
+    
+    .top-buttons {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* Estilos para el contador de vacaciones */
+    .vacation-container {
+      background: linear-gradient(135deg, #1a2a6c, #4a6b8a, #2d9fd9);
+      color: white;
+      text-align: center;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 40px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100%;
+    }
+
+    .vacation-container h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #2d9fd9;
+    }
+
+    .vacation-container h2 {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      font-weight: 300;
+      color: white;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .countdown-box {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 25px 20px;
+      min-width: 150px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .countdown-value {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin: 0;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(45, 159, 217, 0.5);
+    }
+
+    .countdown-label {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 10px;
+      color: #a8d8f0;
+    }
+
+    .progress-container {
+      width: 80%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      margin: 30px auto;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 20px;
+      background: linear-gradient(90deg, #4a6b8a, #2d9fd9);
+      width: 70%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+
+    .status-value {
+      color: #2d9fd9;
+      font-weight: bold;
+    }
+
+    .end-date {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #a8d8f0;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        margin-left: 0 !important;
+      }
+      
+      .countdown-box {
+        min-width: 120px;
+        padding: 20px 15px;
+      }
+      
+      .countdown-value {
+        font-size: 2.5rem;
+      }
+      
+      .vacation-container h1 {
+        font-size: 2rem;
+      }
+      
+      .vacation-container h2 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="school-info">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela">
+        <h1>NYAPT EDUCATION EDITION</h1>
+    </div>
+    <div class="top-buttons">
+        <button>¿Necesita ayuda?</button>
+        <button>🔔 Notificaciones</button>
+        <div class="user-profile">
+            <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+            <span id="username">Cargando ...</span>
+        </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="sidebar" id="sidebar">
+        <button onclick="window.location.href='inicio.html'">🏠 Inicio</button>
+        <button onclick="window.location.href='kardex.html'">📋 Kardex</button>
+        <button onclick="window.location.href='editar_datos.html'">📘 Editar datos</button>
+        <button onclick="window.location.href='horario.html'">📅 Horario</button>
+        <button onclick="window.location.href='calificaciones.html'">📚 Calificaciones</button>
+        <button onclick="window.location.href='perfil.html'">👤 Mi Perfil</button>
+        <button onclick="window.location.href='actividadescomplementarias.html'">📝 Histórico de actividades</button>
+        <button onclick="window.location.href='recibos.html'">💳 Recibos</button>
+        <button onclick="window.location.href='cargamaterrias.html'">📦 Carga de materias</button>
+        <button onclick="window.location.href='calendario.html'">🗓️ Calendario escolar</button>
+        <button onclick="window.location.href='contador.html'">🏖️ Contador de vacaciones</button>
+        <button onclick="window.location.href='ajustes.html'">⚙️ Ajustes</button>
+        <button onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+  
+    </div>
+
+    <div class="content" id="mainContent">
+      <!-- Panel del contador de vacaciones -->
+      <div class="vacation-container">
+        <h1>FIN DE VACACIONES</h1>
+        <h2>¡Disfruta! Solo quedan...</h2>
+        
+        <div class="countdown">
+          <div class="countdown-box">
+            <div class="countdown-value" id="days">00</div>
+            <div class="countdown-label">Días</div>
+          </div>
+          <div class="countdown-box">
+            <div class="countdown-value" id="hours">00</div>
+            <div class="countdown-label">Horas</div>
+          </div>
+          <div class="countdown-box">
+            <div class="countdown-value" id="minutes">00</div>
+            <div class="countdown-label">Minutos</div>
+          </div>
+          <div class="countdown-box">
+            <div class="countdown-value" id="seconds">00</div>
+            <div class="countdown-label">Segundos</div>
+          </div>
+        </div>
+        
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="status">
+          Estatus: <span class="status-value">Vacaciones en curso...</span>
+        </div>
+        
+        <div class="end-date">
+          Las vacaciones terminan el: <strong>Lunes 28 de Abril 2025</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+    }
+
+    function cerrarSesion() {
+      alert('Sesión cerrada');
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    }
+
+    // Contador de vacaciones
+    const endDate = new Date(2025, 3, 28, 0, 0, 0); // Mes 3 = Abril (0-11)
+    
+    function updateCountdown() {
+      const now = new Date();
+      const diff = endDate - now;
+      
+      if (diff <= 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        document.querySelector('.status-value').textContent = '¡Vacaciones terminadas!';
+        document.getElementById('progress-bar').style.width = '100%';
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      
+      const totalVacationDays = 14;
+      const daysLeft = days;
+      const daysPassed = totalVacationDays - daysLeft;
+      const progress = (daysPassed / totalVacationDays) * 100;
+      document.getElementById('progress-bar').style.width = `${progress}%`;
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>

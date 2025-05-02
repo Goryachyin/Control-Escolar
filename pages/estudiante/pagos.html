@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualización de Pagos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4a6b8a;
+      --primary-dark: #3a576f;
+      --primary-light: #e1e7ed;
+      --accent: #ffab40;
+      --text-primary: #212121;
+      --text-secondary: #757575;
+      --divider: #e0e0e0;
+      --background: #f5f7fa;
+      --card-bg: #ffffff;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --danger: #f44336;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--primary);
+      color: white;
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 64px;
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .school-logo {
+      height: 36px;
+      width: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      font-weight: 400;
+      margin-left: 0.5rem;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+      margin-right: 0.5rem;
+    }
+
+    .toggle-btn:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .top-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-btn {
+      background-color: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .header-btn:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 50px;
+      transition: background-color 0.2s;
+    }
+
+    .user-profile:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .profile-image {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .username {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Main Layout */
+    .main {
+      display: flex;
+      flex: 1;
+      margin-top: 64px;
+      height: calc(100vh - 64px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 64px;
+      bottom: 0;
+      width: 240px;
+      background-color: #1b2631;
+      overflow-y: auto;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 999;
+      padding: 1rem 0;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar-section {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.6);
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: none;
+      color: white;
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      gap: 0.75rem;
+    }
+
+    .sidebar-btn:hover, .sidebar-btn.active {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-btn.active {
+      border-left: 3px solid var(--accent);
+      padding-left: calc(1.5rem - 3px);
+    }
+
+    .sidebar-btn i {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .sidebar-divider {
+      border: none;
+      height: 1px;
+      background-color: rgba(255,255,255,0.1);
+      margin: 1rem 1.5rem;
+    }
+
+    /* Content Area */
+    .content {
+      flex: 1;
+      margin-left: 240px;
+      padding: 20px;
+      overflow-y: auto;
+      transition: margin-left 0.3s ease;
+      background-color: var(--background);
+    }
+
+    .sidebar.hidden + .content {
+      margin-left: 0;
+    }
+
+    /* Estilos específicos para la página de pagos */
+    .panel-container {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .panel-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      padding: 1.5rem 2rem;
+      color: white;
+    }
+
+    .panel-header h1 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .panel-content {
+      padding: 2rem;
+    }
+
+    .section-title {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      position: relative;
+      padding-bottom: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: var(--accent);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .data-table thead {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .data-table th {
+      padding: 1rem;
+      text-align: center;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    .data-table td {
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--divider);
+      position: relative;
+    }
+
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tbody tr:hover {
+      background-color: var(--primary-light);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .status-pending {
+      background-color: rgba(255, 152, 0, 0.1);
+      color: var(--warning);
+    }
+
+    .status-paid {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--success);
+    }
+
+    .status-overdue {
+      background-color: rgba(244, 67, 54, 0.1);
+      color: var(--danger);
+    }
+
+    .upload-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background-color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .upload-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .upload-btn i {
+      font-size: 1rem;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .amount {
+      font-weight: 600;
+    }
+
+    .currency {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-left: 0.25rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.visible {
+        transform: translateX(0);
+      }
+      
+      .content {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-title {
+        display: none;
+      }
+      
+      .panel-content {
+        padding: 1.5rem;
+      }
+      
+      .data-table th, 
+      .data-table td {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header {
+        padding: 0.75rem 1rem;
+      }
+      
+      .header-btn span {
+        display: none;
+      }
+      
+      .username {
+        display: none;
+      }
+      
+      .panel-header {
+        padding: 1rem;
+      }
+      
+      .panel-header h1 {
+        font-size: 1.25rem;
+      }
+      
+      .panel-content {
+        padding: 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+      
+      .data-table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .upload-btn {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+      }
+      
+      .upload-btn span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="school-info">
+      <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
+      <div>
+        <span class="header-title">NYAPT EDUCATION</span>
+        <span class="header-subtitle">Edición Estudiantil</span>
+      </div>
+    </div>
+    <div class="top-buttons">
+      <button class="header-btn">
+        <i class="fas fa-question-circle"></i>
+        <span>Ayuda</span>
+      </button>
+      <button class="header-btn">
+        <i class="fas fa-bell"></i>
+        <span>Notificaciones</span>
+      </button>
+      <div class="user-profile" onclick="toggleUserMenu()">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <span class="username" id="username">Eduardo</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='inicio.html'">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Académico</div>
+        <button class="sidebar-btn" onclick="window.location.href='horario.html'">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Horario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calificaciones.html'">
+          <i class="fas fa-clipboard-check"></i>
+          <span>Calificaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='kardex.html'">
+          <i class="fas fa-file-alt"></i>
+          <span>Kardex</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
+          <i class="fas fa-calendar-day"></i>
+          <span>Calendario</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
+          <i class="fas fa-book"></i>
+          <span>Carga de Materias</span>
+        </button>
+        <button class="sidebar-btn" onclick="window.location.href='actividadescomplementarias.html'">
+          <i class="fas fa-certificate"></i>
+          <span>Actividades complementarias</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-title">Servicios</div>
+        <button class="sidebar-btn" onclick="window.location.href='recibos.html'">
+          <i class="fas fa-receipt"></i>
+          <span>Recibos</span>
+        </button>
+        <button class="sidebar-btn active" onclick="window.location.href='pagos.html'">
+          <i class="fas fa-credit-card"></i>
+          <span>Pagos</span>
+        </button>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section">
+        <button class="sidebar-btn" onclick="window.location.href='contador.html'">
+          <i class="fas fa-umbrella-beach"></i>
+          <span>Vacaciones</span>
+        </button>
+        <button class="sidebar-btn" onclick="cerrarSesion()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="content" id="mainContent">
+      <div class="panel-container">
+        <div class="panel-header">
+          <h1>Visualización de Pagos</h1>
+        </div>
+        
+        <div class="panel-content">
+          <h2 class="section-title">Pendientes de Pago</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Estado</th>
+                <th>Total a Pagar</th>
+                <th>Subir Comprobante</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Matrícula Semestre Enero-Junio 2024</td>
+                <td>15/01/2024</td>
+                <td><span class="status-badge status-overdue">Vencido</span></td>
+                <td><span class="amount">8,500.00</span><span class="currency">MXN</span></td>
+                <td>
+                  <input type="file" id="upload1" class="file-input">
+                  <label for="upload1" class="upload-btn">
+                    <i class="fas fa-upload"></i>
+                    <span>Subir</span>
+                  </label>
+                </td>
+              </tr>
+              <tr>
+                <td>Colegiatura Febrero 2024</td>
+                <td>05/02/2024</td>
+                <td><span class="status-badge status-pending">Pendiente</span></td>
+                <td><span class="amount">3,200.00</span><span class="currency">MXN</span></td>
+                <td>
+                  <input type="file" id="upload2" class="file-input">
+                  <label for="upload2" class="upload-btn">
+                    <i class="fas fa-upload"></i>
+                    <span>Subir</span>
+                  </label>
+                </td>
+              </tr>
+              <tr>
+                <td>Examen de Certificación Inglés</td>
+                <td>20/02/2024</td>
+                <td><span class="status-badge status-pending">Pendiente</span></td>
+                <td><span class="amount">1,800.00</span><span class="currency">MXN</span></td>
+                <td>
+                  <input type="file" id="upload3" class="file-input">
+                  <label for="upload3" class="upload-btn">
+                    <i class="fas fa-upload"></i>
+                    <span>Subir</span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2 class="section-title">Pagos Realizados</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Fecha de Pago</th>
+                <th>Estado</th>
+                <th>Total Pagado</th>
+                <th>Comprobante</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Colegiatura Enero 2024</td>
+                <td>03/01/2024</td>
+                <td><span class="status-badge status-paid">Pagado</span></td>
+                <td><span class="amount">3,200.00</span><span class="currency">MXN</span></td>
+                <td>
+                  <button class="upload-btn">
+                    <i class="fas fa-eye"></i>
+                    <span>Ver</span>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Inscripción Taller de Robótica</td>
+                <td>10/12/2023</td>
+                <td><span class="status-badge status-paid">Pagado</span></td>
+                <td><span class="amount">1,500.00</span><span class="currency">MXN</span></td>
+                <td>
+                  <button class="upload-btn">
+                    <i class="fas fa-eye"></i>
+                    <span>Ver</span>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Matrícula Semestre Agosto-Diciembre 2023</td>
+                <td>05/08/2023</td>
+                <td><span class="status-badge status-paid">Pagado</span></td>
+                <td><span class="amount">8,200.00</span><span class="currency">MXN</span></td>
+                <td>
+                  <button class="upload-btn">
+                    <i class="fas fa-eye"></i>
+                    <span>Ver</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("hidden");
+      
+      // En móviles, queremos que el sidebar se superponga
+      if (window.innerWidth <= 992) {
+        sidebar.classList.toggle("visible");
+      }
+    }
+
+    function cerrarSesion() {
+      // Lógica para cerrar sesión
+      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        localStorage.removeItem('token');
+        window.location.href = '/login.html';
+      }
+    }
+    
+    function toggleUserMenu() {
+      // Aquí podrías implementar un menú desplegable del perfil
+      console.log("Mostrar menú de usuario");
+    }
+    
+    // Cerrar sidebar al hacer clic fuera en móviles
+    document.addEventListener('click', function(event) {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+      
+      if (window.innerWidth <= 992 && 
+          !sidebar.contains(event.target) && 
+          !toggleBtn.contains(event.target) &&
+          sidebar.classList.contains('visible')) {
+        sidebar.classList.remove('visible');
+      }
+    });
+
+    // Función para mostrar el nombre del archivo seleccionado
+    document.querySelectorAll('.file-input').forEach(input => {
+      input.addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+          const fileName = this.files[0].name;
+          const label = this.nextElementSibling;
+          label.innerHTML = `<i class="fas fa-check"></i><span>${fileName}</span>`;
+          label.style.backgroundColor = '#4caf50';
+          
+          // Cambiar el estado en la tabla (simulación)
+          const statusCell = this.closest('tr').querySelector('.status-badge');
+          statusCell.textContent = 'En revisión';
+          statusCell.classList.remove('status-pending', 'status-overdue');
+          statusCell.classList.add('status-paid');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

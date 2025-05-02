@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Registro de Estudiante</title>
+  <title>Registro de Docente</title>
   <link rel="stylesheet" href="/superusuario/styles.css">
-  <script src="/superusuario/registrarEstudiante.js"></script>
+  <script src="/superusuario/registrarDocente.js"></script>
 </head>
 
 <body>
@@ -42,7 +42,7 @@
       <input type="text" id="curp" name="curp" maxlength="18" required>
 
       <label for="nss">NSS:</label>
-      <input type="text" id="nss" name="nss" required>
+      <input type="text" id="nss" name="nss"  maxlength="11" required>
 
       <label for="sexo">Sexo:</label>
       <select id="sexo" name="sexo" required>
@@ -55,39 +55,20 @@
       <button type="button" id="continuarBtn" disabled>Continuar</button>
     </fieldset>
 
-    <!-- Sección de Datos Estudiante (Inicialmente inhabilitada) -->
-    <fieldset id="datosEstudiante" disabled>
-      <legend>Datos del Estudiante</legend>
-      <label for="numero_control">Número de Control:</label>
-      <input type="text" id="numero_control" name="numero_control" readonly required>
+    <!-- Sección de Datos Docente (Inicialmente inhabilitada) -->
+    <fieldset id="datosDocente" disabled>
+      <legend>Datos del Docente</legend>
+      <label for="id_docente">Id Docente:</label>
+      <input type="text" id="id_docente" name="id_docente" readonly required>
 
       <label for="correo">Correo Institucional:</label>
       <input type="email" id="correo" name="correo" required>
 
-      <label for="semestre">Semestre:</label>
-      <input type="number" id="semestre" name="semestre" min="1" max="12" required>
+      <label for="horario_entrada">Horario de entrada:</label>
+      <input type="time" id="horario_entrada" name="horario_entrada" required>
 
-      <label for="estatus">Estatus:</label>
-      <select id="estatus" name="estatus" required>
-        <option value="Vigente">Vigente</option>
-        <option value="No Vigente">No Vigente</option>
-      </select>
-
-      <label for="contrasena">Contraseña:</label>
-      <input type="password" id="contrasena" name="contrasena" required>
-
-      <label for="id_carrera">Carrera:</label>
-      <select name="id_carrera" id="id_carrera" required>
-        <option value="ARQ18">ARQUITECTURA</option>
-        <option value="IBQ18">INGENIERIA BIOQUIMICA</option>
-        <option value="ISC25">INGENIERIA EN SISTEMAS COMPUTACIONALES</option>
-      </select>
-
-      <label for="id_documento">ID Documento:</label>
-      <input type="number" id="id_documento" name="id_documento" required>
-
-      <label for="id_pago">ID Pago:</label>
-      <input type="number" id="id_pago" name="id_pago" required>
+      <label for="horario_salida">Horario de salida:</label>
+      <input type="time" id="horario_salida" name="horario_salida" required>
 
       <button type="submit" id="finalizarBtn">Finalizar</button>
     </fieldset>
