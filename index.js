@@ -6,8 +6,8 @@ const dotenv = require('dotenv')
 const path = require('path')
 const cloudinary = require('cloudinary').v2
 const multer = require('multer')
-const fs = require('fs')
-const upload = multer({ dest: 'uploads/' }) // Configuración de multer para subir archivos
+const storage = multer.memoryStorage() // Almacena archivos en memoria
+const upload = multer({ storage })
 const authetications = require('./controllers/authetications.js')
 const verifToken = require('./controllers/autorization.js')
 const superuser = require('./controllers/superuser.js')
@@ -48,21 +48,27 @@ app.get('/superusuario/cargar-grupo', (req, res) => { res.sendFile(path.join(__d
 app.post('/api/upload-image', upload.single('photo'), verifToken, async (req, res) => {
   const numeroControl = req.usuario.numeroControl
   try {
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'profile_photos' // Cambia esto al nombre de la carpeta que desees
-    })
-    fs.unlinkSync(req.file.path) // Elimina el archivo local después de subirlo a Cloudinary
-    console.log('📸 Imagen subida a Cloudinary:', result.secure_url)
-    console.log('Numero control del usuario:', numeroControl)
+    const result = await cloudinary.uploader.upload_stream(
+      { folder: 'profile_photos' },
+      async (error, result) => {
+        if (error) {
+          console.error('Error al subir la imagen:', error)
+          return res.status(500).json({ success: false, error: 'Error uploading image' })
+        }
+        console.log('Imagen subida a Cloudinary:', result.secure_url)
+        console.log('Numero control del usuario:', numeroControl)
 
-    const query = `UPDATE public.datos_personales SET foto_perfil = '${result.secure_url}' WHERE id_persona = (SELECT id_persona FROM public.estudiante WHERE numero_control = '${numeroControl}')`
-    const resultQuery = await pool.query(query)
+        const query = `UPDATE public.datos_personales SET foto_perfil = '${result.secure_url}' WHERE id_persona = (SELECT id_persona FROM public.estudiante WHERE numero_control = '${numeroControl}')`
+        const resultQuery = await pool.query(query)
 
-    if (resultQuery.rowCount === 0) {
-      return res.status(404).json({ success: false, error: 'Error al cargar la foto' }) // Retorna JSON si no encuentra datos
-    } else {
-      return res.json({ success: true, message: 'Foto actualizada correctamente', fotoURL: result.secure_url }) // Devuelve los datos en formato JSON
-    }
+        if (resultQuery.rowCount === 0) {
+          return res.status(404).json({ success: false, error: 'Error al cargar la foto' }) // Retorna JSON si no encuentra datos
+        } else {
+          return res.json({ success: true, message: 'Foto actualizada correctamente', fotoURL: result.secure_url }) // Devuelve los datos en formato JSON
+        }
+      }
+    )
+    req.file.stream.pipe(result)
   } catch (error) {
     console.error('Error al subir imagen:', error)
     res.status(500).json({ success: false, error: 'Error uploading image' })
