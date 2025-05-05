@@ -48,27 +48,30 @@ app.get('/superusuario/cargar-grupo', (req, res) => { res.sendFile(path.join(__d
 app.post('/api/upload-image', upload.single('photo'), verifToken, async (req, res) => {
   const numeroControl = req.usuario.numeroControl
   try {
-    const result = await cloudinary.uploader.upload_stream(
-      { folder: 'profile_photos' },
-      async (error, result) => {
-        if (error) {
-          console.error('Error al subir la imagen:', error)
-          return res.status(500).json({ success: false, error: 'Error uploading image' })
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' })
+    }
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: 'profile_photos' },
+        (error, result) => {
+          if (error) reject(error)
+          else resolve(result)
         }
-        console.log('Imagen subida a Cloudinary:', result.secure_url)
-        console.log('Numero control del usuario:', numeroControl)
+      )
+      stream.end(req.file.buffer) // Pasamos el buffer al stream
+    })
 
-        const query = `UPDATE public.datos_personales SET foto_perfil = '${result.secure_url}' WHERE id_persona = (SELECT id_persona FROM public.estudiante WHERE numero_control = '${numeroControl}')`
-        const resultQuery = await pool.query(query)
+    console.log('Imagen subida a Cloudinary:', result.secure_url)
+    console.log('Número de control:', numeroControl)
+    const query = `UPDATE public.datos_personales SET foto_perfil = '${result.secure_url}' WHERE id_persona = (SELECT id_persona FROM public.estudiante WHERE numero_control = '${numeroControl}')`
+    const resultQuery = await pool.query(query)
 
-        if (resultQuery.rowCount === 0) {
-          return res.status(404).json({ success: false, error: 'Error al cargar la foto' }) // Retorna JSON si no encuentra datos
-        } else {
-          return res.json({ success: true, message: 'Foto actualizada correctamente', fotoURL: result.secure_url }) // Devuelve los datos en formato JSON
-        }
-      }
-    )
-    req.file.stream.pipe(result)
+    if (resultQuery.rowCount === 0) {
+      return res.status(404).json({ success: false, error: 'Error al cargar la foto' })
+    } else {
+      return res.json({ success: true, message: 'Foto de perfil actualizada', fotoURL: result.secure_url })
+    }
   } catch (error) {
     console.error('Error al subir imagen:', error)
     res.status(500).json({ success: false, error: 'Error uploading image' })
