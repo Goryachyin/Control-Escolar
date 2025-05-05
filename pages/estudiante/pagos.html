@@ -623,14 +623,6 @@
         sidebar.classList.toggle("visible");
       }
     }
-
-    function cerrarSesion() {
-      // Lógica para cerrar sesión
-      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-        localStorage.removeItem('token');
-        window.location.href = '/login.html';
-      }
-    }
     
     function toggleUserMenu() {
       // Aquí podrías implementar un menú desplegable del perfil

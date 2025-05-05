@@ -1,3 +1,13 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+function cerrarSesion () {
+  // Lógica para cerrar sesión
+  if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+    localStorage.removeItem('token')
+    window.location.href = '/login'
+  }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const panelSideBar = document.getElementById('sidebar')
   const sidebar = `
@@ -74,4 +84,33 @@ document.addEventListener('DOMContentLoaded', async () => {
       boton.classList.add('active')
     }
   })
+
+  // Validación de token para cada pagina
+  // eslint-disable-next-line no-undef
+  const token = localStorage.getItem('token')
+  if (!token) {
+    window.location.href = '/login'// Redirigir al login si no hay token
+    console.log('No hay token (general, linea 83)')
+    return
+  }
+
+  fetch('/api/verificar-token', {
+    method: 'GET',
+    headers: {
+      // eslint-disable-next-line quote-props
+      'Authorization': `Bearer ${token}`
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (!data.valid) {
+        // eslint-disable-next-line no-undef
+        localStorage.removeItem('token') // Eliminar token inválido
+        window.location.href = '/login'
+      }
+    })
+    .catch(error => {
+      console.error('Error al verificar token (general, linea 103):', error)
+      window.location.href = '/login'
+    })
 })

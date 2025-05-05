@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+const token = localStorage.getItem('token')
 function toggleSidebar () {
   const sidebar = document.getElementById('sidebar')
   sidebar.classList.toggle('hidden')
@@ -67,10 +68,46 @@ function savePanel (panelId, event) {
   // Aquí podrías agregar código para guardar los cambios en el servidor
   alert('Cambios guardados correctamente')
 }
+async function uploadProfilePhoto () {
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.accept = 'image/jpeg, image/png'
+  input.onchange = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const formData = new FormData()
+    formData.append('photo', file)
+    try {
+      const res = await fetch('/api/upload-image', {
+        method: 'POST',
+        headers: {
+          // eslint-disable-next-line quote-props
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      })
+
+      const data = await res.json()
+      if (res.ok) {
+        alert('Foto de perfil cargada correctamente')
+        console.log(data.fotoURL)
+        document.getElementById('profile-pic').src = data.fotoURL // Cambia la fuente de la imagen
+        document.getElementById('profile-pic-welcome').src = data.fotoURL // Cambia la fuente de la imagen
+      } else {
+        alert(`Error al subir la foto de perfil: ${data.message}`)
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('Error al subir la foto de perfil')
+    }
+  }
+  input.click()
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
   // eslint-disable-next-line no-undef
   // Toggle user menu
+
   document.getElementById('userProfile').addEventListener('click', async (e) => {
     e.stopPropagation()
     document.getElementById('userMenu').classList.toggle('show')
@@ -116,11 +153,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       sidebar.classList.remove('visible')
     }
   })
-
   document.getElementById('personalInfoPanel').classList.add('show')
   console.log('Inicio de sesión (inicio, linea 125)')
   // --------
-  const token = localStorage.getItem('token')
   if (!token) {
     window.location.href = '/estudiante/login'// Redirigir al login si no hay token
     console.log('No hay token (inicio, linea 128)')
@@ -164,8 +199,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('subtitulo-bienvenida').textContent = 'Número de control: ' + data.numero_control
       document.getElementById('carrera').textContent = data.nombre_carrera.toUpperCase()
       document.getElementById('correo').textContent = data.correo_institucional
-      document.getElementById('curp').textContent = data.curp_persona
       document.getElementById('semestre').textContent = data.semestre_estudiante
+      document.getElementById('profile-pic').src = data.foto_perfil
+      document.getElementById('profile-pic-welcome').src = data.foto_perfil
     })
     .catch(error => {
       console.error('Error al obtener datos del usuario (inicio, linea 51):', error)

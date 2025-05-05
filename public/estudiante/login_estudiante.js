@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (result.success) {
         // eslint-disable-next-line no-undef
         localStorage.setItem('token', result.token)
-        window.location.href = '/estudiante/inicio.html'
+        window.location.href = '/estudiante/inicio'
       } else {
         modal.innerHTML = '<h3>Error</h3><p>' + result.error + '</p><button id="closeModal">Cerrar</button>'
         modal.style.display = 'block'
