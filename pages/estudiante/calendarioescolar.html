@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +53,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       height: 64px;
     }
 
@@ -67,7 +68,7 @@
       width: 36px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.2);
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .header-title {
@@ -96,7 +97,7 @@
     }
 
     .toggle-btn:hover {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .top-buttons {
@@ -106,7 +107,7 @@
     }
 
     .header-btn {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       color: white;
       border: none;
       padding: 0.5rem 1rem;
@@ -121,7 +122,7 @@
     }
 
     .header-btn:hover {
-      background-color: rgba(255,255,255,0.2);
+      background-color: rgba(255, 255, 255, 0.2);
     }
 
     .user-profile {
@@ -135,7 +136,7 @@
     }
 
     .user-profile:hover {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .profile-image {
@@ -143,7 +144,7 @@
       height: 36px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.3);
+      border: 2px solid rgba(255, 255, 255, 0.3);
     }
 
     .username {
@@ -186,7 +187,7 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255, 255, 255, 0.6);
       padding: 0.75rem 1.5rem;
       margin-bottom: 0.25rem;
     }
@@ -207,8 +208,9 @@
       gap: 0.75rem;
     }
 
-    .sidebar-btn:hover, .sidebar-btn.active {
-      background-color: rgba(255,255,255,0.1);
+    .sidebar-btn:hover,
+    .sidebar-btn.active {
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .sidebar-btn.active {
@@ -226,7 +228,7 @@
     .sidebar-divider {
       border: none;
       height: 1px;
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       margin: 1rem 1.5rem;
     }
 
@@ -240,7 +242,7 @@
       background-color: var(--background);
     }
 
-    .sidebar.hidden + .content {
+    .sidebar.hidden+.content {
       margin-left: 0;
     }
 
@@ -248,7 +250,7 @@
     .panel {
       background-color: var(--card-bg);
       border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       padding: 20px;
       margin-bottom: 20px;
     }
@@ -267,11 +269,11 @@
       .sidebar {
         transform: translateX(-100%);
       }
-      
+
       .sidebar.visible {
         transform: translateX(0);
       }
-      
+
       .content {
         margin-left: 0;
       }
@@ -287,25 +289,27 @@
       .header {
         padding: 0.75rem 1rem;
       }
-      
+
       .header-btn span {
         display: none;
       }
-      
+
       .username {
         display: none;
       }
     }
   </style>
 </head>
-<body>
 
+<body>
   <header>
     <div class="school-info">
       <button class="toggle-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
       </button>
-      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
+      <img
+        src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc"
+        alt="Logo Escuela" class="school-logo">
       <div>
         <span class="header-title">NYAPT EDUCATION</span>
         <span class="header-subtitle">Edición Estudiantil</span>
@@ -321,7 +325,8 @@
         <span>Notificaciones</span>
       </button>
       <div class="user-profile" onclick="toggleUserMenu()">
-        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg"
+          alt="Foto de perfil" class="profile-image">
         <span class="username" id="username">Eduardo</span>
       </div>
     </div>
@@ -335,7 +340,7 @@
           <span>Inicio</span>
         </button>
       </div>
-      
+
       <div class="sidebar-section">
         <div class="sidebar-title">Académico</div>
         <button class="sidebar-btn" onclick="window.location.href='horario.html'">
@@ -350,11 +355,11 @@
           <i class="fas fa-file-alt"></i>
           <span>Kardex</span>
         </button>
-        <button class="sidebar-btn active" onclick="window.location.href='calendario.html'">
+        <button class="sidebar-btn active" onclick="window.location.href='calendarioescolar.html'">
           <i class="fas fa-calendar-day"></i>
           <span>Calendario</span>
         </button>
-        <button class="sidebar-btn" onclick="window.location.href='cargamaterrias.html'">
+        <button class="sidebar-btn" onclick="window.location.href='cargamaterias.html'">
           <i class="fas fa-book"></i>
           <span>Carga de Materias</span>
         </button>
@@ -363,7 +368,7 @@
           <span>Actividades complementarias</span>
         </button>
       </div>
-      
+
       <div class="sidebar-section">
         <div class="sidebar-title">Servicios</div>
         <button class="sidebar-btn" onclick="window.location.href='recibos.html'">
@@ -375,9 +380,9 @@
           <span>Pagos</span>
         </button>
       </div>
-      
+
       <div class="sidebar-divider"></div>
-      
+
       <div class="sidebar-section">
         <button class="sidebar-btn" onclick="window.location.href='contador.html'">
           <i class="fas fa-umbrella-beach"></i>
@@ -394,8 +399,9 @@
       <!-- Panel de Calendario Escolar -->
       <div class="panel">
         <div class="panel-header">Calendario Escolar 2025</div>
-      
-        <div id="calendar" style="display: flex; flex-direction: column; gap: 40px; max-height: calc(100vh - 150px); overflow-y: auto; padding: 10px;">
+
+        <div id="calendar"
+          style="display: flex; flex-direction: column; gap: 40px; max-height: calc(100vh - 150px); overflow-y: auto; padding: 10px;">
           <!-- Los meses se generarán aquí -->
         </div>
       </div>
@@ -413,33 +419,18 @@
       }
     }
 
-    function cerrarSesion() {
-      // Lógica para cerrar sesión
-      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-        localStorage.removeItem('token');
-        window.location.href = '/login.html';
-      }
-    }
-    
-    function toggleUserMenu() {
-      // Aquí podrías implementar un menú desplegable del perfil
-      console.log("Mostrar menú de usuario");
-    }
-    
-    // Cerrar sidebar al hacer clic fuera en móviles
-    document.addEventListener('click', function(event) {
-      const sidebar = document.getElementById('sidebar');
-      const toggleBtn = document.querySelector('.toggle-btn');
-      
-      if (window.innerWidth <= 992 && 
-          !sidebar.contains(event.target) && 
-          !toggleBtn.contains(event.target) &&
-          sidebar.classList.contains('visible')) {
-        sidebar.classList.remove('visible');
+    // Función para hacer scroll automático al mes actual
+    window.addEventListener('load', () => {
+      const now = new Date();
+      const currentMonthIndex = now.getMonth(); // 0 = Enero, 1 = Febrero, etc.
+      const calendar = document.getElementById('calendar');
+      const monthPanels = calendar.children;
+
+      if (monthPanels[currentMonthIndex]) {
+        monthPanels[currentMonthIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
 
-    // Generar calendario
     const months = [
       "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
       "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
@@ -490,27 +481,27 @@
       "2025-12-29": { type: "Receso Escolar", color: "#a5d6a7" },
       "2025-12-30": { type: "Receso Escolar", color: "#a5d6a7" },
       "2025-12-31": { type: "Receso Escolar", color: "#a5d6a7" },
-      
+
 
       // Inicio de cursos
       "2025-02-04": { type: "Inicio de Cursos", color: "#ffcc80" },
       "2025-08-25": { type: "Inicio de Cursos", color: "#ffcc80" },
 
       // Suspensión de labores
-      "2025-02-03": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
-      "2025-01-01": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-02-03": { type: "Suspension de labores Docentes", color: "#ef9a9a" },
+      "2025-01-01": { type: "Suspension de labores Docentes", color: "#ef9a9a" },
       "2025-03-17": { type: "Suspensión de labores (Natalicio Benito Juárez)", color: "#ef9a9a" },
       "2025-05-01": { type: "Suspensión de labores (Día del Trabajo)", color: "#ef9a9a" },
-      "2025-05-05": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
-      "2025-05-15": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-05-05": { type: "Suspension de labores Docentes", color: "#ef9a9a" },
+      "2025-05-15": { type: "Suspension de labores Docentes", color: "#ef9a9a" },
       "2025-09-16": { type: "Suspensión de labores (Independencia)", color: "#ef9a9a" },
-      "2025-10-01": {  type:"Suspension de labores Docentes", color:"#ef9a9a"},
+      "2025-10-01": { type: "Suspension de labores Docentes", color: "#ef9a9a" },
       "2025-11-18": { type: "Suspensión de labores (Revolución Mexicana)", color: "#ef9a9a" },
       "2025-12-25": { type: "Suspensión de labores (Navidad)", color: "#ef9a9a" },
 
       // Fin de curso
       "2025-06-06": { type: "Fin de Curso", color: "#ffcc80" },
-       
+
       //Selección de materias 
       "2025-01-27": { type: "Selección de materias", color: "#7e86bc" },
       "2025-01-28": { type: "Selección de materias", color: "#7e86bc" },
@@ -546,6 +537,8 @@
       "2025-10-06": { type: "Honores a la Bandera", color: "#90caf9" },
       "2025-11-03": { type: "Honores a la Bandera", color: "#90caf9" },
       "2025-12-01": { type: "Honores a la Bandera", color: "#90caf9" }
+
+
     };
 
     function generateCalendar(year) {
@@ -557,7 +550,7 @@
         monthPanel.style.padding = "20px";
         monthPanel.style.borderRadius = "10px";
         monthPanel.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
-        
+
         const title = document.createElement('h3');
         title.style.textAlign = "center";
         title.style.color = "#4a6b8a";
@@ -622,10 +615,8 @@
       });
     }
 
-    // Generar el calendario cuando la página cargue
-    window.onload = function() {
-      generateCalendar(2025);
-    };
+    generateCalendar(2025);
   </script>
 </body>
+
 </html>

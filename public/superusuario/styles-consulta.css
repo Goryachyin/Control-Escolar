@@ -1,15 +1,26 @@
 :root {
-    --primary: #4361ee;
-    --primary-light: #e6ecfe;
+    --primary: #4a6b8a;
+    --primary-dark: #3a576f;
+    --primary-light: #e1e7ed;
     --text: #2b2d42;
     --text-light: #8d99ae;
-    --background: #f8f9fa;
+    --background: #f5f7fa;
     --card: #ffffff;
     --border: #e9ecef;
     --success: #2ec4b6;
     --success-light: #e8f7f6;
-    --error: #ef233c;
+    --error: #f44336;
     --error-light: #fde8ea;
+    --accent: #ffab40;
+    --text-primary: #212121;
+    --text-secondary: #757575;
+    --divider: #e0e0e0;
+
+    --card-bg: #ffffff;
+    --success: #4caf50;
+    --warning: #ff9800;
+
+    --info: #2196f3;
 }
 
 /* Scrollable content area */
@@ -105,9 +116,12 @@ body {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     background-color: var(--background);
-    color: var(--text);
+    color: var(--text-primary);
     line-height: 1.7;
     padding: 20px;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .container {
@@ -118,24 +132,28 @@ body {
     /* Aumentado el padding lateral */
 }
 
-.header {
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--primary);
+    color: white;
+    padding: 0.75rem 2rem;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 64px;
 }
 
-.header-icon {
-    font-size: 32px;
-    margin-right: 15px;
-    color: var(--primary);
-}
-
-.header-title {
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--text);
+/* Main Layout */
+.main {
+    display: flex;
+    flex: 1;
+    margin-top: 64px;
+    height: calc(100vh - 64px);
 }
 
 .card {
@@ -668,4 +686,247 @@ input[readonly] {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/*HEADER*/
+.school-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.school-logo {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.header-subtitle {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    font-weight: 400;
+    margin-left: 0.5rem;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    margin-right: 0.5rem;
+}
+
+.toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.header-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50px;
+    transition: background-color 0.2s;
+}
+
+.user-profile:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.username {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Main Layout */
+.main {
+    display: flex;
+    flex: 1;
+    margin-top: 64px;
+    height: calc(100vh - 64px);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    bottom: 0;
+    width: 240px;
+    background-color: #1b2631;
+    overflow-y: auto;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+    z-index: 999;
+    padding: 1rem 0;
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+.sidebar-section {
+    margin-bottom: 1rem;
+}
+
+.sidebar-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.sidebar-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: none;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    gap: 0.75rem;
+}
+
+.sidebar-btn:hover,
+.sidebar-btn.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-btn.active {
+    border-left: 3px solid var(--accent);
+    padding-left: calc(1.5rem - 3px);
+}
+
+.sidebar-btn i {
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.sidebar-divider {
+    border: none;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 1rem 1.5rem;
+}
+
+/* Content Area */
+.content {
+    flex: 1;
+    margin-left: 240px;
+    padding: 20px;
+    overflow-y: auto;
+    transition: margin-left 0.3s ease;
+    background-color: var(--background);
+}
+
+.sidebar.hidden+.content {
+    margin-left: 0;
+}
+
+/* Estilos para el calendario */
+.panel {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.panel-header {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--divider);
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.visible {
+        transform: translateX(0);
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-title {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .header {
+        padding: 0.75rem 1rem;
+    }
+
+    .header-btn span {
+        display: none;
+    }
+
+    .username {
+        display: none;
+    }
 }

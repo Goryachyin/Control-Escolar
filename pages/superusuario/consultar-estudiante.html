@@ -7,94 +7,177 @@
     <title>Consulta de Estudiante | Sistema Académico</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/superusuario/styles-consulta.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="/superusuario/consultarEstudiante.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="header-icon">👨‍🎓</div>
-            <h1 class="header-title">Consulta de Estudiante</h1>
+    <header>
+        <div class="school-info">
+            <button class="toggle-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc"
+                alt="Logo Escuela" class="school-logo">
+            <div>
+                <span class="header-title">NYAPT EDUCATION</span>
+                <span class="header-subtitle">ADMINISTRADOR</span>
+            </div>
         </div>
-        
-        <!-- Contenedor del overlay y el círculo de carga -->
-        <div id="loadingOverlay">
-            <div class="spinner"></div>
+        <div class="top-buttons">
+            <button class="header-btn">
+                <i class="fas fa-question-circle"></i>
+                <span>Ayuda</span>
+            </button>
+            <button class="header-btn">
+                <i class="fas fa-bell"></i>
+                <span>Notificaciones</span>
+            </button>
+            <div class="user-profile" onclick="toggleUserMenu()">
+                <img id="profile-pic"
+                    src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg"
+                    alt="Foto de perfil" class="profile-image">
+                <span class="username" id="username">Eduardo</span>
+            </div>
         </div>
+    </header>
+    <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+                <button class="sidebar-btn" onclick="window.location.href='inicio.html'">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </button>
+            </div>
 
-        <!-- Modal de error -->
-        <div id="modalError" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="cerrarModal()">&times;</span>
-                <h3>Error en la consulta</h3>
-                <p id="mensajeError" class="error-message"></p>
+            <div class="sidebar-section">
+                <div class="sidebar-title">Consultas</div>
+                <button class="sidebar-btn" onclick="window.location.href='consultar-estudiante.html'">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Consultar estudiante</span>
+                </button>
+                <button class="sidebar-btn" onclick="window.location.href='consultar-docente.html'">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Consultar Docente</span>
+                </button>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Acciones</div>
+                <button class="sidebar-btn" onclick="window.location.href='cargar-grupo.html'">
+                    <i class="fas fa-users"></i>
+                    <span>Registrar Grupo</span>
+                </button>
+                <button class="sidebar-btn" onclick="window.location.href='registrar-estudiante.html'">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Registrar Estudiante</span>
+                </button>
+                <button class="sidebar-btn" onclick="window.location.href='registrar-docente.html'">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Registrar Docente</span>
+                </button>
+                <button class="sidebar-btn" onclick="window.location.href='registrar-materia.html'">
+                    <i class="fas fa-book"></i>
+                    <span>Registrar Materia</span>
+                  </button>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+                <button class="sidebar-btn" onclick="window.location.href='contador.html'">
+                    <i class="fas fa-umbrella-beach"></i>
+                    <span>Vacaciones</span>
+                </button>
+                <button class="sidebar-btn" onclick="cerrarSesion()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </button>
             </div>
         </div>
 
-        <div class="card">
-            <h2 class="card-title"><span>🔍</span> Buscar Estudiante</h2>
-            <form id="consultaForm">
-                <div class="form-group">
-                    <label for="numero_control">Número de Control</label>
-                    <input type="text" id="numero_control" name="numero_control" placeholder="Ingresa el número de control" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Consultar</button>
-            </form>
-        </div>
+        <div class="content" id="mainContent">
+            <!-- Contenedor del overlay y el círculo de carga -->
+            <div id="loadingOverlay">
+                <div class="spinner"></div>
+            </div>
 
-        <div class="card" id="resultadosCard" style="display: none;">
-            <h2 class="card-title"><span>📋</span> Información del Estudiante</h2>
-            <form id="resultadosForm">
-                <div class="grid-container">
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="apellido_p">Apellido Paterno</label>
-                        <input type="text" id="apellido_p" name="apellido_p" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="apellido_m">Apellido Materno</label>
-                        <input type="text" id="apellido_m" name="apellido_m" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="CURP">CURP</label>
-                        <input type="text" id="CURP" name="CURP" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="telefono">Teléfono</label>
-                        <input type="text" id="telefono" name="telefono" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="correo">Correo Electrónico</label>
-                        <input type="email" id="correo" name="correo" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="carrera">Carrera</label>
-                        <input type="text" id="carrera" name="carrera" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="semestre">Semestre</label>
-                        <input type="text" id="semestre" name="semestre" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="estado">Estado del estudiante</label>
-                        <input type="text" id="estado" name="estado" readonly>
-                    </div>
+            <!-- Modal de error -->
+            <div id="modalError" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="cerrarModal()">&times;</span>
+                    <h3>Error en la consulta</h3>
+                    <p id="mensajeError" class="error-message"></p>
                 </div>
-            </form>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title"><span>🔍</span> Buscar Estudiante</h2>
+                <form id="consultaForm">
+                    <div class="form-group">
+                        <label for="numero_control">Número de Control</label>
+                        <input type="text" id="numero_control" name="numero_control"
+                            placeholder="Ingresa el número de control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Consultar</button>
+                </form>
+            </div>
+
+            <div class="card" id="resultadosCard" style="display: none;">
+                <h2 class="card-title"><span>📋</span> Información del Estudiante</h2>
+                <form id="resultadosForm">
+                    <div class="grid-container">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="apellido_p">Apellido Paterno</label>
+                            <input type="text" id="apellido_p" name="apellido_p" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="apellido_m">Apellido Materno</label>
+                            <input type="text" id="apellido_m" name="apellido_m" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="CURP">CURP</label>
+                            <input type="text" id="CURP" name="CURP" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text" id="telefono" name="telefono" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="correo">Correo Electrónico</label>
+                            <input type="email" id="correo" name="correo" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carrera">Carrera</label>
+                            <input type="text" id="carrera" name="carrera" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="semestre">Semestre</label>
+                            <input type="text" id="semestre" name="semestre" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="estado">Estado del estudiante</label>
+                            <input type="text" id="estado" name="estado" readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-
-    <script src="consultarEstudiante.js"></script>
 </body>
 
 </html>

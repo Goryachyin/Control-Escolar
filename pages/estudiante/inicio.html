@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NYAPT EDUCATION - Panel Estudiantil</title>
+  <script src="/estudiante/inicio.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -52,7 +54,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       height: 64px;
     }
 
@@ -67,7 +69,7 @@
       width: 36px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.2);
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .header-title {
@@ -96,7 +98,7 @@
     }
 
     .toggle-btn:hover {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .top-buttons {
@@ -106,7 +108,7 @@
     }
 
     .header-btn {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       color: white;
       border: none;
       padding: 0.5rem 1rem;
@@ -121,7 +123,7 @@
     }
 
     .header-btn:hover {
-      background-color: rgba(255,255,255,0.2);
+      background-color: rgba(255, 255, 255, 0.2);
     }
 
     .user-profile {
@@ -136,7 +138,7 @@
     }
 
     .user-profile:hover {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .profile-image {
@@ -159,7 +161,7 @@
       right: 0;
       background-color: white;
       border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       min-width: 200px;
       z-index: 1001;
       display: none;
@@ -221,7 +223,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: 2000;
       display: none;
       justify-content: center;
@@ -237,7 +239,7 @@
       border-radius: 12px;
       width: 100%;
       max-width: 400px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       overflow: hidden;
     }
 
@@ -371,7 +373,7 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255, 255, 255, 0.6);
       padding: 0.75rem 1.5rem;
       margin-bottom: 0.25rem;
     }
@@ -392,8 +394,9 @@
       gap: 0.75rem;
     }
 
-    .sidebar-btn:hover, .sidebar-btn.active {
-      background-color: rgba(255,255,255,0.1);
+    .sidebar-btn:hover,
+    .sidebar-btn.active {
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .sidebar-btn.active {
@@ -411,7 +414,7 @@
     .sidebar-divider {
       border: none;
       height: 1px;
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       margin: 1rem 1.5rem;
     }
 
@@ -425,7 +428,7 @@
       background-color: var(--background);
     }
 
-    .sidebar.hidden + .content {
+    .sidebar.hidden+.content {
       margin-left: 0;
     }
 
@@ -447,7 +450,7 @@
       height: 80px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid rgba(255,255,255,0.3);
+      border: 3px solid rgba(255, 255, 255, 0.3);
     }
 
     .welcome-text {
@@ -467,7 +470,7 @@
     }
 
     .upload-btn {
-      background-color: rgba(255,255,255,0.2);
+      background-color: rgba(255, 255, 255, 0.2);
       color: white;
       border: none;
       padding: 0.5rem 1rem;
@@ -481,7 +484,7 @@
     }
 
     .upload-btn:hover {
-      background-color: rgba(255,255,255,0.3);
+      background-color: rgba(255, 255, 255, 0.3);
     }
 
     /* Quick Actions */
@@ -501,7 +504,7 @@
       border-radius: 12px;
       padding: 1.5rem 1rem;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       transition: all 0.2s;
       border: none;
       cursor: pointer;
@@ -512,7 +515,7 @@
       background-color: var(--primary-light);
       color: var(--primary-dark);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .action-icon {
@@ -532,7 +535,7 @@
       border-radius: 12px;
       padding: 1.5rem;
       margin-bottom: 2rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
     .panel-title {
@@ -587,7 +590,7 @@
       background-color: var(--card-bg);
       border-radius: 12px;
       padding: 1.5rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
       margin-bottom: 2rem;
       border: 1px solid var(--divider);
     }
@@ -672,7 +675,7 @@
       background-color: var(--card-bg);
       border-radius: 12px;
       padding: 1.5rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
     .news-item {
@@ -818,15 +821,15 @@
       .sidebar {
         transform: translateX(-100%);
       }
-      
+
       .sidebar.visible {
         transform: translateX(0);
       }
-      
+
       .content {
         margin-left: 0;
       }
-      
+
       .welcome-banner {
         flex-direction: column;
         text-align: center;
@@ -837,7 +840,7 @@
       .header-title {
         display: none;
       }
-      
+
       .quick-actions {
         grid-template-columns: 1fr 1fr;
       }
@@ -851,15 +854,15 @@
       .header {
         padding: 0.75rem 1rem;
       }
-      
+
       .header-btn span {
         display: none;
       }
-      
+
       .username {
         display: none;
       }
-      
+
       .quick-actions {
         grid-template-columns: 1fr;
       }
@@ -868,33 +871,35 @@
         grid-template-columns: 1fr;
       }
     }
+
     .user-menu-header {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-}
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+    }
 
-.user-menu-name {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--primary-dark);
-}
+    .user-menu-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary-dark);
+    }
 
-.user-menu-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-primary);
-}
+    .user-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-primary);
+    }
 
-.user-menu-icon {
-  width: 16px;
-  text-align: center;
-  color: inherit;
-}
+    .user-menu-icon {
+      width: 16px;
+      text-align: center;
+      color: inherit;
+    }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -902,7 +907,9 @@
       <button class="toggle-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
       </button>
-      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
+      <img
+        src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc"
+        alt="Logo Escuela" class="school-logo">
       <div>
         <span class="header-title">NYAPT EDUCATION</span>
         <span class="header-subtitle">Edición Estudiantil</span>
@@ -918,9 +925,10 @@
         <span>Notificaciones</span>
       </button>
       <div class="user-profile" id="userProfile">
-        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
+        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg"
+          alt="Foto de perfil" class="profile-image">
         <span class="username" id="nombre">Eduardo</span>
-        
+
         <!-- User dropdown menu -->
         <div class="user-menu" id="userMenu">
           <div class="user-menu-header">
@@ -943,44 +951,6 @@
     </div>
   </header>
 
-  <!-- Password change modal -->
-  <div class="modal-overlay" id="passwordModal">
-    <div class="modal">
-      <div class="modal-header">Cambiar Contraseña</div>
-      <div class="modal-body">
-        <div class="password-field">
-          <div class="checkbox-field">
-            <input type="checkbox" id="currentPasswordCheck" checked disabled>
-            <label for="currentPasswordCheck">Contraseña Actual</label>
-          </div>
-          <input type="password" placeholder="Ingresa tu contraseña actual">
-        </div>
-        
-        <div class="password-field">
-          <div class="checkbox-field">
-            <input type="checkbox" id="newPasswordCheck" checked>
-            <label for="newPasswordCheck">Nueva Contraseña</label>
-          </div>
-          <input type="password" placeholder="Ingresa tu nueva contraseña">
-        </div>
-        
-        <div class="password-field">
-          <div class="checkbox-field">
-            <input type="checkbox" id="confirmPasswordCheck">
-            <label for="confirmPasswordCheck">Confirmar Nueva Contraseña</label>
-          </div>
-          <input type="password" placeholder="Confirma tu nueva contraseña">
-        </div>
-        
-        <div class="modal-divider"></div>
-      </div>
-      <div class="modal-footer">
-        <button class="modal-btn modal-btn-cancel" id="cancelPasswordBtn">CANCELAR</button>
-        <button class="modal-btn modal-btn-confirm">CONFIRMAR</button>
-      </div>
-    </div>
-  </div>
-
   <div class="main">
     <div class="sidebar" id="sidebar">
       <div class="sidebar-section">
@@ -989,7 +959,7 @@
           <span>Inicio</span>
         </button>
       </div>
-      
+
       <div class="sidebar-section">
         <div class="sidebar-title">Académico</div>
         <button class="sidebar-btn" onclick="window.location.href='horario.html'">
@@ -1004,7 +974,7 @@
           <i class="fas fa-file-alt"></i>
           <span>Kardex</span>
         </button>
-        <button class="sidebar-btn" onclick="window.location.href='calendario.html'">
+        <button class="sidebar-btn" onclick="window.location.href='calendarioescolar.html'">
           <i class="fas fa-calendar-day"></i>
           <span>Calendario</span>
         </button>
@@ -1017,7 +987,7 @@
           <span>Actividades complementarias</span>
         </button>
       </div>
-      
+
       <div class="sidebar-section">
         <div class="sidebar-title">Servicios</div>
         <button class="sidebar-btn" onclick="window.location.href='recibos.html'">
@@ -1029,9 +999,9 @@
           <span>Pagos</span>
         </button>
       </div>
-      
+
       <div class="sidebar-divider"></div>
-      
+
       <div class="sidebar-section">
         <button class="sidebar-btn" onclick="window.location.href='contador.html'">
           <i class="fas fa-umbrella-beach"></i>
@@ -1045,14 +1015,53 @@
     </div>
 
     <div class="content" id="mainContent">
-      <div class="welcome-banner">
-        <img src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="welcome-avatar">
-        <div class="welcome-text">
-          <h1 class="welcome-title" id="titulo-bienvenida">Bienvenida, Eduardo</h1>
-          <p class="welcome-subtitle" id="subtitulo-bienvenida">INGENIERÍA EN SISTEMAS COMPUTACIONALES</p>
+      <!-- Password change modal -->
+      <div class="modal-overlay" id="passwordModal">
+        <div class="modal">
+          <div class="modal-header">Cambiar Contraseña</div>
+          <div class="modal-body">
+            <div class="password-field">
+              <div class="checkbox-field">
+                <input type="checkbox" id="currentPasswordCheck" checked disabled>
+                <label for="currentPasswordCheck">Contraseña Actual</label>
+              </div>
+              <input type="password" placeholder="Ingresa tu contraseña actual">
+            </div>
+
+            <div class="password-field">
+              <div class="checkbox-field">
+                <input type="checkbox" id="newPasswordCheck" checked>
+                <label for="newPasswordCheck">Nueva Contraseña</label>
+              </div>
+              <input type="password" placeholder="Ingresa tu nueva contraseña">
+            </div>
+
+            <div class="password-field">
+              <div class="checkbox-field">
+                <input type="checkbox" id="confirmPasswordCheck">
+                <label for="confirmPasswordCheck">Confirmar Nueva Contraseña</label>
+              </div>
+              <input type="password" placeholder="Confirma tu nueva contraseña">
+            </div>
+
+            <div class="modal-divider"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="modal-btn modal-btn-cancel" id="cancelPasswordBtn">CANCELAR</button>
+            <button class="modal-btn modal-btn-confirm">CONFIRMAR</button>
+          </div>
         </div>
       </div>
-      
+
+      <div class="welcome-banner">
+        <img src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil"
+          class="welcome-avatar">
+        <div class="welcome-text">
+          <h1 class="welcome-title" id="titulo-bienvenida">Bienvenido ...</h1>
+          <p class="welcome-subtitle" id="subtitulo-bienvenida">... </p>
+        </div>
+      </div>
+
       <!-- Identification Card -->
       <div class="id-card">
         <div class="id-header">
@@ -1061,40 +1070,40 @@
             Identificación
           </h2>
         </div>
-        
+
         <div class="id-info">
           <div class="id-name">Correo institucional</div>
-          <div class="id-number">eduardo.rivera@nyapt.edu.mx</div>
+          <div class="id-number" id="correo">Cargando ...</div>
         </div>
-        
+
         <div class="id-details">
           <div class="id-detail-group">
             <div class="id-detail-label">Carrera</div>
-            <div class="id-detail-value">ING. SISTEMAS 2010</div>
+            <div class="id-detail-value" id="carrera">ING. SISTEMAS 2010</div>
           </div>
-          
+
           <div class="id-detail-group">
             <div class="id-detail-label">Semestre</div>
-            <div class="id-detail-value">5</div>
+            <div class="id-detail-value" id="semestre">5</div>
           </div>
-          
+
           <div class="id-detail-group">
             <div class="id-detail-label">Prom. sin reprobadas</div>
             <div class="id-detail-value">87.70</div>
           </div>
-          
+
           <div class="id-detail-group">
             <div class="id-detail-label">Prom. con reprobadas</div>
             <div class="id-detail-value">81.66</div>
           </div>
-          
+
           <div class="id-detail-group">
             <div class="id-detail-label">Estatus</div>
             <div class="id-detail-value">VIGENTE</div>
           </div>
         </div>
       </div>
-      
+
       <!-- Collapsible Panel - Información Personal -->
       <div class="collapsible-panel">
         <div class="panel-header" onclick="togglePanel('personalInfoPanel')">
@@ -1117,24 +1126,24 @@
           <table class="info-table">
             <tr>
               <td class="info-label">Nombre Completo</td>
-              <td class="info-value" data-field="nombre">Eduardo Rivera Avila</td>
+              <td class="info-value" data-field="nombre" id="nombre_infoPanel">Cargando ...</td>
             </tr>
             <tr>
               <td class="info-label">Fecha de Nacimiento</td>
-              <td class="info-value" data-field="fechaNacimiento">12/05/1995</td>
+              <td class="info-value" data-field="fechaNacimiento" id="fechaNacimiento_infoPanel">Cargando ...</td>
             </tr>
             <tr>
               <td class="info-label">Género</td>
-              <td class="info-value" data-field="genero">Masculino</td>
+              <td class="info-value" data-field="genero" id="genero_infoPanel">Cargando ...</td>
             </tr>
             <tr>
               <td class="info-label">CURP</td>
-              <td class="info-value" data-field="curp">RODAS50512MDFNN509</td>
+              <td class="info-value" data-field="curp" id="curp_infoPanel">Cargando ...</td>
             </tr>
           </table>
         </div>
       </div>
-      
+
       <!-- Collapsible Panel - Información de Contacto -->
       <div class="collapsible-panel">
         <div class="panel-header" onclick="togglePanel('contactInfoPanel')">
@@ -1174,13 +1183,13 @@
           </table>
         </div>
       </div>
-      
+
       <div class="news-section">
         <h2 class="panel-title">
           <i class="fas fa-bullhorn"></i>
           Avisos y Noticias
         </h2>
-        
+
         <div class="news-item">
           <div class="news-icon">
             <i class="fas fa-exclamation-circle"></i>
@@ -1191,7 +1200,7 @@
             <div class="news-date">Hoy, 10:45 AM</div>
           </div>
         </div>
-        
+
         <div class="news-item">
           <div class="news-icon">
             <i class="fas fa-calendar-alt"></i>
@@ -1202,141 +1211,21 @@
             <div class="news-date">Ayer, 3:30 PM</div>
           </div>
         </div>
-        
+
         <div class="news-item">
           <div class="news-icon">
             <i class="fas fa-briefcase"></i>
           </div>
           <div class="news-content">
             <div class="news-title">Feria de empleo próximamente</div>
-            <p class="news-description">No te pierdas la feria de empleo para estudiantes de ingeniería el próximo mes.</p>
+            <p class="news-description">No te pierdas la feria de empleo para estudiantes de ingeniería el próximo mes.
+            </p>
             <div class="news-date">15/06/2023</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("hidden");
-      
-      // En móviles, queremos que el sidebar se superponga
-      if (window.innerWidth <= 992) {
-        sidebar.classList.toggle("visible");
-      }
-    }
-
-    function cerrarSesion() {
-      // Lógica para cerrar sesión
-      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-        localStorage.removeItem('token');
-        window.location.href = '/login.html';
-      }
-    }
-    
-    // Toggle user menu
-    document.getElementById('userProfile').addEventListener('click', function(e) {
-      e.stopPropagation();
-      document.getElementById('userMenu').classList.toggle('show');
-    });
-    
-    // Close user menu when clicking outside
-    document.addEventListener('click', function() {
-      document.getElementById('userMenu').classList.remove('show');
-    });
-    
-    // Prevent menu from closing when clicking inside
-    document.getElementById('userMenu').addEventListener('click', function(e) {
-      e.stopPropagation();
-    });
-    
-    // Password change modal
-    document.getElementById('changePasswordBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('userMenu').classList.remove('show');
-      document.getElementById('passwordModal').classList.add('show');
-    });
-    
-    document.getElementById('cancelPasswordBtn').addEventListener('click', function() {
-      document.getElementById('passwordModal').classList.remove('show');
-    });
-    
-    // Close modal when clicking outside
-    document.getElementById('passwordModal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        this.classList.remove('show');
-      }
-    });
-    
-    // Cerrar sidebar al hacer clic fuera en móviles
-    document.addEventListener('click', function(event) {
-      const sidebar = document.getElementById('sidebar');
-      const toggleBtn = document.querySelector('.toggle-btn');
-      
-      if (window.innerWidth <= 992 && 
-          !sidebar.contains(event.target) && 
-          !toggleBtn.contains(event.target) &&
-          sidebar.classList.contains('visible')) {
-        sidebar.classList.remove('visible');
-      }
-    });
-
-    // Funciones para los paneles desplegables
-    function togglePanel(panelId) {
-      const panel = document.getElementById(panelId);
-      panel.classList.toggle('show');
-    }
-
-    function editPanel(panelId, event) {
-      event.stopPropagation(); // Evita que se cierre el panel al hacer clic en el botón
-      
-      const panel = document.getElementById(panelId);
-      const editBtn = panel.closest('.collapsible-panel').querySelector('.edit-btn');
-      const saveBtn = panel.closest('.collapsible-panel').querySelector('.save-btn');
-      
-      // Cambiar botones
-      editBtn.style.display = 'none';
-      saveBtn.style.display = 'block';
-      
-      // Hacer editables los campos
-      const fields = panel.querySelectorAll('.info-value');
-      fields.forEach(field => {
-        const originalValue = field.textContent;
-        const fieldName = field.getAttribute('data-field');
-        field.innerHTML = `<input type="text" class="edit-input" value="${originalValue}" data-field="${fieldName}">`;
-      });
-    }
-
-    function savePanel(panelId, event) {
-      event.stopPropagation(); // Evita que se cierre el panel al hacer clic en el botón
-      
-      const panel = document.getElementById(panelId);
-      const editBtn = panel.closest('.collapsible-panel').querySelector('.edit-btn');
-      const saveBtn = panel.closest('.collapsible-panel').querySelector('.save-btn');
-      
-      // Cambiar botones
-      editBtn.style.display = 'block';
-      saveBtn.style.display = 'none';
-      
-      // Guardar valores y volver a modo visualización
-      const fields = panel.querySelectorAll('.edit-input');
-      fields.forEach(input => {
-        const fieldName = input.getAttribute('data-field');
-        const fieldValue = input.value;
-        const fieldElement = panel.querySelector(`.info-value[data-field="${fieldName}"]`);
-        fieldElement.textContent = fieldValue;
-      });
-      
-      // Aquí podrías agregar código para guardar los cambios en el servidor
-      alert('Cambios guardados correctamente');
-    }
-
-    // Mostrar el primer panel por defecto
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('personalInfoPanel').classList.add('show');
-    });
-  </script>
 </body>
+
 </html>

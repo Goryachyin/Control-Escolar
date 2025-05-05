@@ -23,7 +23,7 @@ app.get('/estudiante/calificaciones', (req, res) => { res.sendFile(path.join(__d
 app.get('/estudiante/recibos', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'recibos.html')) })
 app.get('/estudiante/kardex', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'kardex.html')) })
 app.get('/estudiante/editar_datos', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'editar_datos.html')) })
-app.get('/estudiante/calendario.html', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'calendarioescolar.html')) })
+app.get('/estudiante/calendario', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'calendarioescolar.html')) })
 app.get('/docentes/visual_grupo', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'docentes', 'visual_grupo.html')) })
 app.get('/docentes/calificaciones', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'docentes', 'calificaciones.html')) })
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
@@ -400,13 +400,13 @@ app.get('/api/superuser/getMaxSemestre/:idCarrera', async (req, res) => {
 })
 app.get('/api/docente/getGrupos/:id_docente', async (req, res) => {
   try {
-    const { id_docente } = req.params; // Obtener el id_docente de los query parameters
+    const { id_docente } = req.params // Obtener el id_docente de los query parameters
 
     if (!id_docente) {
-      return res.status(400).json({ error: 'Se requiere el ID del docente' });
+      return res.status(400).json({ error: 'Se requiere el ID del docente' })
     }
 
-    console.log(`🔍 Consultando grupos para el docente: ${id_docente}`);
+    console.log(`🔍 Consultando grupos para el docente: ${id_docente}`)
 
     const query = `
       SELECT g.id_grupo, m.nombre_materia, g.periodo, g.aula, g.horario_entrada, g.horario_salida, g.dias_semana,
@@ -416,21 +416,21 @@ app.get('/api/docente/getGrupos/:id_docente', async (req, res) => {
     LEFT JOIN grupo_alumnos ga ON g.id_grupo = ga.id_grupo
     WHERE g.id_docente = $1
     GROUP BY g.id_grupo, m.nombre_materia
-    `;
+    `
 
-    const result = await pool.query(query, [id_docente]);
+    const result = await pool.query(query, [id_docente])
 
-    console.log(`📊 Grupos encontrados: ${result.rowCount}`);
+    console.log(`📊 Grupos encontrados: ${result.rowCount}`)
 
-    res.json(result.rows);
+    res.json(result.rows)
   } catch (error) {
-    console.error('Error al obtener grupos del docente:', error);
+    console.error('Error al obtener grupos del docente:', error)
     res.status(500).json({
       error: 'Error al obtener grupos del docente',
       details: error.message
-    });
+    })
   }
-});
+})
 app.post('/api/superuser/registrar-materias', async (req, res) => {
   try {
     const result = await superuser.methods.registrarDocenteYMateria(req)

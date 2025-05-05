@@ -4,6 +4,15 @@ const carrerasYMaterias = []
 let materiasRegistradas = []
 
 // Funciones de utilidad
+function toggleSidebar () {
+  const sidebar = document.getElementById('sidebar')
+  sidebar.classList.toggle('hidden')
+
+  // En móviles, queremos que el sidebar se superponga
+  if (window.innerWidth <= 992) {
+    sidebar.classList.toggle('visible')
+  }
+}
 
 function mostrarConfirmModal (datos) {
   const confirmData = document.getElementById('confirmData')

@@ -1,3 +1,23 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+function toggleSidebar () {
+  const sidebar = document.getElementById('sidebar')
+  sidebar.classList.toggle('hidden')
+
+  // En móviles, queremos que el sidebar se superponga
+  if (window.innerWidth <= 992) {
+    sidebar.classList.toggle('visible')
+  }
+}
+
+function cerrarSesion () {
+  // Lógica para cerrar sesión
+  if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+    localStorage.removeItem('token')
+    window.location.href = '/login.html'
+  }
+}
+
 // Función para consultar estudiante
 async function consultarEstudiante (matricula) {
   try {
