@@ -35,6 +35,7 @@ app.get('/estudiante/pagos', (req, res) => { res.sendFile(path.join(__dirname, '
 app.get('/estudiante/kardex', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'kardex.html')) })
 app.get('/estudiante/editar_datos', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'editar_datos.html')) })
 app.get('/estudiante/calendario-escolar', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'calendarioescolar.html')) })
+app.get('/estudiante/contador', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'contador.html')) })
 app.get('/docentes/visual_grupo', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'docentes', 'visual_grupo.html')) })
 app.get('/docentes/calificaciones', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'docentes', 'calificaciones.html')) })
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })

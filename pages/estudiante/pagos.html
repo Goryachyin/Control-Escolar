@@ -124,33 +124,6 @@
       background-color: rgba(255,255,255,0.2);
     }
 
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      cursor: pointer;
-      padding: 0.25rem;
-      border-radius: 50px;
-      transition: background-color 0.2s;
-    }
-
-    .user-profile:hover {
-      background-color: rgba(255,255,255,0.1);
-    }
-
-    .profile-image {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.3);
-    }
-
-    .username {
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-
     /* Main Layout */
     .main {
       display: flex;
@@ -462,34 +435,100 @@
         display: none;
       }
     }
+    .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50px;
+    transition: background-color 0.2s;
+    position: relative;
+  }
+
+  .user-profile:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .profile-image {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .username {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  /* User dropdown menu */
+  .user-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    z-index: 1001;
+    display: none;
+    overflow: hidden;
+  }
+
+  .user-menu.show {
+    display: block;
+  }
+
+  .user-menu-header {
+    padding: 1rem;
+    background-color: var(--primary-light);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .user-menu-name {
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 0.25rem;
+  }
+
+  .user-menu-career {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .user-menu-item {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+
+  .user-menu-item:hover {
+    background-color: var(--primary-light);
+  }
+
+  .user-menu-item i {
+    width: 20px;
+    text-align: center;
+    color: var(--primary);
+  }
+
+  .user-menu-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--divider);
+    margin: 0;
+  }
   </style>
 </head>
 <body>
-  <header>
-    <div class="school-info">
-      <button class="toggle-btn" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-      </button>
-      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
-      <div>
-        <span class="header-title">NYAPT EDUCATION</span>
-        <span class="header-subtitle">Edición Estudiantil</span>
-      </div>
-    </div>
-    <div class="top-buttons">
-      <button class="header-btn">
-        <i class="fas fa-question-circle"></i>
-        <span>Ayuda</span>
-      </button>
-      <button class="header-btn">
-        <i class="fas fa-bell"></i>
-        <span>Notificaciones</span>
-      </button>
-      <div class="user-profile" onclick="toggleUserMenu()">
-        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
-        <span class="username" id="username">Eduardo</span>
-      </div>
-    </div>
+  <header id="header">
+    <!-- Header -->
   </header>
 
   <div class="main">
