@@ -409,200 +409,48 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/docentes/styles.css">
+  <script src="/docente/general.js"></script>
 </head>
 <body>
-
-  <header>
-    <div class="school-info">
-      <button class="toggle-btn" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-      </button>
-      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
-      <div>
-        <span class="header-title">NYAPT EDUCATION</span>
-        <span class="header-subtitle">Edición Docente</span>
-      </div>
-    </div>
-    <div class="top-buttons">
-      <button class="header-btn">
-        <i class="fas fa-question-circle"></i>
-        <span>Ayuda</span>
-      </button>
-      <button class="header-btn">
-        <i class="fas fa-bell"></i>
-        <span>Notificaciones</span>
-      </button>
-      <div class="user-profile" onclick="toggleUserMenu()">
-        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
-        <span class="username" id="username">Docente</span>
-      </div>
-    </div>
+  <header id="header">
+    <!-- Header -->
   </header>
 
-  <div class="main">
-    <div class="sidebar" id="sidebar">
-      <div class="sidebar-section">
-        <button class="sidebar-btn" onclick="window.location.href='inicio.html'">
-          <i class="fas fa-home"></i>
-          <span>Inicio</span>
-        </button>
-      </div>
-      
-      <div class="sidebar-section">
-        <div class="sidebar-title">Docencia</div>
-        <button class="sidebar-btn" onclick="window.location.href='visual_grupo.html'">
-          <i class="fas fa-users"></i>
-          <span>Mis Grupos</span>
-        </button>
-        <button class="sidebar-btn active" onclick="window.location.href='calificaciones.html'">
-          <i class="fas fa-clipboard-check"></i>
-          <span>Calificaciones</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='asistencias.html'">
-          <i class="fas fa-clipboard-list"></i>
-          <span>Asistencias</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='horario.html'">
-          <i class="fas fa-calendar-alt"></i>
-          <span>Horario</span>
-        </button>
-      </div>
-      
-      <div class="sidebar-section">
-        <div class="sidebar-title">Material</div>
-        <button class="sidebar-btn" onclick="window.location.href='material.html'">
-          <i class="fas fa-book"></i>
-          <span>Material Didáctico</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='tareas.html'">
-          <i class="fas fa-tasks"></i>
-          <span>Tareas</span>
-        </button>
-      </div>
-      
-      <div class="sidebar-divider"></div>
-      
-      <div class="sidebar-section">
-        <button class="sidebar-btn" onclick="window.location.href='perfil.html'">
-          <i class="fas fa-user"></i>
-          <span>Perfil</span>
-        </button>
-        <button class="sidebar-btn" onclick="cerrarSesion()">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Cerrar Sesión</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="content" id="mainContent">
-      <div class="card">
-        <h2>Lista de Calificaciones</h2>
-        <div id="table-container"></div>
-      </div>
-      
-      <div class="container">
-        <div class="header">
-          <span>MATERIA</span>
-          <span>GRUPO</span>
-          <span>HORARIO</span>
-          <span>PERIODO</span>
-        </div>
+  <div class="sidebar" id="sidebar">
+    <!-- Sidebar -->
+  </div>
+  
+  <div class="content" id="mainContent">
     
-        <table>
-          <thead>
-            <tr>
-              <th>Alumnos</th>
-              <th>Unidad: 1</th>
-              <th>2</th>
-              <th>3</th>
-              <th>4</th>
-              <th>5</th>
-              <th>6</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="alumno-info">
-                <div class="avatar">EA</div>
-                <div class="nombre-id">
-                  <div>Nombre Completo Alumno</div>
-                  <div>22320700</div>
-                </div>
-              </td>
-              <td><input class="calificacion" value="95" /></td>
-              <td><input class="calificacion" value="90" /></td>
-              <td><input class="calificacion" value="92" /></td>
-              <td><input class="calificacion" value="93" /></td>
-              <td><input class="calificacion" value="94" /></td>
-              <td><input class="calificacion" value="90" /></td>
-            </tr>
-        
-    
-            <!-- Puedes duplicar esta fila para más alumnos -->
-            <tr>
-              <td class="alumno-info">
-                <div class="avatar">OA</div>
-                <div class="nombre-id">
-                  <div>Otro Alumno</div>
-                  <div>22320701</div>
-                </div>
-              </td>
-              <td><input class="calificacion" value="85" /></td>
-              <td><input class="calificacion" value="80" /></td>
-              <td><input class="calificacion" value="87" /></td>
-              <td><input class="calificacion" value="88" /></td>
-              <td><input class="calificacion" value="86" /></td>
-              <td><input class="calificacion" value="89" /></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  </div>
   </div>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("hidden");
-      
-      // En móviles, queremos que el sidebar se superponga
-      if (window.innerWidth <= 992) {
-        sidebar.classList.toggle("visible");
-      }
-    }
+    const docente = localStorage.getItem('docente')
+    const params = new URLSearchParams(window.location.search)
+    const idGrupo = params.get('id_grupo')
 
-    function cerrarSesion() {
-      // Lógica para cerrar sesión
-      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-        localStorage.removeItem('token');
-        window.location.href = '/login.html';
-      }
+    function renderAlumnos(alumnos) {
+      console.log(alumnos)
     }
     
-    function toggleUserMenu() {
-      // Aquí podrías implementar un menú desplegable del perfil
-      console.log("Mostrar menú de usuario");
-    }
-    
-    // Cerrar sidebar al hacer clic fuera en móviles
-    document.addEventListener('click', function(event) {
-      const sidebar = document.getElementById('sidebar');
-      const toggleBtn = document.querySelector('.toggle-btn');
-      
-      if (window.innerWidth <= 992 && 
-          !sidebar.contains(event.target) && 
-          !toggleBtn.contains(event.target) &&
-          sidebar.classList.contains('visible')) {
-        sidebar.classList.remove('visible');
-      }
-    });
-
-    function cargarCalificaciones() {
-      // Aquí iría la lógica para cargar las calificaciones desde una API
-      console.log("Cargando calificaciones...");
-    }
-
-    document.addEventListener('DOMContentLoaded', cargarCalificaciones);
+    document.addEventListener('DOMContentLoaded', function(){
+      console.log(idGrupo)
+      fetch(`/api/docente/getInfoGrupo/${idGrupo}`)
+      .then(response => {
+        if (!response.ok){
+          throw new Error('Error al cargar la información del grupo')
+        }
+        return response.json()
+      })
+      .then (alumnos => {
+        renderAlumnos(alumnos.infoAlumnos)
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
+    })
   </script>
 </body>
 </html>

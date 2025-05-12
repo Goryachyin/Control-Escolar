@@ -1,24 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-const token = localStorage.getItem('token')
-function toggleSidebar () {
-  const sidebar = document.getElementById('sidebar')
-  sidebar.classList.toggle('hidden')
-
-  // En móviles, queremos que el sidebar se superponga
-  if (window.innerWidth <= 992) {
-    sidebar.classList.toggle('visible')
-  }
-}
-
-function cerrarSesion () {
-  // Lógica para cerrar sesión
-  if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-    localStorage.removeItem('token')
-    window.location.href = '/login.html'
-  }
-}
-
 // Funciones para los paneles desplegables
 function togglePanel (panelId) {
   const panel = document.getElementById(panelId)
@@ -69,7 +50,34 @@ function savePanel (panelId, event) {
   alert('Cambios guardados correctamente')
 }
 
+function fechaNacimiento (curp) {
+  const anio = curp.slice(4, 6)
+  const mes = curp.slice(6, 8)
+  const dia = curp.slice(8, 10)
+  const siglo = parseInt(anio) >= 0 && parseInt(anio) <= 24 ? '20' : '19' // Ajustar según el siglo
+
+  return `${siglo}${anio}-${mes}-${dia}` // Formato YYYY-MM-DD
+}
+
+function mostrarDatos (data) {
+  console.log('📩 Datos del usuario:', data)
+  document.getElementById('titulo-bienvenida').textContent = 'Bienvenido, ' + data.nombre_persona
+  document.getElementById('nombre').textContent = data.nombre_persona + ' ' + data.apellido_p_persona + ' ' + data.apellido_m_persona
+  document.getElementById('nombre_infoPanel').textContent = data.nombre_persona + ' ' + data.apellido_p_persona + ' ' + data.apellido_m_persona
+  document.getElementById('subtitulo-bienvenida').textContent = 'Número de control: ' + data.numero_control
+  document.getElementById('carrera').textContent = data.nombre_carrera.toUpperCase()
+  document.getElementById('correo').textContent = data.correo_institucional
+  document.getElementById('semestre').textContent = data.semestre_estudiante
+  document.getElementById('profile-pic').src = data.foto_perfil
+  document.getElementById('profile-pic-welcome').src = data.foto_perfil
+  document.getElementById('curp_infoPanel').textContent = data.curp_persona
+  document.getElementById('genero_infoPanel').textContent = data.sexo_persona
+  document.getElementById('fechaNacimiento_infoPanel').textContent = fechaNacimiento(data.curp_persona)
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+  const estudianteGuardado = localStorage.getItem('estudiante')
+  const token = localStorage.getItem('token')
   // eslint-disable-next-line no-undef
   // Toggle user menu
 
@@ -91,9 +99,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!token) {
     window.location.href = '/estudiante/login'// Redirigir al login si no hay token
     console.log('No hay token (inicio, linea 128)')
-    return
+  } else {
+    const estudiante = JSON.parse(estudianteGuardado)
+    mostrarDatos(estudiante)
   }
-
+  /*
   fetch('/api/verificar-token', {
     method: 'GET',
     headers: {
@@ -113,29 +123,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('Error al verificar token (inicio, linea 26):', error)
       window.location.href = '/estudiante/login'
     })
-
+*/
   // Obtener datos del usuario
-  fetch('/api/estudiante/datos-usuario', {
-    method: 'GET',
-    headers: {
-      // eslint-disable-next-line quote-props
-      'Authorization': `Bearer ${token}`
-    }
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('📩 Datos del usuario:', data)
-      document.getElementById('titulo-bienvenida').textContent = 'Bienvenido, ' + data.nombre_persona
-      document.getElementById('nombre').textContent = data.nombre_persona + ' ' + data.apellido_p_persona + ' ' + data.apellido_m_persona
-      document.getElementById('nombre_infoPanel').textContent = data.nombre_persona + ' ' + data.apellido_p_persona + ' ' + data.apellido_m_persona
-      document.getElementById('subtitulo-bienvenida').textContent = 'Número de control: ' + data.numero_control
-      document.getElementById('carrera').textContent = data.nombre_carrera.toUpperCase()
-      document.getElementById('correo').textContent = data.correo_institucional
-      document.getElementById('semestre').textContent = data.semestre_estudiante
-      document.getElementById('profile-pic').src = data.foto_perfil
-      document.getElementById('profile-pic-welcome').src = data.foto_perfil
-    })
-    .catch(error => {
-      console.error('Error al obtener datos del usuario (inicio, linea 51):', error)
-    })
 })

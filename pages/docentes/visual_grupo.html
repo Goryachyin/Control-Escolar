@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grupos del Docente</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/docentes/styles.css">
   <style>
     :root {
       --primary: #4a6b8a;
@@ -52,7 +54,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       height: 64px;
     }
 
@@ -67,7 +69,7 @@
       width: 36px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.2);
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .header-title {
@@ -96,7 +98,7 @@
     }
 
     .toggle-btn:hover {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .top-buttons {
@@ -106,7 +108,7 @@
     }
 
     .header-btn {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       color: white;
       border: none;
       padding: 0.5rem 1rem;
@@ -121,7 +123,7 @@
     }
 
     .header-btn:hover {
-      background-color: rgba(255,255,255,0.2);
+      background-color: rgba(255, 255, 255, 0.2);
     }
 
     .user-profile {
@@ -135,7 +137,7 @@
     }
 
     .user-profile:hover {
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .profile-image {
@@ -143,7 +145,7 @@
       height: 36px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.3);
+      border: 2px solid rgba(255, 255, 255, 0.3);
     }
 
     .username {
@@ -186,7 +188,7 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255, 255, 255, 0.6);
       padding: 0.75rem 1.5rem;
       margin-bottom: 0.25rem;
     }
@@ -207,8 +209,9 @@
       gap: 0.75rem;
     }
 
-    .sidebar-btn:hover, .sidebar-btn.active {
-      background-color: rgba(255,255,255,0.1);
+    .sidebar-btn:hover,
+    .sidebar-btn.active {
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     .sidebar-btn.active {
@@ -226,7 +229,7 @@
     .sidebar-divider {
       border: none;
       height: 1px;
-      background-color: rgba(255,255,255,0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       margin: 1rem 1.5rem;
     }
 
@@ -240,7 +243,7 @@
       background-color: var(--background);
     }
 
-    .sidebar.hidden + .content {
+    .sidebar.hidden+.content {
       margin-left: 0;
     }
 
@@ -250,7 +253,7 @@
       margin: 0 auto;
       background-color: var(--card-bg);
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
     }
 
@@ -273,7 +276,7 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .data-table th {
@@ -364,7 +367,7 @@
       display: inline-block;
       width: 20px;
       height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
+      border: 3px solid rgba(255, 255, 255, .3);
       border-radius: 50%;
       border-top-color: #fff;
       animation: spin 1s ease-in-out infinite;
@@ -404,23 +407,32 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 992px) {
       .sidebar {
         transform: translateX(-100%);
       }
-      
+
       .sidebar.visible {
         transform: translateX(0);
       }
-      
+
       .content {
         margin-left: 0;
       }
@@ -430,15 +442,15 @@
       .header-title {
         display: none;
       }
-      
+
       .content {
         padding: 1rem;
       }
-      
+
       .panel-content {
         padding: 1rem;
       }
-      
+
       .data-table {
         display: block;
         overflow-x: auto;
@@ -459,187 +471,91 @@
       .header {
         padding: 0.75rem 1rem;
       }
-      
+
       .header-btn span {
         display: none;
       }
-      
+
       .username {
         display: none;
       }
     }
   </style>
-</head>
-<body>
+  <script src="/docente/general.js"></script>
 
-  <header>
-    <div class="school-info">
-      <button class="toggle-btn" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-      </button>
-      <img src="https://imgs.search.brave.com/43sofZubkRq_CAr-YwObFyLRrbhkileCtqaQ1b8o8nI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/em9vbWFkcmlkLmNv/bS9jb250ZW50L2Rh/bS96b28vaW1hZ2Vz/L2FuaW1hbHMvbWFw/YWNoZS9NYXBhY2hl/LVpvby1NYWRyaWQt/bWFpbi5qcGc" alt="Logo Escuela" class="school-logo">
-      <div>
-        <span class="header-title">NYAPT EDUCATION</span>
-        <span class="header-subtitle">Edición Docente</span>
-      </div>
-    </div>
-    <div class="top-buttons">
-      <button class="header-btn">
-        <i class="fas fa-question-circle"></i>
-        <span>Ayuda</span>
-      </button>
-      <button class="header-btn">
-        <i class="fas fa-bell"></i>
-        <span>Notificaciones</span>
-      </button>
-      <div class="user-profile" onclick="toggleUserMenu()">
-        <img id="profile-pic" src="https://pbs.twimg.com/profile_images/1781170279852498944/w1k8Hx8m_400x400.jpg" alt="Foto de perfil" class="profile-image">
-        <span class="username" id="username">Docente</span>
-      </div>
-    </div>
+</head>
+
+<body>
+  <header id="header">
+    <!-- Header -->
   </header>
 
-  <div class="main">
-    <div class="sidebar" id="sidebar">
-      <div class="sidebar-section">
-        <button class="sidebar-btn" onclick="window.location.href='inicio.html'">
-          <i class="fas fa-home"></i>
-          <span>Inicio</span>
-        </button>
-      </div>
-      
-      <div class="sidebar-section">
-        <div class="sidebar-title">Docencia</div>
-        <button class="sidebar-btn active" onclick="window.location.href='visual_grupo.html'">
-          <i class="fas fa-users"></i>
-          <span>Mis Grupos</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='calificaciones.html'">
-          <i class="fas fa-clipboard-check"></i>
-          <span>Calificaciones</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='asistencias.html'">
-          <i class="fas fa-clipboard-list"></i>
-          <span>Asistencias</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='horario.html'">
-          <i class="fas fa-calendar-alt"></i>
-          <span>Horario</span>
-        </button>
-      </div>
-      
-      <div class="sidebar-section">
-        <div class="sidebar-title">Material</div>
-        <button class="sidebar-btn" onclick="window.location.href='material.html'">
-          <i class="fas fa-book"></i>
-          <span>Material Didáctico</span>
-        </button>
-        <button class="sidebar-btn" onclick="window.location.href='tareas.html'">
-          <i class="fas fa-tasks"></i>
-          <span>Tareas</span>
-        </button>
-      </div>
-      
-      <div class="sidebar-divider"></div>
-      
-      <div class="sidebar-section">
-        <button class="sidebar-btn" onclick="window.location.href='perfil.html'">
-          <i class="fas fa-user"></i>
-          <span>Perfil</span>
-        </button>
-        <button class="sidebar-btn" onclick="cerrarSesion()">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Cerrar Sesión</span>
-        </button>
-      </div>
-    </div>
+  <div class="sidebar" id="sidebar">
+    <!-- Sidebar -->
+  </div>
 
-    <div class="content" id="mainContent">
-      <div class="panel-container">
-        <div class="panel-header">
-          <div class="header-content">
-            <h1>Mis Grupos</h1>
-            <button class="refresh-btn" id="refreshBtn">
-              <span class="loading" id="refreshLoading" style="display: none;"></span>
-              Actualizar
-            </button>
-          </div>
+  <div class="content" id="mainContent">
+    <div class="panel-container">
+      <div class="panel-header">
+        <div class="header-content">
+          <h1>Mis Grupos</h1>
+          <button class="refresh-btn" id="refreshBtn">
+            <span class="loading" id="refreshLoading" style="display: none;"></span>
+            Actualizar
+          </button>
         </div>
-        
-        <div class="panel-content">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Materia</th>
-                <th>Periodo</th>
-                <th>Aula</th>
-                <th>Horario</th>
-                <th>Dias Impartidos</th>
-              </tr>
-            </thead>
-            <tbody id="gruposBody">
-              <tr>
-                <td colspan="6" style="text-align: center; padding: 2rem;">
-                  Cargando grupos...
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      </div>
+
+      <div class="panel-content">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Materia</th>
+              <th>Periodo</th>
+              <th>Aula</th>
+              <th>Horario</th>
+              <th>Dias Impartidos</th>
+            </tr>
+          </thead>
+          <tbody id="gruposBody">
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 2rem;">
+                Cargando grupos...
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("hidden");
-      
-      // En móviles, queremos que el sidebar se superponga
-      if (window.innerWidth <= 992) {
-        sidebar.classList.toggle("visible");
-      }
-    }
-
-    function cerrarSesion() {
-      // Lógica para cerrar sesión
-      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-        localStorage.removeItem('token');
-        window.location.href = '/login.html';
-      }
-    }
-    
-    function toggleUserMenu() {
-      // Aquí podrías implementar un menú desplegable del perfil
-      console.log("Mostrar menú de usuario");
-    }
-    
     // Cerrar sidebar al hacer clic fuera en móviles
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
       const sidebar = document.getElementById('sidebar');
       const toggleBtn = document.querySelector('.toggle-btn');
-      
-      if (window.innerWidth <= 992 && 
-          !sidebar.contains(event.target) && 
-          !toggleBtn.contains(event.target) &&
-          sidebar.classList.contains('visible')) {
+
+      if (window.innerWidth <= 992 &&
+        !sidebar.contains(event.target) &&
+        !toggleBtn.contains(event.target) &&
+        sidebar.classList.contains('visible')) {
         sidebar.classList.remove('visible');
       }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const refreshBtn = document.getElementById('refreshBtn');
       const refreshLoading = document.getElementById('refreshLoading');
       const gruposBody = document.getElementById('gruposBody');
-      
+
       // ID del docente (debería obtenerse de la sesión o autenticación)
       const idDocente = 'TEC32HESC170580'; // Reemplazar con el ID real del docente
-      
+
       // Cargar grupos al iniciar
       loadGruposDocente(idDocente);
 
       // Manejar clic en botón Actualizar
-      refreshBtn.addEventListener('click', function() {
+      refreshBtn.addEventListener('click', function () {
         loadGruposDocente(idDocente);
       });
 
@@ -655,7 +571,7 @@
             </td>
           </tr>
         `;
-        
+
         fetch(`/api/docente/getGrupos/${docenteId}`)
           .then(response => {
             if (!response.ok) {
@@ -701,7 +617,7 @@
         grupos.forEach((grupo, index) => {
           const rowId = `row-${index}`;
           const detailsId = `details-${index}`;
-          
+
           // Crear fila principal
           const row = document.createElement('tr');
           row.dataset.grupoId = grupo.id_grupo;
@@ -713,10 +629,17 @@
             <td>${grupo.horario_entrada} a ${grupo.horario_salida}</td>
             <td>${grupo.dias_semana.join(', ')}</td>
           `;
-          
-          gruposBody.appendChild(row);
+
+          // Evento click para redirigir a calificaciones.html con el id del grupo
+          row.addEventListener('click', () => {
+            window.location.href = `/docentes/calificaciones?id_grupo=${grupo.id_grupo}`;
           });
-      }});
- </script>
+
+          gruposBody.appendChild(row);
+        });
+      }
+    });
+  </script>
 </body>
+
 </html>

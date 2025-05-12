@@ -36,7 +36,8 @@ app.get('/estudiante/kardex', (req, res) => { res.sendFile(path.join(__dirname, 
 app.get('/estudiante/editar_datos', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'editar_datos.html')) })
 app.get('/estudiante/calendario-escolar', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'calendarioescolar.html')) })
 app.get('/estudiante/contador', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'estudiante', 'contador.html')) })
-app.get('/docentes/visual_grupo', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'docentes', 'visual_grupo.html')) })
+app.get('/docentes/inicio', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'docentes', 'inicio.html')) })
+app.get('/docentes/mis-grupos', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'docentes', 'visual_grupo.html')) })
 app.get('/docentes/calificaciones', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'docentes', 'calificaciones.html')) })
 app.get('/index', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'index.html')) })
 app.get('/superusuario/registrar-estudiante', (req, res) => { res.sendFile(path.join(__dirname, 'pages', 'superusuario', 'registrar-estudiante.html')) })
@@ -81,17 +82,69 @@ app.post('/api/upload-image', upload.single('photo'), verifToken, async (req, re
 
 // API's
 app.get('/api/verificar-token', verifToken, (req, res) => { res.json({ valid: true, usuario: req.usuario }) })
-
 app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
   try {
     const usuarioId = req.usuario.numeroControl
     console.log('🔍 Consultando datos del usuario:', usuarioId)
 
     // Consulta los datos del usuario en PostgreSQL
-    const result = await pool.query(
-      'SELECT dp.nombre_persona, dp.apellido_p_persona, dp.apellido_m_persona, dp.foto_perfil, e.numero_control, e.correo_institucional, (SELECT carrera.nombre_carrera FROM public.carreras_impartidas as carrera where carrera.id_carrera = e.id_carrera), e.semestre_estudiante, 10, 10, e.estatus_estudiante FROM public.estudiante as e inner join public.datos_personales as dp ON dp.id_persona = e.id_persona WHERE e.numero_control = $1',
-      [usuarioId]
+    const estudianteResult = await pool.query(
+      `SELECT dp.*,
+      e.numero_control, e.correo_institucional, 
+      (SELECT carrera.nombre_carrera FROM public.carreras_impartidas as carrera where carrera.id_carrera = e.id_carrera), 
+      e.semestre_estudiante, 10, 10, e.estatus_estudiante 
+      FROM public.estudiante as e inner join public.datos_personales as dp ON dp.id_persona = e.id_persona 
+      WHERE e.numero_control = '${usuarioId}'`
     )
+    if (estudianteResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' }) // Retorna JSON si no encuentra datos
+    }
+
+    const resMateriasActuales = await pool.query(
+      `SELECT * 
+      FROM public.plan_estudios 
+      WHERE (semestre, id_carrera) = (
+      SELECT e.semestre_estudiante, e.id_carrera 
+      FROM public.estudiante AS e 
+      WHERE e.numero_control = '${usuarioId}')`
+    )
+
+    const resPlanEstudios = await pool.query(
+      `SELECT * 
+      FROM public.plan_estudios 
+      WHERE (id_carrera) = (
+      SELECT e.id_carrera 
+      FROM public.estudiante AS e 
+      WHERE e.numero_control = '${usuarioId}')`
+    )
+
+    const estudiante = estudianteResult.rows[0]
+    const materiasActuales = resMateriasActuales.rows
+    const planEstudios = resPlanEstudios.rows
+
+    res.json({
+      ...estudiante,
+      materiasActuales,
+      planEstudios
+    }) // Devuelve los datos en formato JSON
+    console.log('📩 Datos del usuario:', {
+      ...estudiante,
+      materiasActuales,
+      planEstudios
+    })
+  } catch (error) {
+    console.error('Error al obtener datos del usuario:', error)
+    res.status(500).json({ error: 'Error interno del servidor' }) // Retorna JSON si ocurre un error
+  }
+})
+app.get('/api/docentes/datos-usuario', verifToken, async (req, res) => {
+  try {
+    const usuarioId = req.usuario.claveDocente
+    console.log('🔍 Consultando datos del usuario:', usuarioId)
+
+    // Consulta los datos del usuario en PostgreSQL
+    const result = await pool.query(
+      `SELECT * FROM public.docente where id_docente = '${usuarioId}'`)
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Usuario no encontrado' }) // Retorna JSON si no encuentra datos
@@ -105,6 +158,7 @@ app.get('/api/estudiante/datos-usuario', verifToken, async (req, res) => {
   }
 })
 app.post('/api/estudiante/login', authetications.methods.estudianteLogin)
+app.post('/api/docente/login', authetications.methods.docenteLogin)
 app.post('/api/superuser/registrar-persona', async (req, res) => {
   console.log('🔹 Recibiendo solicitud para registrar persona... (index, linea 35)')
   const persona = req.body
@@ -118,7 +172,6 @@ app.post('/api/superuser/registrar-persona', async (req, res) => {
     res.status(400).json({ error: result.error || 'Error al registrar la persona' })
   }
 })
-
 app.post('/api/superuser/registrar-estudiante', async (req, res) => {
   try {
     // 1. Registrar estudiante en la base de datos
@@ -479,6 +532,41 @@ app.get('/api/docente/getGrupos/:id_docente', async (req, res) => {
     })
   }
 })
+app.get('/api/docente/getInfoGrupo/:id_grupo', async (req, res) => {
+  try {
+    const id_grupo = req.params.id_grupo
+
+    if (!id_grupo) {
+      return res.status(404).json({ error: 'Se requiere ID del grupo' })
+    }
+
+    const queryInfoGrupo = `
+  SELECT gd.id_grupo, gd.id_materia, gd.id_docente, gd.periodo, gd.aula, gd.horario_entrada, gd.horario_salida, gd.dias_semana
+  FROM grupos AS gd 
+  WHERE gd.id_grupo = ${id_grupo}`
+
+    const queryInfoAlumnos = `
+  SELECT ga.numero_control
+  FROM grupos AS gd 
+  INNER JOIN grupo_alumnos AS ga ON gd.id_grupo = ga.id_grupo
+  WHERE gd.id_grupo = ${id_grupo}`
+
+    const resInfoGrupo = await pool.query(queryInfoGrupo)
+    const resInfoAlumnos = await pool.query(queryInfoAlumnos)
+
+    res.json({
+      success: true,
+      infoAlumnos: resInfoAlumnos.rows,
+      infoGrupo: resInfoGrupo.rows
+    })
+  } catch (error) {
+    console.error('Error al obtener la información del grupo: ', error)
+    res.status(500).json({
+      error: 'Error al obtener la información del grupo .json',
+      details: error.message
+    })
+  }
+})
 app.post('/api/superuser/registrar-materias', async (req, res) => {
   try {
     const result = await superuser.methods.registrarDocenteYMateria(req)
@@ -504,6 +592,7 @@ app.post('/api/superuser/registrar-materias', async (req, res) => {
     res.status(500).json({ error: 'Error al registrar el grupo' })
   }
 })
+
 module.exports = app
 
 // Inicia el servidor solo en desarrollo local

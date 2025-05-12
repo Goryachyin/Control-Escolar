@@ -41,6 +41,45 @@ async function estudianteLogin (req, res) {
   }
 }
 
+async function docenteLogin (req, res) {
+  console.log('🔹 Recibiendo solicitud de login... (Authetications, linea 7)')
+  console.log('📩 Datos recibidos (Authetications, linea 8):', req.body) // Para ver qué se está enviando
+
+  const { usuario, contrasena } = req.body
+  try {
+    const consulta = await pool.query(
+      'SELECT * FROM docente WHERE id_docente=$1',
+      [usuario]
+    )
+
+    if (consulta.rows.length > 0) {
+      const usuario = consulta.rows[0]
+
+      // Verificar la contraseña (si está cifrada, usa bcrypt)
+      if (usuario.contrasena_docente !== contrasena) {
+        console.log('❌ Contraseña incorrecta (Authetications, linea 22)')
+        return res.status(401).json({ error: 'Usuario o contraseña incorrectos.' })
+      }
+
+      const token = jwt.sign(
+        { id: usuario.id, claveDocente: usuario.id_docente },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      )
+
+      console.log('✅ Login exitoso, enviando token...(Authetications, linea 32)')
+      res.json({ success: true, token, usuario })
+    } else {
+      console.log('❌ Usuario no encontrado (Authetications, linea 35)')
+      res.status(401).json({ error: 'Usuario o contraseña incorrectos.' })
+    }
+  } catch (e) {
+    console.error('🔥 Error en login (Authetications, linea 39):', e)
+    res.status(500).json({ error: 'Error interno del servidor' })
+  }
+}
+
 export const methods = {
-  estudianteLogin
+  estudianteLogin,
+  docenteLogin
 }

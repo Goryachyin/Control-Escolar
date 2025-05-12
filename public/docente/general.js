@@ -1,14 +1,15 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-const estudianteGuardado = localStorage.getItem('estudiante')
+/* eslint-disable no-undef */
+const docenteGuardado = localStorage.getItem('docente')
 function cerrarSesion () {
   // Lógica para cerrar sesión
   if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
     localStorage.removeItem('token')
-    localStorage.removeItem('estudiante')
+    localStorage.removeItem('docente')
     window.location.href = '/login'
   }
 }
+
 function toggleSidebar () {
   const sidebar = document.getElementById('sidebar')
   sidebar.classList.toggle('hidden')
@@ -18,53 +19,18 @@ function toggleSidebar () {
     sidebar.classList.toggle('visible')
   }
 }
-async function uploadProfilePhoto () {
-  const input = document.createElement('input')
-  input.type = 'file'
-  input.accept = 'image/jpeg, image/png'
-  input.onchange = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const formData = new FormData()
-    formData.append('photo', file)
-    try {
-      const res = await fetch('/api/upload-image', {
-        method: 'POST',
-        headers: {
-          // eslint-disable-next-line quote-props
-          'Authorization': `Bearer ${token}`
-        },
-        body: formData
-      })
 
-      const data = await res.json()
-      if (res.ok) {
-        alert('Foto de perfil cargada correctamente')
-        console.log(data.fotoURL)
-        document.getElementById('profile-pic').src = data.fotoURL // Cambia la fuente de la imagen
-        document.getElementById('profile-pic-welcome').src = data.fotoURL // Cambia la fuente de la imagen
-      } else {
-        alert(`Error al subir la foto de perfil: ${data.message}`)
-      }
-    } catch (error) {
-      console.error('Error:', error)
-      alert('Error al subir la foto de perfil')
-    }
-  }
-  input.click()
-}
 function token () {
   const token = localStorage.getItem('token')
   if (!token) {
     window.location.href = '/login'// Redirigir al login si no hay token
     console.log('No hay token (general, linea 62)')
   }
-  if (estudianteGuardado) {
-    const estudiante = JSON.parse(estudianteGuardado)
-    console.log('Datos del estudiante (LINEA 66 EN GENERAL.JS):', estudiante)
-    cargarElementos(estudiante)
+  if (docenteGuardado) {
+    const docente = JSON.parse(docenteGuardado)
+    console.log('Datos del docente (LINEA 66 EN GENERAL.JS):', docente)
   } else {
-    fetch('/api/estudiante/datos-usuario', {
+    fetch('/api/docentes/datos-usuario', {
       method: 'GET',
       headers: {
       // eslint-disable-next-line quote-props
@@ -78,8 +44,8 @@ function token () {
         return res.json()
       })
       .then(data => {
-        localStorage.setItem('estudiante', JSON.stringify(data))
-        mostrarDatos(data)
+        localStorage.setItem('docente', JSON.stringify(data))
+        console.log('Datos del docente (LINEA 49 EN GENERAL.JS):', data)
       })
       .catch(error => {
         console.error('Error al obtener datos del usuario:', error)
@@ -88,12 +54,7 @@ function token () {
       })
   }
 }
-function cargarElementos (data) {
-  console.log(data.foto_perfil)
-  document.getElementById('nombre').textContent = data.nombre_persona + ' ' + data.apellido_p_persona + ' ' + data.apellido_m_persona
-  document.getElementById('profile-pic').src = data.foto_perfil
-  document.getElementById('nombre_dropdown').textContent = data.nombre_persona + ' ' + data.apellido_p_persona + ' ' + data.apellido_m_persona
-}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const panelSideBar = document.getElementById('sidebar')
   const panelHeader = document.getElementById('header')
@@ -106,52 +67,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     </div>
 
     <div class="sidebar-section">
-    <div class="sidebar-title">Académico</div>
-    <button class="sidebar-btn" data-url='horario'>
+    <div class="sidebar-title">Docencia</div>
+    <button class="sidebar-btn" data-url='mis-grupos'>
         <i class="fas fa-calendar-alt"></i>
-        <span>Horario</span>
+        <span>Mis Grupos</span>
     </button>
     <button class="sidebar-btn" data-url='calificaciones'>
         <i class="fas fa-clipboard-check"></i>
         <span>Calificaciones</span>
     </button>
-    <button class="sidebar-btn" data-url='kardex'>
+    <button class="sidebar-btn" data-url='asistencias'>
         <i class="fas fa-file-alt"></i>
-        <span>Kardex</span>
+        <span>Asistencias</span>
     </button>
-    <button class="sidebar-btn" data-url='calendario-escolar'>
+    <button class="sidebar-btn" data-url='horario'>
         <i class="fas fa-calendar-day"></i>
-        <span>Calendario</span>
+        <span>Horario</span>
     </button>
-    <button class="sidebar-btn" data-url='cargamaterias'>
-        <i class="fas fa-book"></i>
-        <span>Carga de Materias</span>
-    </button>
-    <button class="sidebar-btn" data-url='actividadescomplementarias'>
-        <i class="fas fa-certificate"></i>
-        <span>Actividades complementarias</span>
-    </button>
-    </div>
-
-    <div class="sidebar-section">
-    <div class="sidebar-title">Servicios</div>
-    <button class="sidebar-btn" data-url='recibos'>
-        <i class="fas fa-receipt"></i>
-        <span>Recibos</span>
-    </button>
-    <button class="sidebar-btn" data-url='pagos'>
-        <i class="fas fa-credit-card"></i>
-        <span>Pagos</span>
-    </button>
-    </div>
-
     <div class="sidebar-divider"></div>
 
     <div class="sidebar-section">
-    <button class="sidebar-btn" data-url='contador'>
-        <i class="fas fa-umbrella-beach"></i>
-        <span>Vacaciones</span>
-    </button>
     <button class="sidebar-btn" onclick="cerrarSesion()">
         <i class="fas fa-sign-out-alt"></i>
         <span>Cerrar Sesión</span>
@@ -168,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         alt="Logo Escuela" class="school-logo">
       <div>
         <span class="header-title">NYAPT EDUCATION</span>
-        <span class="header-subtitle">Edición Estudiantil</span>
+        <span class="header-subtitle">Edición Docente</span>
       </div>
     </div>
     <div class="top-buttons">

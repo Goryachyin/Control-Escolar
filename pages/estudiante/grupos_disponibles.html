@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos del Docente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6b8a;
+            --primary-dark: #3a576f;
+            --primary-light: #e1e7ed;
+            --accent: #ffab40;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --divider: #e0e0e0;
+            --background: #f5f7fa;
+            --card-bg: #ffffff;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --info: #2196f3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: 64px;
+        }
+
+        .school-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .school-logo {
+            height: 36px;
+            width: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            font-weight: 400;
+            margin-left: 0.5rem;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            margin-right: 0.5rem;
+        }
+
+        .toggle-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .top-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .header-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50px;
+            transition: background-color 0.2s;
+        }
+
+        .user-profile:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-image {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .username {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Main Layout */
+        .main {
+            display: flex;
+            flex: 1;
+            margin-top: 64px;
+            height: calc(100vh - 64px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 64px;
+            bottom: 0;
+            width: 240px;
+            background-color: #1b2631;
+            overflow-y: auto;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+            z-index: 999;
+            padding: 1rem 0;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            color: white;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            gap: 0.75rem;
+        }
+
+        .sidebar-btn:hover,
+        .sidebar-btn.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-btn.active {
+            border-left: 3px solid var(--accent);
+            padding-left: calc(1.5rem - 3px);
+        }
+
+        .sidebar-btn i {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .sidebar-divider {
+            border: none;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 1rem 1.5rem;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            margin-left: 240px;
+            padding: 2rem;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease;
+            background-color: var(--background);
+        }
+
+        .sidebar.hidden+.content {
+            margin-left: 0;
+        }
+
+        /* Panel de Grupos */
+        .panel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+        }
+
+        .panel-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .panel-content {
+            padding: 2rem;
+        }
+
+        .filter-container {
+            background-color: white;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--divider);
+            background-color: white;
+            font-size: 0.9rem;
+            flex-grow: 1;
+            max-width: 200px;
+        }
+
+        .filter-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table th {
+            background-color: var(--primary);
+            color: var(--card-bg);
+            text-transform: uppercase;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--divider);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .data-table tr {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .data-table tr:not(.expanded-row):hover {
+            background-color: var(--primary-light);
+        }
+
+        .data-table tr.expanded-row {
+            background-color: var(--primary-light);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Panel de detalles expandible */
+        .row-details {
+            display: none;
+            background-color: var(--card-bg);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .row-details.expanded {
+            display: table-row;
+        }
+
+        .row-details td {
+            padding: 0;
+        }
+
+        .details-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .details-section {
+            margin-bottom: 1rem;
+        }
+
+        .details-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 0.75rem 1rem;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .refresh-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .refresh-btn:hover {
+            opacity: 0.9;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                display: none;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .panel-content {
+                padding: 1rem;
+            }
+
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-select {
+                max-width: 100%;
+            }
+
+            .details-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header {
+                padding: 0.75rem 1rem;
+            }
+
+            .header-btn span {
+                display: none;
+            }
+
+            .username {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="header">
+        <!-- Header -->
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <!-- Sidebar -->
+    </div>
+
+    <div class="content" id="mainContent">
+        <div class="panel-container">
+            <div class="panel-header">
+                <div class="header-content">
+                    <h1>Mis Grupos</h1>
+                    <button class="refresh-btn" id="refreshBtn">
+                        <span class="loading" id="refreshLoading" style="display: none;"></span>
+                        Actualizar
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel-content">
+                <div class="filter-container">
+                    <span class="filter-label">Filtrar por semestre:</span>
+                    <select id="semesterFilter" class="filter-select">
+                        <option value="all">Todos los semestres</option>
+                        <option value="1">1° Semestre</option>
+                        <option value="2">2° Semestre</option>
+                        <option value="3">3° Semestre</option>
+                        <option value="4">4° Semestre</option>
+                        <option value="5">5° Semestre</option>
+                        <option value="6">6° Semestre</option>
+                        <option value="7">7° Semestre</option>
+                        <option value="8">8° Semestre</option>
+                        <option value="9">9° Semestre</option>
+                    </select>
+                    <button id="filterButton" class="filter-btn">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Materia</th>
+                            <th>Grupo</th>
+                            <th>Semestre</th>
+                            <th>Aula</th>
+                            <th>Horario</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gruposBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem;">
+                                Cargando grupos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para simular la obtención de datos desde una base de datos
+        async function fetchGruposFromDatabase() {
+            // En una aplicación real, aquí harías una llamada a tu API/backend
+            // Simulamos una respuesta de base de datos con un retraso
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve([
+                        {
+                            id_grupo: 1,
+                            nombre_materia: "Matemáticas Avanzadas",
+                            grupo: "Grupo A",
+                            semestre: "5° Semestre",
+                            aula: "Aula 302",
+                            horario: "08:00 - 10:00",
+                            dias_semana: ["Lunes", "Miércoles"]
+                        },
+                        {
+                            id_grupo: 2,
+                            nombre_materia: "Física Cuántica",
+                            grupo: "Grupo B",
+                            semestre: "6° Semestre",
+                            aula: "Aula 205",
+                            horario: "10:00 - 12:00",
+                            dias_semana: ["Martes", "Jueves"]
+                        },
+                        {
+                            id_grupo: 3,
+                            nombre_materia: "Programación Web",
+                            grupo: "Grupo C",
+                            semestre: "4° Semestre",
+                            aula: "Laboratorio 1",
+                            horario: "14:00 - 16:00",
+                            dias_semana: ["Lunes", "Viernes"]
+                        },
+                        {
+                            id_grupo: 4,
+                            nombre_materia: "Bases de Datos",
+                            grupo: "Grupo D",
+                            semestre: "5° Semestre",
+                            aula: "Aula 101",
+                            horario: "16:00 - 18:00",
+                            dias_semana: ["Martes", "Jueves"]
+                        },
+                        {
+                            id_grupo: 5,
+                            nombre_materia: "Inteligencia Artificial",
+                            grupo: "Grupo E",
+                            semestre: "7° Semestre",
+                            aula: "Laboratorio 3",
+                            horario: "09:00 - 11:00",
+                            dias_semana: ["Miércoles", "Viernes"]
+                        }
+                    ]);
+                }, 800); // Simulamos un retraso de red
+            });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("hidden");
+
+            if (window.innerWidth <= 992) {
+                sidebar.classList.toggle("visible");
+            }
+        }
+
+        function cerrarSesion() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
+            }
+        }
+
+        function toggleUserMenu() {
+            console.log("Mostrar menú de usuario");
+        }
+
+        document.addEventListener('click', function (event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.querySelector('.toggle-btn');
+
+            if (window.innerWidth <= 992 &&
+                !sidebar.contains(event.target) &&
+                !toggleBtn.contains(event.target) &&
+                sidebar.classList.contains('visible')) {
+                sidebar.classList.remove('visible');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const refreshBtn = document.getElementById('refreshBtn');
+            const refreshLoading = document.getElementById('refreshLoading');
+            const filterBtn = document.getElementById('filterButton');
+            const gruposBody = document.getElementById('gruposBody');
+
+            // Cargar grupos al iniciar
+            loadGruposDocente();
+
+            // Manejar clic en botón Actualizar
+            refreshBtn.addEventListener('click', function () {
+                loadGruposDocente();
+            });
+
+            // Manejar clic en botón Filtrar
+            filterBtn.addEventListener('click', function () {
+                filterBySemester();
+            });
+
+            // Función para cargar los grupos del docente
+            async function loadGruposDocente() {
+                refreshLoading.style.display = 'inline-block';
+                refreshBtn.disabled = true;
+                gruposBody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 2rem;">
+              Cargando grupos...
+            </td>
+          </tr>
+        `;
+
+                try {
+                    const grupos = await fetchGruposFromDatabase();
+                    renderGrupos(grupos);
+                } catch (error) {
+                    console.error('Error:', error);
+                    gruposBody.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 2rem; color: var(--error)">
+                Error al cargar los grupos. Por favor intente nuevamente.
+              </td>
+            </tr>
+          `;
+                } finally {
+                    refreshLoading.style.display = 'none';
+                    refreshBtn.disabled = false;
+                }
+            }
+
+            // Función para filtrar por semestre
+            function filterBySemester() {
+                const selectedSemester = document.getElementById('semesterFilter').value;
+                const allGrupos = JSON.parse(localStorage.getItem('allGrupos') || [])
+
+                if (selectedSemester === 'all') {
+                    renderGrupos(allGrupos);
+                    return;
+                }
+
+                const filteredData = allGrupos.filter(grupo =>
+                    grupo.semestre.startsWith(selectedSemester)
+                );
+
+                renderGrupos(filteredData);
+            }
+
+            // Función para renderizar los grupos
+            function renderGrupos(grupos) {
+                // Guardar todos los grupos para el filtrado
+                localStorage.setItem('allGrupos', JSON.stringify(grupos));
+
+                if (grupos.length === 0) {
+                    gruposBody.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 2rem;">
+                No tienes grupos asignados actualmente
+              </td>
+            </tr>
+          `;
+                    return;
+                }
+
+                gruposBody.innerHTML = '';
+
+                grupos.forEach(grupo => {
+                    const row = document.createElement('tr');
+                    row.dataset.grupoId = grupo.id_grupo;
+
+                    row.innerHTML = `
+            <td>${grupo.nombre_materia}</td>
+            <td>${grupo.grupo}</td>
+            <td>${grupo.semestre}</td>
+            <td>${grupo.aula}</td>
+            <td>${grupo.horario}</td>
+          `;
+
+                    gruposBody.appendChild(row);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

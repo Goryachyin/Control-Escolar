@@ -345,6 +345,16 @@
       color: rgba(255,255,255,0.8);
     }
 
+    .class-days {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
     /* Responsive */
     @media (max-width: 992px) {
       .sidebar {
@@ -414,6 +424,8 @@
         <h1>FIN DE SEMESTRE</h1>
         <h2>¡Aguanta! Solo quedan...</h2>
         
+        <div class="class-days" id="classDaysCounter">Solo quedan X días de clases</div>
+        
         <div class="countdown">
           <div class="countdown-box">
             <div class="countdown-value" id="days">09</div>
@@ -442,7 +454,7 @@
         </div>
         
         <div class="end-date">
-          El semestre termina el: <strong>Viernes 6 de Junio 2025</strong>
+          El semestre termina el: <strong>Viernes 30 de Mayo 2025</strong>
         </div>
       </div>
     </div>
@@ -458,12 +470,6 @@
         sidebar.classList.toggle("visible");
       }
     }
-    
-    function toggleUserMenu() {
-      // Aquí podrías implementar un menú desplegable del perfil
-      console.log("Mostrar menú de usuario");
-    }
-    
     // Cerrar sidebar al hacer clic fuera en móviles
     document.addEventListener('click', function(event) {
       const sidebar = document.getElementById('sidebar');
@@ -478,7 +484,35 @@
     });
 
     // Contador de vacaciones
-    const endDate = new Date(2025, 5, 6, 0, 0, 0); // Mes 5 = Junio (0-11), 6 de junio 2025
+    const endDate = new Date(2025, 4, 30, 0, 0, 0); // Mes 4 = Mayo (0-11), 30 de mayo 2025
+    
+    // Función para calcular días de clase restantes (de lunes a viernes, excluyendo un día específico)
+    function calculateClassDays() {
+      const now = new Date();
+      const end = new Date(endDate);
+      
+      // Día que no tendrás clases (ejemplo: 15 de mayo)
+      const noClassDay = new Date(2025, 4, 15); // 15 de mayo
+      
+      let classDays = 0;
+      let currentDate = new Date(now);
+      
+      // Asegurarnos de empezar desde el día actual
+      currentDate.setHours(0, 0, 0, 0);
+      
+      while (currentDate <= end) {
+        // Verificar si es día de semana (1-5 = Lunes-Viernes)
+        if (currentDate.getDay() >= 1 && currentDate.getDay() <= 5) {
+          // Verificar que no sea el día que no tendrás clases
+          if (currentDate.getTime() !== noClassDay.getTime()) {
+            classDays++;
+          }
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      
+      return classDays;
+    }
     
     function updateCountdown() {
       const now = new Date();
@@ -491,6 +525,7 @@
         document.getElementById('seconds').textContent = '00';
         document.querySelector('.status-value').textContent = '¡Semestre terminado!';
         document.getElementById('progress-bar').style.width = '100%';
+        document.getElementById('classDaysCounter').textContent = '¡No quedan días de clases!';
         return;
       }
       
@@ -504,12 +539,16 @@
       document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
       document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
       
+      // Actualizar contador de días de clase
+      const classDaysLeft = calculateClassDays();
+      document.getElementById('classDaysCounter').textContent = `Solo quedan ${classDaysLeft} días de clases`
+      
       // Calcular progreso del semestre (asumiendo un semestre de 16 semanas)
       const totalSemesterDays = 16 * 7; // 16 semanas
       const daysLeft = days;
       const daysPassed = totalSemesterDays - daysLeft;
       const progress = (daysPassed / totalSemesterDays) * 100;
-      document.getElementById('progress-bar').style.width = `${progress}%`;
+      document.getElementById('progress-bar').style.width = `${progress}%`
     }
     
     setInterval(updateCountdown, 1000);

@@ -1,28 +1,5 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-function toggleSidebar () {
-  const sidebar = document.getElementById('sidebar')
-  sidebar.classList.toggle('hidden')
-
-  // En móviles, queremos que el sidebar se superponga
-  if (window.innerWidth <= 992) {
-    sidebar.classList.toggle('visible')
-  }
-}
-
-function cerrarSesion () {
-  // Lógica para cerrar sesión
-  if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-    localStorage.removeItem('token')
-    window.location.href = 'login.html'
-  }
-}
-
-function toggleUserMenu () {
-  // Aquí podrías implementar un menú desplegable del perfil
-  console.log('Mostrar menú de usuario')
-}
-
 // Cerrar sidebar al hacer clic fuera en móviles
 document.addEventListener('click', function (event) {
   const sidebar = document.getElementById('sidebar')
